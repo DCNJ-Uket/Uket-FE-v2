@@ -1,0 +1,40 @@
+{
+  "name": "@uket/util",
+  "version": "1.0.0",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "main": "src/index.ts",
+  "type": "module",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.5",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@uket/eslint-config": "workspace:*",
+    "@uket/typescript-config": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.11",
+    "react-cookie": "^7.1.4",
+    "react-router-dom": "^6.22.3",
+    "next": "^15.1.6"
+  },
+  "peerDependencies": {
+    "next": "^15.1.6"
+  },
+  "exports": {
+    "./admin-token": "./src/admin-token.ts",
+    "./global-router": "./src/global-router.ts",
+    "./path": "./src/path.ts",
+    "./time": "./src/time.ts",
+    "./token": "./src/token.ts"
+  }
+}

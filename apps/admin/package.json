@@ -1,0 +1,38 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --max-warnings 0"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@tanstack/react-table": "^8.21.2",
+    "@uket/api": "workspace:*",
+    "@uket/ui": "workspace:*",
+    "@uket/util": "workspace:*",
+    "@yudiel/react-qr-scanner": "^2.2.1",
+    "axios": "^1.6.8",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.51.3",
+    "zod": "^3.22.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "@uket/eslint-config": "workspace:*",
+    "@uket/typescript-config": "workspace:*",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^9.20.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "5.7.3"
+  }
+}
