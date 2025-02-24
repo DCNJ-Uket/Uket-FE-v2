@@ -1,4 +1,4 @@
-import { routerTo } from "@uket/util/globalRouter";
+import { routerTo } from "@uket/util/global-router";
 import { toast } from "@uket/ui/components/ui/sonner";
 
 import CustomAxiosError from "./default";
