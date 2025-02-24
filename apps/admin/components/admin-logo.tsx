@@ -1,6 +1,7 @@
 import { cn } from "@uket/ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import LogoImage from "/public/logo.png";
 
 interface AdminLogoProps {
   isMobileDevice?: boolean;
@@ -24,7 +25,7 @@ export default function AdminLogo({
         )}
       >
         <Image
-          src={"/logo.png"}
+          src={LogoImage}
           alt="logo"
           width={200}
           height={200}

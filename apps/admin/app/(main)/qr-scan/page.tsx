@@ -1,5 +1,7 @@
 import QrScanner from "./_components/qr-scanner";
 
+export const dynamic = "force-static";
+
 export default function Page() {
   return (
     <main className="flex h-full flex-col">
