@@ -30,11 +30,7 @@ export default async function Page({
   const isMobileDevice = await checkUserAgent();
 
   if (isMobileDevice) {
-    return (
-      <div className="flex h-full flex-col bg-white">
-        <NonAvailableSection title="실시간 입장 조회" />
-      </div>
-    );
+    return <NonAvailableSection title="실시간 입장 조회" />;
   }
 
   const state = prefetchQueryEntranceList(currentPage);
