@@ -16,8 +16,8 @@ export default async function Layout({
       <main className="grow w-full mt-12">
         <main
           className={cn(
-            "flex h-full flex-col",
-            isMobileDevice ? "w-full" : "container max-w-sm",
+            "flex h-full flex-col container",
+            isMobileDevice ? "w-full" : "max-w-sm",
           )}
         >
           {isMobileDevice && (
