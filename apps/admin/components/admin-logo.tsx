@@ -1,7 +1,7 @@
 import { cn } from "@uket/ui/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import LogoImage from "/public/logo.png";
+import LogoImage from "../public/logo.png";
 
 interface AdminLogoProps {
   isMobileDevice?: boolean;
