@@ -33,6 +33,7 @@ const config = {
         error: "#FD724F",
         formInput: "#D9D9D9",
         desc: "#5E5E6E",
+        descHover: "#4f4f5c",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

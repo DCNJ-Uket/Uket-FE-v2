@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@ui/components/ui/sonner";
 import { Button } from "@uket/ui/components/ui/button";
 import {
   Dialog,
@@ -11,7 +12,7 @@ import {
   DialogTrigger,
 } from "@uket/ui/components/ui/dialog";
 import { cn } from "@uket/ui/lib/utils";
-import { clearAccessToken } from "@uket/util/admin-token";
+import { clearToken } from "@uket/util/cookie-client";
 import { useRouter } from "next/navigation";
 
 interface LogoutModalProps {
@@ -23,8 +24,9 @@ export default function LogoutModal({
 }: LogoutModalProps) {
   const router = useRouter();
 
-  const handleLogout = async () => {
-    await clearAccessToken();
+  const handleLogout = () => {
+    clearToken("admin", "access");
+    toast.success("로그아웃이 완료되었습니다.");
     router.replace("/");
   };
 

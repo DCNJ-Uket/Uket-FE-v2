@@ -64,7 +64,7 @@ export const useQueryEntranceList = ({
   });
 };
 
-export const prefetchQueryEntranceList = (
+export const prefetchEntranceList = (
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
 ) => {

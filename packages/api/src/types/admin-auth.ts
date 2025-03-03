@@ -3,17 +3,17 @@ export type AccountInfo = {
   password: string;
 };
 
-export type LoginRequestParams = {} & AccountInfo;
+export type AdminLoginRequestParams = {} & AccountInfo;
 
-export type LoginResponse = {
+export type AdminLoginResponse = {
   accessToken: string;
 };
 
-export type SignupRequestParams = {
+export type AdminSignupRequestParams = {
   name: string;
 } & AccountInfo;
 
-export type SignupResponse = {
+export type AdminSignupResponse = {
   adminId: number;
   name: string;
 };

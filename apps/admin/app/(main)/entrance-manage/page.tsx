@@ -1,5 +1,5 @@
 import { HydrationBoundary } from "@uket/api";
-import { prefetchQueryEntranceList } from "@uket/api/queries/admin-entrance";
+import { prefetchEntranceList } from "@uket/api/queries/admin-entrance";
 import { Skeleton } from "@uket/ui/components/ui/skeleton";
 import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
@@ -30,14 +30,10 @@ export default async function Page({
   const isMobileDevice = await checkUserAgent();
 
   if (isMobileDevice) {
-    return (
-      <div className="flex h-full flex-col">
-        <NonAvailableSection title="실시간 입장 조회" />
-      </div>
-    );
+    return <NonAvailableSection title="실시간 입장 조회" />;
   }
 
-  const state = prefetchQueryEntranceList(currentPage);
+  const state = prefetchEntranceList(currentPage);
 
   return (
     <HydrationBoundary state={state}>

@@ -1,8 +1,9 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { TermListResponse } from "../types/term";
+import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
+import { TermListResponse } from "../types/term";
 
 export const term = createQueryKeys("term", {
   list: () => ({
@@ -21,4 +22,11 @@ export const term = createQueryKeys("term", {
  */
 export const useQueryTermList = () => {
   return useSuspenseQuery(term.list());
+};
+
+export const prefetchTermList = () => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...term.list(),
+  });
 };

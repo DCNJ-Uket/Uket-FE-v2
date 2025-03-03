@@ -14,7 +14,7 @@ import { useLoginForm } from "../../../hooks/use-login-form";
 
 export default function AuthSection() {
   const { form, onSubmit, error } = useLoginForm();
-  
+
   return (
     <main className="flex flex-col gap-10">
       <Form {...form}>
@@ -28,9 +28,14 @@ export default function AuthSection() {
               name="email"
               render={({ field }) => (
                 <FormItem className="grid w-full items-center gap-1.5 md:w-full">
-                  <FormLabel className="text-[#5E5E6E]">ID</FormLabel>
+                  <FormLabel className="text-desc">ID</FormLabel>
                   <FormControl>
-                    <Input id="id" placeholder="아이디" {...field} />
+                    <Input
+                      id="id"
+                      placeholder="아이디"
+                      {...field}
+                      className="text-base"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -41,13 +46,14 @@ export default function AuthSection() {
               name="password"
               render={({ field }) => (
                 <FormItem className="grid w-full items-center gap-1.5 md:w-full">
-                  <FormLabel className="text-[#5E5E6E]">PW</FormLabel>
+                  <FormLabel className="text-desc">PW</FormLabel>
                   <FormControl>
                     <Input
                       id="pw"
                       type="password"
                       placeholder="비밀번호"
                       {...field}
+                      className="text-base"
                     />
                   </FormControl>
                   <FormMessage />

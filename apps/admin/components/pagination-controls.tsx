@@ -36,14 +36,14 @@ export default function PaginationControls({
             <Button
               variant="ghost"
               onClick={() => onPageChange(1)}
-              className="p-0 text-sm font-light text-[#5E5E6E] hover:bg-inherit"
+              className="p-0 text-sm font-light text-desc hover:bg-inherit"
             >
               <ChevronsLeftIcon className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
               onClick={() => onPageChange(startPage)}
-              className="p-0 text-sm font-light text-[#5E5E6E] hover:bg-inherit"
+              className="p-0 text-sm font-light text-desc hover:bg-inherit"
             >
               <ChevronLeftIcon className="h-4 w-4" />
             </Button>
@@ -55,7 +55,7 @@ export default function PaginationControls({
             variant="ghost"
             onClick={() => onPageChange(pageNum)}
             className={cn(
-              "p-0 text-sm font-light text-[#5E5E6E] hover:bg-inherit",
+              "p-0 text-sm font-light text-desc hover:bg-inherit",
               currentPage === pageNum && `font-semibold text-[#17171B]`,
             )}
           >
@@ -69,14 +69,14 @@ export default function PaginationControls({
               onClick={() =>
                 onPageChange((currentGroup + 1) * maxButtonCount + 1)
               }
-              className="p-0 text-sm font-light text-[#5E5E6E] hover:bg-inherit"
+              className="p-0 text-sm font-light text-desc hover:bg-inherit"
             >
               <ChevronRightIcon className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
               onClick={() => onPageChange(totalPages)}
-              className="p-0 text-sm font-light text-[#5E5E6E] hover:bg-inherit"
+              className="p-0 text-sm font-light text-desc hover:bg-inherit"
             >
               <ChevronsRightIcon className="h-4 w-4" />
             </Button>

@@ -5,7 +5,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@ui/*": ["../../packages/ui/src/*"]
+    }
   },
   "include": [
     "**/*.ts",
@@ -13,8 +16,6 @@
     "next-env.d.ts",
     "next.config.js",
     ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+, "../web/hooks/use-custom-map.ts"  ],
+  "exclude": ["node_modules"]
 }

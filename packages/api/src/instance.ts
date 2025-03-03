@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-import CustomAxiosError from "./error/default";
-import { reissue } from "./auth";
+import {
+  clearTokenServer,
+  getTokenServer,
+  setTokenServer,
+} from "@uket/util/cookie-server";
 import { isDynamicUrlMatched, isStaticUrlMatched } from "@uket/util/path";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@uket/util/token";
+import { reissue } from "./auth";
+import CustomAxiosError from "./error/default";
 
 type ErrorDisplayMode = "TOAST_UI" | "BOUNDARY";
 
@@ -43,14 +47,20 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use(config => {
-  if (
-    config.url &&
-    (isStaticUrlMatched(config.url) || isDynamicUrlMatched(config.url))
-  ) {
-    const accessToken = ACCESS_TOKEN.get();
-
-    config.headers.Authorization = `Bearer ${accessToken}`;
+instance.interceptors.request.use(async config => {
+  const url = config.url;
+  if (typeof window === "undefined") {
+    // Server-side
+    if (url && (isStaticUrlMatched(url) || isDynamicUrlMatched(url))) {
+      const accessToken = await getTokenServer("user", "access");
+      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+  } else {
+    // Client-side
+    if (url && (isStaticUrlMatched(url) || isDynamicUrlMatched(url))) {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+    }
   }
 
   return config;
@@ -60,7 +70,8 @@ instance.interceptors.response.use(
   async response => {
     return response;
   },
-  async (error: AxiosError) => {
+  async (error: CustomAxiosError) => {
+    // Add null check for error.response
     const { status } = error.response!;
     const config = error.config as RequestConfig;
 
@@ -68,24 +79,22 @@ instance.interceptors.response.use(
       (status === 404 || status === 403 || status === 400) &&
       config.url === "/auth/reissue"
     ) {
-      ACCESS_TOKEN.clear();
-      REFRESH_TOKEN.clear("refreshToken");
-      window.location.replace("/login");
+      clearTokenServer("user", "access");
+      clearTokenServer("user", "refresh");
     }
 
     if (
       status === 401 &&
-      (isStaticUrlMatched(config.url!) ||
-        isDynamicUrlMatched(config.url!))
+      (isStaticUrlMatched(config.url!) || isDynamicUrlMatched(config.url!))
     ) {
       const newAccessToken = await reissue();
 
-      ACCESS_TOKEN.set(newAccessToken);
-
+      await setTokenServer("user", "access", newAccessToken);
       config.headers!.Authorization = `Bearer ${newAccessToken}`;
 
       return instance(config);
     }
+
     return Promise.reject(
       new CustomAxiosError(
         error,
@@ -103,7 +112,7 @@ const request = async <T>(promise: Promise<AxiosResponse<T>>) => {
   return response;
 };
 
-const defaultConfig: RequestConfig = { mode: "BOUNDARY" };
+const defaultConfig: RequestConfig = { mode: "BOUNDARY" }; // 디폴트 에러 처리는 에러 바운더리
 
 export const fetcher = {
   get: <T = any>(pathname: string, config?: RequestConfig) =>

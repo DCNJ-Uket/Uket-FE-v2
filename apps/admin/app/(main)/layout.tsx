@@ -1,6 +1,6 @@
 import "@uket/ui/globals.css";
 import { cn } from "@uket/ui/lib/utils";
-import { getAccessToken } from "@uket/util/admin-token";
+import { getTokenServer } from "@uket/util/cookie-server";
 import Footer from "../../components/footer";
 import GreetingHeader from "../../components/greeting-header";
 import Nav from "../../components/nav";
@@ -13,7 +13,7 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   const isMobileDevice = await checkUserAgent();
-  const isAuthorized = (await getAccessToken()) ? true : false;
+  const isAuthorized = (await getTokenServer("admin", "access")) ? true : false;
 
   return (
     <>

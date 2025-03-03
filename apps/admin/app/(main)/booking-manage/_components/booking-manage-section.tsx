@@ -91,6 +91,7 @@ export default function BookingManageSection() {
     ? searchedTicketList?.totalPages
     : ticketList?.totalPages;
 
+  // TODO: 티켓 상태 변경 후 전체 내역 보기에서 반영안되는 문제 수정 -> API 통합 후 처리 예정
   const handleViewAllTicket = () => {
     updateQuery({ page: 1, searchType: null, searchValue: null });
   };
@@ -107,7 +108,7 @@ export default function BookingManageSection() {
         <Button
           size="sm"
           variant="link"
-          className="bg-transparent mb-1 text-sm font-medium text-[#5E5E6E] underline decoration-1 hover:cursor-pointer hover:bg-gray-200 w-fit"
+          className="bg-transparent mb-1 text-sm font-medium text-desc underline decoration-1 hover:cursor-pointer hover:bg-gray-200 w-fit"
           onClick={handleViewAllTicket}
         >
           전체 내역 보기

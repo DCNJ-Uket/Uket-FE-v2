@@ -1,20 +1,22 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
+import { dehydrate, useSuspenseQuery } from "@tanstack/react-query";
 
+import { getQueryClient } from "../get-query-client";
+import { fetcher } from "../instance";
 import {
   FestivalInfoResponse,
   FestivalUniversity,
   FestivalUniversityResponse,
   UniversityResponse,
 } from "../types/univ";
-import { fetcher } from "../instance";
 
 export const festival = createQueryKeys("festival", {
   list: () => ({
     queryKey: ["festival-list"],
     queryFn: async () => {
-      const { data } =
-        await fetcher.get<FestivalUniversityResponse>(`/universities`);
+      const { data } = await fetcher.get<FestivalUniversityResponse>(
+        `/universities`,
+      );
       return data.items;
     },
   }),
@@ -30,7 +32,9 @@ export const festival = createQueryKeys("festival", {
   certification: () => ({
     queryKey: ["certification"],
     queryFn: async () => {
-      const { data } = await fetcher.get<UniversityResponse>(`/universities`);
+      const { data } = await fetcher.get<UniversityResponse>(
+        `/universities/certification`,
+      );
       return data.items;
     },
   }),
@@ -60,4 +64,31 @@ export const useQueryFestivalDetail = (id: FestivalUniversity["id"]) => {
  */
 export const useQueryFestivalCertification = () => {
   return useSuspenseQuery(festival.certification());
+};
+
+export const prefetchFestivalList = () => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...festival.list(),
+  });
+
+  return dehydrate(queryClient);
+};
+
+export const prefetchFestivalDetail = (id: FestivalUniversity["id"]) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...festival.detail(id),
+  });
+
+  return dehydrate(queryClient);
+};
+
+export const prefetchFestivalCertification = () => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...festival.certification(),
+  });
+
+  return dehydrate(queryClient);
 };

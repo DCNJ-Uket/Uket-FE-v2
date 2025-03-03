@@ -1,5 +1,5 @@
 import { HydrationBoundary } from "@uket/api";
-import { prefetchQueryAdminTicketList } from "@uket/api/queries/admin-ticket";
+import { prefetchAdminTicketList } from "@uket/api/queries/admin-ticket";
 import { Skeleton } from "@uket/ui/components/ui/skeleton";
 import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
@@ -38,7 +38,7 @@ export default async function Page({
     );
   }
 
-  const state = prefetchQueryAdminTicketList(currentPage);
+  const state = prefetchAdminTicketList(currentPage);
 
   return (
     <HydrationBoundary state={state}>
