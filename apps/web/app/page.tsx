@@ -1,8 +1,8 @@
 import { Button } from "@ui/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import LandingBackgroundImage from "../public/landing-bg.png";
 import AuthRequiredModalButton from "../components/auth-requried-modal-button";
+import LandingBackgroundImage from "../public/landing-bg.png";
 
 export default async function Page() {
   return (
