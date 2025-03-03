@@ -10,23 +10,30 @@
     "lint": "next lint --max-warnings 0"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@uket/api": "workspace:*",
     "@uket/ui": "workspace:*",
     "@uket/util": "workspace:*",
-    "@uket/api": "workspace:*",
+    "@vercel/speed-insights": "^1.2.0",
+    "embla-carousel": "^8.5.2",
     "next": "^15.1.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.51.3",
+    "react-kakao-maps-sdk": "^1.1.27",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
-    "@uket/eslint-config": "workspace:*",
+    "@uket/eslint-config": "workspace:^",
     "@uket/typescript-config": "workspace:*",
+    "autoprefixer": "^10.4.19",
     "eslint": "^9.20.0",
-    "typescript": "5.7.3",
+    "kakao.maps.d.ts": "^0.1.40",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "autoprefixer": "^10.4.19"
+    "typescript": "5.7.3"
   }
 }

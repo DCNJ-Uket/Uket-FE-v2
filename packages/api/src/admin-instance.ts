@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CustomAxiosError from "@uket/api/error/default";
 import { RequestConfig } from "@uket/api/instance";
-import { getAccessToken } from "@uket/util/admin-token";
+import { getToken } from "@uket/util/cookie-client";
+import { getTokenServer } from "@uket/util/cookie-server";
 import { isAdminDynamicUrlMatched } from "@uket/util/path";
 import axios, { AxiosResponse } from "axios";
 
@@ -19,10 +20,17 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async config => {
   const url = config.url;
-  if (url && isAdminDynamicUrlMatched(url)) {
-    const accessToken = await getAccessToken();
-
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  if (typeof window === "undefined") {
+    // Server-side
+    if (url && isAdminDynamicUrlMatched(url)) {
+      const accessToken = await getTokenServer("admin", "access");
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+  } else {
+    if (url && isAdminDynamicUrlMatched(url)) {
+      const accessToken = getToken("admin", "access");
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
   }
 
   return config;

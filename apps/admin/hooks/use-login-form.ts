@@ -4,9 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useMutationAdminLogin } from "@uket/api/mutations/useMutationAdminLogin";
-import { LoginResponse } from "@uket/api/types/admin-auth";
-import { setAccessToken } from "@uket/util/admin-token";
+import { useMutationAdminLogin } from "@uket/api/mutations/use-mutation-admin-login";
+import { AdminLoginResponse } from "@uket/api/types/admin-auth";
+import { setTokenServer } from "@uket/util/cookie-server";
 import { useRouter } from "next/navigation";
 
 export type FormSchemaType = z.infer<typeof LoginFormSchema>;
@@ -45,8 +45,8 @@ export const useLoginForm = () => {
         password,
       },
       {
-        onSuccess: async ({ accessToken }: LoginResponse) => {
-          await setAccessToken(accessToken);
+        onSuccess: async ({ accessToken }: AdminLoginResponse) => {
+          await setTokenServer("admin", "access", accessToken);
           router.push("/qr-scan");
         },
       },

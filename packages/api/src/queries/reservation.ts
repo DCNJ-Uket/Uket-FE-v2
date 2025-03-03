@@ -1,30 +1,26 @@
-import { ACCESS_TOKEN } from "@uket/util/token";
-import { formatDate } from "@uket/util/time";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
+import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { formatDate } from "@uket/util/time";
 
-import { FestivalInfo } from "../types/univ";
-import { DepositResponse, TicketItem } from "../types/ticket";
-import { SurveyResponse } from "../types/survey";
+import { getQueryClient } from "../get-query-client";
+import { fetcher } from "../instance";
 import {
   ReservationInfoResponse,
   ShowInfo,
   ShowInfoResponse,
 } from "../types/show";
-import { fetcher } from "../instance";
+import { SurveyResponse } from "../types/survey";
+import { DepositResponse, TicketItem } from "../types/ticket";
+import { FestivalInfo } from "../types/univ";
 
 export const reservation = createQueryKeys("reservation", {
   show: (id: FestivalInfo["id"]) => ({
     queryKey: ["show-info", id],
     queryFn: async () => {
-      const accessToken = ACCESS_TOKEN.get();
       const { data } = await fetcher.get<ShowInfoResponse>(
         `/events/${id}/shows`,
         {
           mode: "BOUNDARY",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
         },
       );
 
@@ -47,15 +43,10 @@ export const reservation = createQueryKeys("reservation", {
   time: (id: ShowInfo["id"], reservationUserType: string = "일반인") => ({
     queryKey: ["time-info", id],
     queryFn: async () => {
-      const accessToken = ACCESS_TOKEN.get();
-
       const { data } = await fetcher.get<ReservationInfoResponse>(
         `/events/shows/${id}/reservations/${reservationUserType}`,
         {
           mode: "BOUNDARY",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
         },
       );
 
@@ -126,4 +117,46 @@ export const useQueryDepositurl = (
     ...reservation.account(ticketId, eventId),
     enabled: !!eventId && ticketStatus === "입금 확인중",
   });
+};
+
+export const prefetchShowList = (id: FestivalInfo["id"]) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...reservation.show(id),
+  });
+
+  return dehydrate(queryClient);
+};
+
+export const prefetchSurveyList = (id: FestivalInfo["id"]) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...reservation.survey(id),
+  });
+
+  return dehydrate(queryClient);
+};
+
+export const prefetchReservationList = (
+  id: ShowInfo["id"],
+  reservationUserType: string = "일반인",
+) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...reservation.time(id, reservationUserType),
+  });
+
+  return dehydrate(queryClient);
+};
+
+export const prefetchDepositUrl = (
+  ticketId: TicketItem["ticketId"],
+  eventId: TicketItem["eventId"],
+) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...reservation.account(ticketId, eventId),
+  });
+
+  return dehydrate(queryClient);
 };

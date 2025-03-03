@@ -22,10 +22,10 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "cookies-next": "^5.1.0",
     "dayjs": "^1.11.11",
-    "react-cookie": "^7.1.4",
-    "react-router-dom": "^6.22.3",
-    "next": "^15.1.6"
+    "next": "^15.1.6",
+    "react-cookie": "^7.1.4"
   },
   "peerDependencies": {
     "next": "^15.1.6"
@@ -35,6 +35,8 @@
     "./global-router": "./src/global-router.ts",
     "./path": "./src/path.ts",
     "./time": "./src/time.ts",
-    "./token": "./src/token.ts"
+    "./token": "./src/token.ts",
+    "./cookie-client": "./src/cookie-client.ts",
+    "./cookie-server": "./src/cookie-server.ts"
   }
 }

@@ -183,7 +183,7 @@ export const useQueryAdminTicketSearch = ({
   });
 };
 
-export const prefetchQueryAdminTicketList = (page: number) => {
+export const prefetchAdminTicketList = (page: number) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...adminTicket.list(page),

@@ -16,6 +16,6 @@
     "next-env.d.ts",
     "next.config.js",
     ".next/types/**/*.ts"
-  ],
+, "../web/hooks/use-custom-map.ts"  ],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useMutationQrScan } from "@uket/api/mutations/useMutationQrScan";
 import { toast } from "@uket/ui/components/ui/sonner";
 import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import QrFinderIcon from "./qr-finder-icon";
+import { useMutationQrScan } from "@uket/api/mutations/use-mutation-qr-scan";
 
 // TODO: 기능 테스트 후 에러 메시지 구체화
 export default function QrScanner() {

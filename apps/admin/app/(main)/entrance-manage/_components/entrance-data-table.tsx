@@ -80,7 +80,7 @@ export default function EntranceDataTable<TData, TValue>({
                     {row.getVisibleCells().map(cell => (
                       <TableCell
                         key={cell.id}
-                        className="p-3 text-center text-base font-medium text-[#5E5E6E]"
+                        className="p-3 text-center text-base font-medium text-desc"
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

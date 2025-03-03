@@ -1,11 +1,12 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@uket/util/token";
-import { formatDate } from "@uket/util/time";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
+import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { formatDate } from "@uket/util/time";
 
-import { UserInfoResponse } from "../types/user";
-import { MyTicketListInfoResponse } from "../types/ticket";
+import { getToken } from "@uket/util/cookie-client";
+import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
+import { MyTicketListInfoResponse } from "../types/ticket";
+import { UserInfoResponse } from "../types/user";
 
 export const user = createQueryKeys("user", {
   info: () => ({
@@ -32,12 +33,9 @@ export const user = createQueryKeys("user", {
  * @returns {UserInfoResponse}
  */
 export const useQueryUserInfo = () => {
-  const accessToken = ACCESS_TOKEN.get();
-  const refreshToken = REFRESH_TOKEN.get("refreshToken");
+  const accessToken = getToken("user", "access");
+  const refreshToken = getToken("user", "refresh");
 
-  if (!accessToken || !refreshToken) return { data: null };
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery({
     ...user.info(),
     refetchOnMount: true,
@@ -64,4 +62,13 @@ export const useQueryUserTicketList = () => {
     },
     staleTime: 0,
   });
+};
+
+export const prefetchUserInfo = () => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...user.info(),
+  });
+
+  return dehydrate(queryClient);
 };

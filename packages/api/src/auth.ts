@@ -1,18 +1,7 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@uket/util/token";
-
+import { getTokenServer } from "@uket/util/cookie-server";
+import { GOOGLE_REDIRECT_URI, KAKAO_REDIRECT_URI } from "./constants/auth-url";
 import { fetcher } from "./instance";
 import { LoginRequestParams } from "./types/auth";
-
-export const BASE_URL =
-  process.env.MODE === "development"
-    ? "https://localhost:5173"
-    : "https://www.uket.site";
-
-export const KAKAO_REDIRECT_URI = `${BASE_URL}/login/kakao`;
-export const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}`;
-
-export const GOOGLE_REDIRECT_URI = `${BASE_URL}/login/google`;
-export const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=email+profile&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}`;
 
 export const login = async ({ code, provider }: LoginRequestParams) => {
   const redirect_uri =
@@ -44,8 +33,8 @@ export const signup = async ({
 };
 
 export const reissue = async () => {
-  const refreshToken = REFRESH_TOKEN.get("refreshToken");
-  const accessToken = ACCESS_TOKEN.get();
+  const refreshToken = await getTokenServer("user", "refresh");
+  const accessToken = await getTokenServer("user", "access");
 
   const { data } = await fetcher.post(
     "/auth/reissue",

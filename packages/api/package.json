@@ -44,6 +44,7 @@
     "./get-query-client": "./src/get-query-client.ts",
     ".": "./src/index.ts",
     "./auth": "./src/auth.ts",
-    "./admin-auth": "./src/admin-auth.ts"
+    "./admin-auth": "./src/admin-auth.ts",
+    "./constants/*": "./src/constants/*.ts"
   }
 }

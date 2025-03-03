@@ -1,13 +1,13 @@
 import {
-  LoginRequestParams,
-  LoginResponse,
-  SignupRequestParams,
-  SignupResponse,
+  AdminLoginRequestParams,
+  AdminLoginResponse,
+  AdminSignupRequestParams,
+  AdminSignupResponse,
 } from "@uket/api/types/admin-auth";
 import { fetcherAdmin } from "../../../packages/api/src/admin-instance";
 
-export const adminLogin = async ({ email, password }: LoginRequestParams) => {
-  const { data } = await fetcherAdmin.post<LoginResponse>(`/auth/login`, {
+export const adminLogin = async ({ email, password }: AdminLoginRequestParams) => {
+  const { data } = await fetcherAdmin.post<AdminLoginResponse>(`/auth/login`, {
     email,
     password,
   });
@@ -19,8 +19,8 @@ export const adminSignup = async ({
   email,
   password,
   name,
-}: SignupRequestParams) => {
-  const { data } = await fetcherAdmin.post<SignupResponse>(`/auth/signup`, {
+}: AdminSignupRequestParams) => {
+  const { data } = await fetcherAdmin.post<AdminSignupResponse>(`/auth/signup`, {
     email,
     password,
     name,

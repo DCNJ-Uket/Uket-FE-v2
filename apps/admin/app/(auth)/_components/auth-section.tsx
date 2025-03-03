@@ -28,7 +28,7 @@ export default function AuthSection() {
               name="email"
               render={({ field }) => (
                 <FormItem className="grid w-full items-center gap-1.5 md:w-full">
-                  <FormLabel className="text-[#5E5E6E]">ID</FormLabel>
+                  <FormLabel className="text-desc">ID</FormLabel>
                   <FormControl>
                     <Input
                       id="id"
@@ -46,7 +46,7 @@ export default function AuthSection() {
               name="password"
               render={({ field }) => (
                 <FormItem className="grid w-full items-center gap-1.5 md:w-full">
-                  <FormLabel className="text-[#5E5E6E]">PW</FormLabel>
+                  <FormLabel className="text-desc">PW</FormLabel>
                   <FormControl>
                     <Input
                       id="pw"

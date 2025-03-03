@@ -15,7 +15,7 @@ export default function Footer() {
           href={href}
           key={href}
           className={cn(
-            "flex h-full grow items-center justify-center px-4 text-[10px] text-[#5E5E6E] border-t-[1.2px] border-[#D9D9D9]",
+            "flex h-full grow items-center justify-center px-4 text-[10px] text-desc border-t-[1.2px] border-[#D9D9D9]",
             pathname === href && "text-brand border-brand font-bold",
           )}
         >
