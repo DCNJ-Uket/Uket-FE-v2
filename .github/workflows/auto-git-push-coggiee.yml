@@ -2,7 +2,8 @@ name: git push into coggiee's repo to deploy to vercel
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - '**'
 
 jobs:
   build:

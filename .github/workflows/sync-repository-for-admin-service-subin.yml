@@ -1,9 +1,8 @@
 name: Sync Repository for admin service
 on:
   push:
-    paths:
-      - 'apps/admin/**'
-
+      branches:
+        - '**'
 jobs:
   build:
     runs-on: ubuntu-latest
