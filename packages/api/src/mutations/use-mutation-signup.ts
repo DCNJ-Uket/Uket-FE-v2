@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 
+import { deleteCookie } from "@uket/util/cookie-client";
 import { signup } from "../auth";
 
 export const useMutationSignup = () => {
@@ -15,6 +16,9 @@ export const useMutationSignup = () => {
         userName,
         userPhone,
       }),
+    onMutate: () => {
+      deleteCookie("isRegistered");
+    },
   });
 
   return mutation;

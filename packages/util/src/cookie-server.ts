@@ -41,3 +41,9 @@ export const clearTokenServer = async (
   const tokenName = getTokenName(userType, tokenType);
   await deleteCookie(tokenName, { cookies });
 };
+
+export {
+  deleteCookie as deleteCookieServer,
+  getCookie as getCookieServer,
+  setCookie as setCookieServer,
+};
