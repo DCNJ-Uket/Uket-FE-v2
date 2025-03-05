@@ -1,12 +1,30 @@
 "use client";
 
 import { Button } from "@ui/components/ui/button";
+import { Skeleton } from "@ui/components/ui/skeleton";
 import { cn } from "@ui/lib/utils";
 import { Suspense } from "react";
 import EventListErrorFallback from "../../../../components/error-fallback/event-list-error-fallback";
 import RetryApiErrorBoundary from "../../../../components/retry-api-error-boundary";
 import { useSelectEvent } from "../../../../hooks/use-select-event";
 import EventList from "./event-list";
+
+const EventListFallback = () => {
+  return (
+    <main className="grid grow auto-rows-min grid-cols-2 gap-5 justify-items-center">
+      {[...Array(9)].map((_, index) => (
+        <div
+          key={index}
+          className="flex h-52 w-full flex-col items-center justify-center gap-3"
+        >
+          <Skeleton className="rounded-2xl bg-white p-3 h-40 w-full" />
+          <Skeleton className="h-4 w-1/4 bg-white" />
+          <Skeleton className="h-4 w-1/2 bg-white" />
+        </div>
+      ))}
+    </main>
+  );
+};
 
 export default function EventListSection() {
   const { selectedEventId, handleSelectEvent, handleNavigate } =
@@ -15,7 +33,7 @@ export default function EventListSection() {
   return (
     <section className="grow flex flex-col">
       <RetryApiErrorBoundary fallback={<EventListErrorFallback />}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<EventListFallback />}>
           <EventList
             selectedEventId={selectedEventId}
             onSelect={handleSelectEvent}
