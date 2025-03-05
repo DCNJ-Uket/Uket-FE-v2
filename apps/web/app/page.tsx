@@ -6,7 +6,7 @@ import LandingBackgroundImage from "../public/landing-bg.png";
 
 export default async function Page() {
   return (
-    <main className="relative flex h-full flex-col items-center justify-evenly">
+    <main className="relative flex h-full flex-col items-center justify-evenly container">
       <div className="absolute -z-10 flex h-full w-full items-center justify-center bg-[linear-gradient(171.65deg,_#6343E1_5.82%,_#000000_81.67%)]">
         <Image
           src={LandingBackgroundImage}
