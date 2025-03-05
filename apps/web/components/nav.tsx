@@ -46,7 +46,6 @@ const Nav = () => {
       <nav
         className={cn(
           "my-2 flex h-10 w-full items-center justify-between self-stretch",
-          isHome && "container",
         )}
       >
         {isHome ? (
