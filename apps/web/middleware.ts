@@ -1,3 +1,4 @@
+import { getCookieServer } from "@uket/util/cookie-server";
 import { NextRequest, NextResponse } from "next/server";
 
 const PRIVATE_ROUTES = ["/buy-ticket", "/ticket-list", "/signup", "/my-info"];
@@ -20,8 +21,22 @@ const handleUnauthenticatedUser = (pathname: string, origin: string) => {
   return NextResponse.next();
 };
 
+const handleSignupPage = async (request: NextRequest) => {
+  const { origin } = request.nextUrl;
+  const isRegistered = await getCookieServer("isRegistered", {
+    res: NextResponse.next(),
+    req: request,
+  });
+
+  if (isRegistered === "false") {
+    return NextResponse.rewrite(new URL("/signup", origin));
+  }
+  return NextResponse.redirect(new URL("/", origin));
+};
+
 export async function middleware(request: NextRequest) {
   const { pathname, origin } = request.nextUrl;
+
   const authenticated =
     request.cookies.get("accessToken") && request.cookies.get("refreshToken");
   const isDevelopment = process.env.NODE_ENV === "development";
@@ -29,6 +44,11 @@ export async function middleware(request: NextRequest) {
   // 개발 환경 예외처리
   if (isDevelopment) return NextResponse.next();
 
+  // 회원가입 페이지 처리 (인증 유무 상관없음)
+  if (pathname === "/signup") {
+    return handleSignupPage(request);
+  }
+  
   return authenticated
     ? handleAuthenticatedUser(pathname, origin)
     : handleUnauthenticatedUser(pathname, origin);

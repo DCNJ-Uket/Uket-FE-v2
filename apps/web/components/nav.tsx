@@ -12,7 +12,7 @@ import Profile from "./profile";
 // TODO: Profile 컴포넌트 추가 및 Error Boundary 적용
 const PATHS = {
   HOME: new Set(["/", "/home"]),
-  AUTH_RELATED: new Set(["/buy-ticket", "/my-info", "/login", "/signup"]),
+  AUTH_RELATED: new Set(["/buy-ticket", "/my-info", "/signup"]),
   REGISTERED: new Set([
     "/",
     "/home",

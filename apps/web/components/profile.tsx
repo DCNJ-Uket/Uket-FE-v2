@@ -19,7 +19,7 @@ export default function Profile() {
           variant="link"
           className={cn("p-0 pt-1 font-bold", textColor)}
           onClick={() => {
-            router.push("/myinfo");
+            router.push("/my-info");
           }}
         >
           <div className="flex items-center gap-3">
@@ -28,6 +28,7 @@ export default function Profile() {
                 src={data.profileImage}
                 alt="프로필 이미지"
                 width={100}
+                height={100}
                 className="h-full w-full rounded-full object-cover"
               />
             </div>
