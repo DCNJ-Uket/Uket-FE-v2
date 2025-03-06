@@ -27,14 +27,10 @@ const PATHS = {
 
 const Nav = () => {
   const pathname = usePathname();
-
   const [previousPath, popPreviousPath] = usePreviousPath();
 
-  if (!PATHS.REGISTERED.has(pathname) || PATHS.AUTH_RELATED.has(pathname)) {
-    return null;
-  }
-
-  const isHome = PATHS.HOME.has(pathname);
+  const isHome =
+    PATHS.HOME.has(pathname) || /^\/home\/[^/]+\/[^/]+$/.test(pathname);
 
   return (
     <header

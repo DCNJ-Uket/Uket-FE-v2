@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   twitter: Select_Event_Site_Config.twitter,
 };
 
+
 export default function Page() {
   const state = prefetchFestivalList();
 

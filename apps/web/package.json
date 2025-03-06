@@ -16,6 +16,8 @@
     "@uket/util": "workspace:*",
     "@vercel/speed-insights": "^1.2.0",
     "embla-carousel": "^8.5.2",
+    "embla-carousel-autoplay": "^8.5.2",
+    "embla-carousel-react": "^8.1.1",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
