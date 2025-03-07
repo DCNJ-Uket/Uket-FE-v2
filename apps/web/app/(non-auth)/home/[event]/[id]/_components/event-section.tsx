@@ -9,21 +9,20 @@ import EventDetail from "./event-detail";
 
 interface EventSectionProps {}
 
-// TODO: univId 이름 변경 필요 -> 더 범용적인 이름으로 변경 필요
 export default function EventSection({}: EventSectionProps) {
   const router = useRouter();
   const { event, id } = useParams();
-  const [detailId, setDetailId] = useState<number>(-1);
+  const [eventId, setEventId] = useState<number>(-1);
 
   const handleNavigateToTicketBuyRoute = () => {
-    if (detailId === -1) {
+    if (eventId === -1) {
       return;
     }
-    router.push(`/buy-ticket?event=${event}&univId=${id}&eventId=${detailId}`);
+    router.push(`/buy-ticket?eventName=${event}&hostId=${id}&eventId=${eventId}`);
   };
 
   const handleInitEventId = (id: number) => {
-    setDetailId(id);
+    setEventId(id);
   };
 
   return (
