@@ -14,7 +14,7 @@ export default function EventList({
 
   return (
     <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
-      {data.length >= 0 ? (
+      {data.length > 0 ? (
         <>
           {data.map(({ id, name, eventName, logoUrl }) => (
             <EventItem
