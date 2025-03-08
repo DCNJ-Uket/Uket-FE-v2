@@ -4,6 +4,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// TODO: 정상적으로 동작하지 않음 home -> buy ticket -> /로 잘못 이동하고 있음
 /**
  * 페이지 이동 기록을 관리하는 커스텀 훅
  * @returns [이전 경로, 이전 경로로 이동하는 함수]

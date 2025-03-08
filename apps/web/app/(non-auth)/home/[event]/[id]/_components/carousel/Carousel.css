@@ -1,0 +1,26 @@
+@tailwind components;
+
+@layer components {
+  .embla__controls {
+    @apply absolute bottom-[5%] left-2/4 z-50 mt-[1.8rem] grid -translate-x-2/4 grid-cols-[auto_1fr] justify-between gap-[1.2rem];
+  }
+
+  .embla__dots {
+    @apply mr-[calc((2.6rem_-_1.4rem)_/_2_*_-1)] flex flex-nowrap items-center justify-end gap-0.5;
+  }
+
+  .embla__dot {
+    @apply m-0 flex h-4 w-4 cursor-pointer touch-manipulation appearance-none items-center justify-center rounded-[50%] border-0 bg-transparent p-0 no-underline;
+    -webkit-tap-highlight-color: rgba(49, 49, 49, 0.5);
+    -webkit-appearance: none;
+  }
+
+  .embla__dot:after {
+    @apply flex h-[0.7rem] w-[0.7rem] items-center rounded-[50%] content-[""];
+    @apply bg-gray-400 shadow-lg;
+  }
+
+  .embla__dot--selected:after {
+    @apply bg-white shadow-lg;
+  }
+}

@@ -2,12 +2,14 @@ import "@uket/ui/globals.css";
 import type { Metadata } from "next";
 
 import { Toaster as Sonner } from "@uket/ui/components/ui/sonner";
-import "@uket/ui/globals.css";
-
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "../components/nav";
+
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import { notoSans } from "../config/fonts";
 import { Base_Site_Config } from "../config/site";
+
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -68,12 +70,13 @@ export default function RootLayout({
           <main className="relative flex h-dvh w-screen flex-col items-center">
             <div className="relative flex h-full w-full flex-col sm:w-[500px]">
               <Nav />
-              <main className="w-full grow container">{children}</main>
+              <main className="w-full grow">{children}</main>
             </div>
           </main>
         </Providers>
         <Sonner richColors position="bottom-center" />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
