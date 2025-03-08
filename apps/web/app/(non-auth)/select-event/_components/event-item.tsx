@@ -20,6 +20,7 @@ export default function EventItem({
       src={logoUrl}
       alt={name}
       width={200}
+      height={200}
       loading="lazy"
       className="h-full object-contain"
     />
