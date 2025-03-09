@@ -8,6 +8,7 @@ import {
   setTokenServer,
 } from "@uket/util/cookie-server";
 import { isDynamicUrlMatched, isStaticUrlMatched } from "@uket/util/path";
+import { redirect } from "next/navigation";
 import { reissue } from "./auth";
 import CustomAxiosError from "./error/default";
 
@@ -76,12 +77,14 @@ instance.interceptors.response.use(
     const { status } = error.response!;
     const config = error.config as RequestConfig;
 
+    // TODO: production 환경에서 redirect 테스트 필요
     if (
       (status === 404 || status === 403 || status === 400) &&
       config.url === "/auth/reissue"
     ) {
       clearTokenServer("user", "access");
       clearTokenServer("user", "refresh");
+      redirect("/login");
     }
 
     if (
