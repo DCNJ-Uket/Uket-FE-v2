@@ -23,7 +23,7 @@ export const user = createQueryKeys("user", {
       const { data } =
         await fetcher.get<MyTicketListInfoResponse>("/users/tickets");
 
-      return data;
+      return data.items;
     },
   }),
 });
@@ -52,7 +52,7 @@ export const useQueryUserTicketList = () => {
   return useSuspenseQuery({
     ...user.ticket(),
     select: data => {
-      return data.items.map(item => ({
+      return data.map(item => ({
         ...item,
         createdAt: formatDate(item.createdAt, "full"),
         showDate: formatDate(item.showDate, "short"),

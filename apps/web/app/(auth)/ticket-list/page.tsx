@@ -6,7 +6,9 @@ import { Suspense } from "react";
 import RetryApiErrorBoundary from "../../../components/retry-api-error-boundary";
 import TicketListSection from "./_components/ticket-list-section";
 
-const LoadingFallback = () => {
+export const dynamic = "force-dynamic";
+
+const LoadingFallback: React.FC = () => {
   return (
     <main className="flex flex-row items-center gap-5">
       {Array.from({ length: 3 }).map((_, index) => (
