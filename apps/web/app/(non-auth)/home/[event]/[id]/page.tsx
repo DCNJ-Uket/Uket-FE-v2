@@ -22,8 +22,8 @@ export async function generateMetadata(
     `/universities/${id}/event`,
   );
 
-  const previousImage = (await parent).openGraph?.images || [];
-  const images = data.banners.map(banner => banner.url);
+  const images =
+    data.banners.map(banner => banner.url) || (await parent).openGraph?.images;
 
   return {
     title: `${data.name} | Uket`,
@@ -31,14 +31,14 @@ export async function generateMetadata(
     openGraph: {
       title: `${data.name} | Uket`,
       description: ``,
-      images: [...images, ...previousImage],
+      images: [...images],
       siteName: `${data.name} | Uket`,
       url: `https://uket.site/home/${event}/${id}`,
     },
     twitter: {
       title: `${data.name} | Uket`,
       description: ``,
-      images: [...images, ...previousImage],
+      images: [...images],
     },
   };
 }

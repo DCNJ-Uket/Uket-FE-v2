@@ -7,13 +7,14 @@ import {
 } from "@uket/api";
 import { FunctionComponent } from "react";
 import CustomAxiosError from "../../../packages/api/src/error/default";
+import DefaultErrorFallback from "./error-fallback/default-error-fallback";
 
 export default function RetryApiErrorBoundary({
   children,
   fallback,
 }: Readonly<{
   children: React.ReactNode;
-  fallback: React.ReactNode | FunctionComponent<ErrorBoundaryFallbackProps>;
+  fallback?: React.ReactNode | FunctionComponent<ErrorBoundaryFallbackProps>;
 }>) {
   return (
     <QueryErrorResetBoundary>
@@ -29,7 +30,7 @@ export default function RetryApiErrorBoundary({
             },
           ]}
           onReset={reset}
-          fallback={fallback}
+          fallback={fallback || DefaultErrorFallback}
         >
           {children}
         </ErrorBoundary>
