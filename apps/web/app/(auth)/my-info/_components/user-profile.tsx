@@ -9,8 +9,7 @@ interface UserProfileProps {
   userInfo: UserInfoResponse;
 }
 
-export default function UserProfile(props: UserProfileProps) {
-  const { userInfo } = props;
+export default function UserProfile({ userInfo }: UserProfileProps) {
   const router = useRouter();
 
   return (

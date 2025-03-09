@@ -1,7 +1,5 @@
-"use client";
-
 import { Button } from "@ui/components/ui/button";
-import { useQueryClient } from "@uket/api";
+import { getQueryClient } from "@uket/api/get-query-client";
 import { useMutationUpdateUserInfo } from "@uket/api/mutations/use-mutation-update-user-info";
 import { user } from "@uket/api/queries/user";
 import { UserInfoResponse } from "@uket/api/types/user";
@@ -17,44 +15,51 @@ const depositorNameRegex = /^([가-힣]{2,4}|[a-zA-Z]{2,10})$/;
 const phoneNumberRegex = /^\d{3}-?\d{4}-?\d{4}$/;
 
 export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const { mutate } = useMutationUpdateUserInfo();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [editedDepositorName, setEditedDepositorName] = useState(
-    userInfo.depositorName,
-  );
-  const [editedPhoneNumber, setEditedPhoneNumber] = useState(
-    userInfo.phoneNumber,
-  );
+  const [editedContents, setEditedContents] = useState({
+    depositorName: userInfo.depositorName,
+    phoneNumber: userInfo.phoneNumber,
+  });
   const [errors, setErrors] = useState({ depositorName: "", phoneNumber: "" });
 
   const validateInputs = () => {
-    if (!depositorNameRegex.test(editedDepositorName)) {
-      errors.depositorName = "입금자명은 한글 또는 영문만 가능합니다.";
+    const newErrors = { depositorName: "", phoneNumber: "" };
+
+    if (!depositorNameRegex.test(editedContents.depositorName)) {
+      newErrors.depositorName = "입금자명은 한글 또는 영문만 가능합니다.";
     }
-    if (!phoneNumberRegex.test(editedPhoneNumber)) {
-      errors.phoneNumber =
+    if (!phoneNumberRegex.test(editedContents.phoneNumber)) {
+      newErrors.phoneNumber =
         "010-1234-5678 혹은 01012345678 형식으로 입력하세요.";
     }
-    setErrors(errors);
+
+    setErrors(newErrors);
+    return newErrors;
   };
 
   const handleCancel = () => {
-    setEditedDepositorName(userInfo.depositorName);
-    setEditedPhoneNumber(userInfo.phoneNumber);
+    setEditedContents({
+      depositorName: userInfo.depositorName,
+      phoneNumber: userInfo.phoneNumber,
+    });
     setErrors({ depositorName: "", phoneNumber: "" });
     setIsEdit(false);
   };
 
   const handleUpdate = () => {
-    validateInputs();
-    if (errors.depositorName || errors.phoneNumber) {
+    const validationErrors = validateInputs();
+    if (validationErrors.depositorName || validationErrors.phoneNumber) {
       return;
     }
 
     mutate(
-      { depositorName: editedDepositorName, phoneNumber: editedPhoneNumber },
+      {
+        depositorName: editedContents.depositorName,
+        phoneNumber: editedContents.phoneNumber,
+      },
       {
         onSuccess: () => {
           setIsEdit(false);
@@ -109,22 +114,31 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
         <div className="flex flex-col gap-[10px]">
           <InfoItem
             title="이름(입금자명)"
-            content={editedDepositorName}
+            content={editedContents.depositorName}
             isEdit={isEdit}
-            onChange={e => setEditedDepositorName(e.target.value)}
+            onChange={e =>
+              setEditedContents(prev => ({
+                ...prev,
+                depositorName: e.target.value,
+              }))
+            }
             error={errors.depositorName}
           />
           <InfoItem
             title="전화번호"
-            content={formatPhoneNumber(editedPhoneNumber)}
+            content={formatPhoneNumber(editedContents.phoneNumber)}
             isEdit={isEdit}
-            onChange={e => setEditedPhoneNumber(e.target.value)}
+            onChange={e =>
+              setEditedContents(prev => ({
+                ...prev,
+                phoneNumber: e.target.value,
+              }))
+            }
             error={errors.phoneNumber}
           />
           <InfoItem title="사용자구분" content={userInfo.universityName} />
         </div>
       </main>
-      {/* TODO: 재학생 구분 */}
       {userInfo.universityName !== "일반인" && (
         <InfoContainer title="학교">
           <InfoItem title="학교" content={userInfo.universityName} />

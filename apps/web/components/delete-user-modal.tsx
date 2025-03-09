@@ -12,19 +12,20 @@ import {
 } from "@uket/ui/components/ui/dialog";
 import { useRouter } from "next/navigation";
 
-import { useQueryClient } from "@uket/api";
+import { getQueryClient } from "@uket/api/get-query-client";
 import { useMutationDeleteUser } from "@uket/api/mutations/use-mutation-delete-user";
+import { user } from "@uket/api/queries/user";
 import { clearToken } from "@uket/util/cookie-client";
 
 export default function DeleteUserModal() {
   const { mutate } = useMutationDeleteUser();
-  const queryClient = useQueryClient();
+  const queryClient = getQueryClient();
   const router = useRouter();
 
   const handleDeleteUserInfo = () => {
     mutate(undefined, {
       onSuccess: () => {
-        queryClient.removeQueries({ queryKey: ["user-info"] });
+        queryClient.removeQueries({ queryKey: user.info().queryKey });
         clearToken("user", "access");
         clearToken("user", "refresh");
         router.replace("/");

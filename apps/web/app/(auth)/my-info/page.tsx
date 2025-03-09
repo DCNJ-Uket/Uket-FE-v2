@@ -6,7 +6,7 @@ import InfoSection from "./_components/info-section";
 
 export default function Page() {
   return (
-    <main className="w-full h-full  bg-[#F2F2F2]">
+    <main className="w-full h-full bg-[#F2F2F2]">
       <main className="flex flex-col gap-3 w-full h-full">
         <RetryApiErrorBoundary fallback={<DefaultErrorFallback />}>
           <InfoSection />
