@@ -4,7 +4,6 @@ import { useMutationUpdateUserInfo } from "@uket/api/mutations/use-mutation-upda
 import { user } from "@uket/api/queries/user";
 import { UserInfoResponse } from "@uket/api/types/user";
 import { useState } from "react";
-import InfoContainer from "./info-container";
 import InfoItem from "./info-item";
 
 interface GeneralInfoProps {
@@ -139,13 +138,6 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
           <InfoItem title="사용자구분" content={userInfo.universityName} />
         </div>
       </main>
-      {userInfo.universityName !== "일반인" && (
-        <InfoContainer title="학교">
-          <InfoItem title="학교" content={userInfo.universityName} />
-          <InfoItem title="학과" content={userInfo.studentMajor} />
-          <InfoItem title="학번" content={userInfo.studentCode} />
-        </InfoContainer>
-      )}
     </main>
   );
 }
