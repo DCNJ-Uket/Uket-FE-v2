@@ -23,6 +23,7 @@ export default function EventItem({
       height={200}
       loading="lazy"
       className="h-full object-contain"
+      unoptimized
     />
   ) : (
     <div className="text-desc flex h-full w-full items-center justify-center rounded-lg text-sm">
@@ -37,7 +38,7 @@ export default function EventItem({
     >
       <div
         className={cn(
-          "h-80 w-full rounded-2xl bg-white p-3 shadow-md transition-colors duration-300",
+          "h-80 w-full rounded-2xl bg-white p-3 shadow-md transition-colors duration-300 relative",
           isSelected && "bg-brand/50",
         )}
       >
