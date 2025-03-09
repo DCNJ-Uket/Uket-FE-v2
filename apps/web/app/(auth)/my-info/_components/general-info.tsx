@@ -30,7 +30,6 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
   const [errors, setErrors] = useState({ depositorName: "", phoneNumber: "" });
 
   const validateInputs = () => {
-    const errors: { depositorName?: string; phoneNumber?: string } = {};
     if (!depositorNameRegex.test(editedDepositorName)) {
       errors.depositorName = "입금자명은 한글 또는 영문만 가능합니다.";
     }
@@ -38,10 +37,7 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
       errors.phoneNumber =
         "010-1234-5678 혹은 01012345678 형식으로 입력하세요.";
     }
-    return {
-      depositorName: errors.depositorName || "",
-      phoneNumber: errors.phoneNumber || "",
-    };
+    setErrors(errors);
   };
 
   const handleCancel = () => {
@@ -52,9 +48,8 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
   };
 
   const handleUpdate = () => {
-    const validationErrors = validateInputs();
-    if (validationErrors) {
-      setErrors(validationErrors);
+    validateInputs();
+    if (errors.depositorName || errors.phoneNumber) {
       return;
     }
 
