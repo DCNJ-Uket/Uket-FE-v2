@@ -72,3 +72,12 @@ export const prefetchUserInfo = () => {
 
   return dehydrate(queryClient);
 };
+
+export const prefetchUserTicketList = () => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...user.ticket(),
+  });
+
+  return dehydrate(queryClient);
+};
