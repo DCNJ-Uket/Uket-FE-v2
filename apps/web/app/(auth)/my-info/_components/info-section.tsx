@@ -11,7 +11,7 @@ export default function InfoSection() {
   return (
     <section>
       {userInfo && (
-        <main className="flex flex-col gap-1">
+        <main className="flex flex-col gap-2">
           <UserProfile userInfo={userInfo} />
           <GeneralInfo userInfo={userInfo} />
           <HelpReport />
