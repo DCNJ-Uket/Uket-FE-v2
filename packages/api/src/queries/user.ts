@@ -36,6 +36,9 @@ export const useQueryUserInfo = () => {
   const accessToken = getToken("user", "access");
   const refreshToken = getToken("user", "refresh");
 
+  if (!accessToken || !refreshToken) return { data: null };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery({
     ...user.info(),
     refetchOnMount: true,
