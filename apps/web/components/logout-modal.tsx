@@ -11,9 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@uket/ui/components/ui/dialog";
-import { useRouter } from "next/navigation";
-
 import { clearToken } from "@uket/util/cookie-client";
+import { useRouter } from "next/navigation";
 
 export default function LogoutModal() {
   const router = useRouter();

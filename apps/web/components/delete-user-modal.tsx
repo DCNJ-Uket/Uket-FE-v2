@@ -10,19 +10,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@uket/ui/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
+import { useQueryClient } from "@uket/api";
 import { useMutationDeleteUser } from "@uket/api/mutations/use-mutation-delete-user";
 import { clearToken } from "@uket/util/cookie-client";
 
 export default function DeleteUserModal() {
   const { mutate } = useMutationDeleteUser();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
   const handleDeleteUserInfo = () => {
     mutate(undefined, {
       onSuccess: () => {
-        //TODO: 회원가입 기능 완료되면 수정
-        //queryClient.removeQueries({ queryKey: ["user-info"] });
+        queryClient.removeQueries({ queryKey: ["user-info"] });
         clearToken("user", "access");
         clearToken("user", "refresh");
+        router.replace("/");
       },
     });
   };
