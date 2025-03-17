@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getQueryClient } from "@uket/api/get-query-client";
 import { useMutationSignup } from "@uket/api/mutations/use-mutation-signup";
 import { user } from "@uket/api/queries/user";
-import { setToken } from "@uket/util/cookie-client";
+import { deleteCookie, setToken } from "@uket/util/cookie-client";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { EXP } from "../utils/validate-form";
@@ -61,6 +61,7 @@ export const useSignupForm = () => {
         onSuccess: ({ accessToken, refreshToken }) => {
           setToken("user", "access", accessToken);
           setToken("user", "refresh", refreshToken);
+          deleteCookie("isRegistered");
           sessionStorage.removeItem("agreements");
         },
       },

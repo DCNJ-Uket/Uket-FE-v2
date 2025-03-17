@@ -4,7 +4,7 @@ import SignupSection from "./_components/signup-section";
 
 export default function Page() {
   return (
-    <RetryApiErrorBoundary fallback={SignupErrorFallback}>
+    <RetryApiErrorBoundary fallback={<SignupErrorFallback />}>
       <main className="w-full h-full flex flex-col relative">
         <SignupSection />
       </main>
