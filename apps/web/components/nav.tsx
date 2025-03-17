@@ -32,6 +32,8 @@ const Nav = () => {
   const isHome =
     PATHS.HOME.has(pathname) || /^\/home\/[^/]+\/[^/]+$/.test(pathname);
 
+  if (pathname === "/signup") return null;
+  
   return (
     <header
       className={cn(
