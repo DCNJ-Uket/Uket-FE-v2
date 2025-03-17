@@ -5,6 +5,7 @@ import {
 } from "@uket/api/constants/auth-url";
 import { Metadata } from "next";
 import Link from "next/link";
+import PrevNavButton from "../../../components/prev-nav-button";
 import { Auth_Site_Config } from "../../../config/site";
 
 export const metadata: Metadata = {
@@ -16,7 +17,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main className="w-full h-full container flex flex-col items-center justify-evenly">
+    <main className="w-full h-full container flex flex-col items-center justify-evenly relative">
+      <PrevNavButton />
       <main className="container mb-10 mt-6 flex h-full w-full flex-col justify-between">
         <section className="flex w-full flex-col items-center gap-4">
           <h1 className="w-full text-2xl font-black">
