@@ -74,7 +74,7 @@ export default function RootLayout({
             </div>
           </main>
         </Providers>
-        <Sonner richColors position="bottom-center" />
+        <Sonner richColors position="bottom-center" duration={3000}/>
         <SpeedInsights />
         <Analytics />
       </body>

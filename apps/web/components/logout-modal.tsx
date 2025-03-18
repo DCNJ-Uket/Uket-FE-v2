@@ -28,8 +28,8 @@ export default function LogoutModal() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
-          className="basis-1/2 px-0 text-xs bg-[#8989A1] text-[#f2f2f2]"
+          variant="secondary"
+          className="basis-1/2 px-0 text-xs bg-[#8989A1] text-[#f2f2f2] hover:bg-[#7b7b90]"
         >
           로그아웃
         </Button>
@@ -40,7 +40,6 @@ export default function LogoutModal() {
             로그아웃 하시겠어요?
           </DialogTitle>
         </DialogHeader>
-
         <DialogFooter className="flex-row space-x-2 sm:justify-center">
           <DialogClose asChild>
             <Button className="basis-1/2 border-desc text-xs" variant="outline">

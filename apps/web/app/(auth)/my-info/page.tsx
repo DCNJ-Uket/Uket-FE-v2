@@ -1,12 +1,14 @@
 import DeleteUserModal from "../../../components/delete-user-modal";
 import DefaultErrorFallback from "../../../components/error-fallback/default-error-fallback";
 import LogoutModal from "../../../components/logout-modal";
+import PrevNavButton from "../../../components/prev-nav-button";
 import RetryApiErrorBoundary from "../../../components/retry-api-error-boundary";
 import InfoSection from "./_components/info-section";
 
 export default function Page() {
   return (
-    <main className="w-full h-full bg-[#F2F2F2]">
+    <main className="w-full h-full flex flex-col bg-[#F2F2F2]">
+      <PrevNavButton />
       <main className="flex flex-col gap-3 w-full h-full">
         <RetryApiErrorBoundary fallback={<DefaultErrorFallback />}>
           <InfoSection />

@@ -10,14 +10,16 @@ export default function Profile() {
   const { data } = useQueryUserInfo();
   const pathname = usePathname();
   const router = useRouter();
-  const textColor = pathname === "/" && "text-white";
-
+  const overrideStyle =
+    pathname === "/"
+      ? `text-white hover:bg-[#ffffff25] hover:text-white`
+      : "hover:bg-gray-100";
   return (
     <>
       {data ? (
         <Button
-          variant="link"
-          className={cn("p-0 pt-1 font-bold", textColor)}
+          variant="ghost"
+          className={cn("p-0 px-2 font-bold", overrideStyle)}
           onClick={() => {
             router.push("/my-info");
           }}
@@ -37,8 +39,8 @@ export default function Profile() {
         </Button>
       ) : (
         <Button
-          variant="link"
-          className={cn("p-0 pt-1 font-bold", textColor)}
+          variant="ghost"
+          className={cn(`p-0 px-2 font-bold`, overrideStyle)}
           onClick={() => {
             router.push("/login");
           }}

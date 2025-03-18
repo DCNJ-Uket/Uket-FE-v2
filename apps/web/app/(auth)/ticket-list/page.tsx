@@ -3,6 +3,7 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary } from "@uket/api";
 import { prefetchUserTicketList } from "@uket/api/queries/user";
 import { Suspense } from "react";
+import PrevNavButton from "../../../components/prev-nav-button";
 import RetryApiErrorBoundary from "../../../components/retry-api-error-boundary";
 import TicketListSection from "./_components/ticket-list-section";
 
@@ -51,6 +52,7 @@ export default function Page() {
   return (
     <HydrationBoundary state={state}>
       <main className="w-full h-full relative flex flex-col items-center justify-evenly bg-[#F2F2F2]">
+        <PrevNavButton />
         <main className="mb-10 mt-6 flex h-full w-full flex-col gap-4">
           <header className="container flex items-center justify-between text-xl font-bold">
             <p>내 티켓</p>
