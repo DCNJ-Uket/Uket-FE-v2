@@ -69,6 +69,7 @@ export default function StepPhone({
                         className="border-formInput border placeholder:font-light placeholder:text-[#8989A1]"
                         autoComplete="off"
                         value={field.value || ""}
+                        autoFocus
                       />
                     </FormControl>
                     <FormMessage />
