@@ -18,7 +18,10 @@ const SignupFormSchema = z
       .string()
       .min(1, { message: "비밀번호가 일치하지 않습니다." }),
   })
-  .required();
+  .refine(data => data.password === data.check_password, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["check_password"], // check_password 필드에 에러 메시지를 표시
+  });
 
 export const useSignupForm = () => {
   const form = useForm<FormSchemaType>({
