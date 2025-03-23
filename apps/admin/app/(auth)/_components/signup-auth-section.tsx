@@ -13,7 +13,7 @@ import { Input } from "@uket/ui/components/ui/input";
 import { useSignupForm } from "../../../hooks/use-signup-form";
 
 export default function SignupAuthSection() {
-  const { form, onSubmit } = useSignupForm();
+  const { form, onSubmit, email } = useSignupForm();
   const { isValid } = form.formState;
 
   return (
@@ -27,25 +27,17 @@ export default function SignupAuthSection() {
           className="flex flex-col gap-5"
         >
           <div className="flex flex-col gap-7 w-full">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="grid w-full items-center gap-1.5 md:w-full">
-                  <FormLabel className="text-desc">아이디</FormLabel>
-                  <FormControl>
-                    <Input
-                      id="id"
-                      placeholder="아이디"
-                      {...field}
-                      disabled
-                      className="text-base bg-formInput"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <FormItem className="grid w-full items-center gap-1.5 md:w-full">
+              <FormLabel className="text-desc">아이디</FormLabel>
+              <FormControl>
+                <Input
+                  id="id"
+                  value={email}
+                  disabled
+                  className="text-base bg-formInput"
+                />
+              </FormControl>
+            </FormItem>
             <FormField
               control={form.control}
               name="password"
