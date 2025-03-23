@@ -46,10 +46,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (request)
-    return (
-      handleProtectedRoutes(request, isMobileDevice) ?? NextResponse.next()
-    );
+  return handleProtectedRoutes(request, isMobileDevice) ?? NextResponse.next();
 }
 
 export const config = {
