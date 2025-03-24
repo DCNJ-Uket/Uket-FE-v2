@@ -1,15 +1,38 @@
+import { Skeleton } from "@ui/components/ui/skeleton";
+import { HydrationBoundary } from "@uket/api";
+import { prefetchAdminUserList } from "@uket/api/queries/admin-user";
 import { Suspense } from "react";
 import UserAddButton from "./_components/user-add-button";
+import UserTableSection from "./_components/user-table-section";
+
+const LoadingFallback = () => (
+  <div className="flex h-full flex-col gap-3">
+    <Skeleton className="w-full h-[800px]" />
+  </div>
+);
 
 // TODO: 사용자 목록 테이블 추가
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) {
+  const pageParam = (await searchParams).page;
+  const currentPage = pageParam ? parseInt(pageParam) : 1;
+
+  const state = prefetchAdminUserList(currentPage);
+
   return (
-    <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
-      <header className="flex items-center justify-between">
-        <h1 className="text-[34px] font-bold">사용자 관리</h1>
-        <UserAddButton />
-      </header>
-      <Suspense>{/* 사용자 목록 테이블 */}</Suspense>
-    </main>
+    <HydrationBoundary state={state}>
+      <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
+        <header className="flex items-center justify-between">
+          <h1 className="text-[34px] font-bold">사용자 관리</h1>
+          <UserAddButton />
+        </header>
+        <Suspense fallback={<LoadingFallback />}>
+          <UserTableSection />
+        </Suspense>
+      </main>
+    </HydrationBoundary>
   );
 }
