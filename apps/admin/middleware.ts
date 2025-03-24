@@ -43,6 +43,12 @@ export function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname === "/signup") {
+    const hasEmail = request.nextUrl.searchParams.has("email");
+
+    if (!hasEmail) {
+      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
+    }
+
     return NextResponse.next();
   }
 

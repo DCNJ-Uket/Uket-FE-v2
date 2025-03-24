@@ -13,6 +13,10 @@ const passwordRegex =
 
 const SignupFormSchema = z
   .object({
+    email: z
+      .string()
+      .email({ message: "유효하지 않은 이메일입니다." })
+      .min(1, { message: "이메일을 입력해주세요." }),
     password: z
       .string()
       .min(8, {
@@ -44,6 +48,7 @@ export const useSignupForm = () => {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(SignupFormSchema),
     defaultValues: {
+      email: email,
       password: "",
       check_password: "",
     },
@@ -56,7 +61,6 @@ export const useSignupForm = () => {
 
   return {
     form,
-    email,
     onSubmit,
   };
 };
