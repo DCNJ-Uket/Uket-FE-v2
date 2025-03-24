@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse, userAgent } from "next/server";
 
-type RouteHandler = (request: NextRequest, isMobileDevice: boolean) => NextResponse | undefined;
+type RouteHandler = (
+  request: NextRequest,
+  isMobileDevice: boolean,
+) => NextResponse | undefined;
 
 const handleRootRoute: RouteHandler = (request, isMobileDevice) => {
   const isAuthorized = request.cookies.get("admin-accessToken");
@@ -10,8 +13,8 @@ const handleRootRoute: RouteHandler = (request, isMobileDevice) => {
   return NextResponse.redirect(
     new URL(
       isMobileDevice ? "/qr-scan" : "/booking-manage",
-      request.nextUrl.origin
-    )
+      request.nextUrl.origin,
+    ),
   );
 };
 
@@ -24,7 +27,7 @@ const handleProtectedRoutes: RouteHandler = (request, isMobileDevice) => {
 
   if (!isMobileDevice && request.nextUrl.pathname === "/qr-scan") {
     return NextResponse.redirect(
-      new URL("/booking-manage", request.nextUrl.origin)
+      new URL("/booking-manage", request.nextUrl.origin),
     );
   }
 
@@ -37,6 +40,16 @@ export function middleware(request: NextRequest) {
 
   if (request.nextUrl.pathname === "/") {
     return handleRootRoute(request, isMobileDevice) ?? NextResponse.next();
+  }
+
+  if (request.nextUrl.pathname === "/signup") {
+    const hasEmail = request.nextUrl.searchParams.has("email");
+    if (!hasEmail) {
+      return NextResponse.rewrite(
+        new URL("/not-found", request.nextUrl.origin),
+      );
+    }
+    return NextResponse.next();
   }
 
   return handleProtectedRoutes(request, isMobileDevice) ?? NextResponse.next();

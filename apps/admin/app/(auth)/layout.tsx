@@ -12,7 +12,7 @@ export default async function Layout({
 
   return (
     <main className="flex h-dvh flex-col items-center">
-      <Nav isMobileDevice={isMobileDevice} />
+      <Nav isMobileAuth={isMobileDevice} />
       <main className="grow w-full mt-12">
         <main
           className={cn(
@@ -20,9 +20,6 @@ export default async function Layout({
             isMobileDevice ? "w-full" : "max-w-sm",
           )}
         >
-          {isMobileDevice && (
-            <h1 className="font-black text-2xl">관리자 로그인</h1>
-          )}
           {children}
         </main>
       </main>

@@ -20,17 +20,17 @@ export const useMutationChangeTicketStatus = (page: number) => {
     },
     onMutate: async ({ ticketId, status }: ChangeTicketParams) => {
       const previousData = queryClient.getQueryData<ChangeTicketResponse>([
-        ...adminTicket.list(page).queryKey,
+        ...adminTicket.list({ page }).queryKey,
         ticketId,
       ]);
 
       await queryClient.cancelQueries({
-        queryKey: adminTicket.list(page).queryKey,
+        queryKey: adminTicket.list({ page }).queryKey,
       });
 
       if (previousData) {
         queryClient.setQueryData<ChangeTicketResponse>(
-          [...adminTicket.list(page).queryKey, ticketId],
+          [...adminTicket.list({ page }).queryKey, ticketId],
           { ...previousData, status },
         );
       }
@@ -40,14 +40,14 @@ export const useMutationChangeTicketStatus = (page: number) => {
     onError: (error, variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
-          [...adminTicket.list(page).queryKey, variables.ticketId],
+          [...adminTicket.list({ page }).queryKey, variables.ticketId],
           context.previousData,
         );
       }
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: adminTicket.list(page).queryKey,
+        queryKey: adminTicket.list({ page }).queryKey,
       });
     },
   });
