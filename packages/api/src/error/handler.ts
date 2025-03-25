@@ -17,6 +17,11 @@ export const SUCCESS_TOAST = {
       toast.success("예매가 취소되었습니다.");
     },
   },
+  addAdmin: {
+    onSuccess: () => {
+      toast.success("초대 이메일을 전송했습니다.");
+    },
+  },
 };
 
 /** 실패 시 토스트 */
