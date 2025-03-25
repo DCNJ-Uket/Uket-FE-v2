@@ -15,12 +15,12 @@ import {
 import { Input } from "@ui/components/ui/input";
 
 import { useFormContext } from "react-hook-form";
-import { validateForm } from "../../../../../utils/validate-form";
 import {
   StepControllerProps,
   StepNextController,
   StepPrevController,
 } from "./step-controller";
+import { validateForm } from "@uket/util/validate-form";
 
 export default function StepName({ onNext, onPrev }: StepControllerProps) {
   const { control } = useFormContext();
