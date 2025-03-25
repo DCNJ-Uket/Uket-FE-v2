@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export const useShowSelection = () => {
+export const useSelectShow = () => {
   const [selectedShowDate, setSelectedShowDate] = useState("");
   const [selectedShowName, setSelectedShowName] = useState("");
 

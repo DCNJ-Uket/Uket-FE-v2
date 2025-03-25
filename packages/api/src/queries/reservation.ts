@@ -111,7 +111,7 @@ export const useQueryReservationList = (
 export const useQueryDepositurl = (
   ticketId: TicketItem["ticketId"],
   eventId: TicketItem["eventId"],
-  ticketStatus: TicketItem["ticketStatus"],
+  ticketStatus: TicketItem["ticketStatus"] = "입금 확인중",
 ) => {
   return useQuery({
     ...reservation.account(ticketId, eventId),

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
 import { useState } from "react";
+import { FormType } from "./use-buy-ticket-form";
 import { useSelectItem } from "./use-select-item";
-import { FormType } from "./use-ticket-stack-form";
 
 export const useReservationSelection = (form: FormType) => {
   const [selectedStartTime, setSelectedStartTme] = useState("");
   const [selectedEndTime, setSelectedEndTme] = useState("");
 
-  const { selectedItem, handleSelectItem } = useSelectItem();
+  const { selectedItem, handleSelectItem } = useSelectItem<number>();
 
   const handleSelectReservation = (
     id: number,
