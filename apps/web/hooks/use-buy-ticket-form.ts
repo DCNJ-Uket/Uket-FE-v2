@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@uket/api";
 import { useMutationBuyTicket } from "@uket/api/mutations/use-mutation-buy-ticket";
 import { user } from "@uket/api/queries/user";
+import { useSearchParams } from "next/navigation";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -24,7 +25,7 @@ export const useBuyTicketForm = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       reservationId: -1,
-      universityId: -1,
+      universityId: Number(useSearchParams().get("hostId")),
     },
     mode: "onChange",
   });

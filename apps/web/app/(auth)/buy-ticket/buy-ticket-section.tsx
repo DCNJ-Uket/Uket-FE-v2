@@ -41,8 +41,6 @@ export default function BuyTicketSection() {
   const hostId = searchParams.get("hostId");
   const routeUrl = `/home/${eventName}/${hostId}`;
 
-  form.setValue("universityId", parseInt(hostId!, 10));
-
   const funnel = useFunnel({
     id: "buy-ticket",
     steps: {

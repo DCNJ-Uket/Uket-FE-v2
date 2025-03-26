@@ -1,19 +1,18 @@
 "use client";
-
 import {
   Activity,
   ActivityContent,
   ActivityFooter,
 } from "@ui/components/ui/activity";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import TicketBuyErrorFallback from "../../../../../components/error-fallback/ticket-buy-error-fallback";
 import RetryApiErrorBoundary from "../../../../../components/retry-api-error-boundary";
 import {
   FormSchemaType,
   FormType,
 } from "../../../../../hooks/use-buy-ticket-form";
-import { useReservationSelection } from "../../../../../hooks/use-select-reservation";
 import { SelectHeader } from "../select-element";
 import StepHeader from "../step-header";
 import ReservationList from "../time/reservation-list";
@@ -40,15 +39,14 @@ export default function StepTime({
   onNext,
   onPrev,
 }: StepTimeProps) {
-  const {
-    selectedItem,
-    selectedStartTime,
-    selectedEndTime,
-    handleSelectReservation,
-  } = useReservationSelection(form);
+  const { watch } = useFormContext();
+  const selectedItem = watch("reservationId");
 
-  const formatSelectTime =
-    selectedStartTime !== "" ? `${selectedStartTime} ~ ${selectedEndTime}` : "";
+  const [formatSelectTime, setFormatSelectTime] = useState("");
+
+  const handleSelectReservation = (startTime: string, endTime: string) => {
+    setFormatSelectTime(`${startTime} ~ ${endTime}`);
+  };
 
   const handleNextStep = async () => {
     const ticketId = await onSubmit(form.getValues());
@@ -70,7 +68,6 @@ export default function StepTime({
           <Suspense>
             <ReservationList
               showId={showId}
-              selectedItem={selectedItem}
               onSelect={handleSelectReservation}
             />
           </Suspense>
@@ -79,7 +76,7 @@ export default function StepTime({
       <ActivityFooter className="sticky bottom-0 z-50">
         <StepNextController
           onNext={() => handleNextStep()}
-          disabled={selectedItem === null}
+          disabled={selectedItem === -1}
         />
       </ActivityFooter>
     </Activity>
