@@ -12,9 +12,9 @@ import { useQueryDepositurl } from "@uket/api/queries/reservation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import Ticketing3DImg from "../../../../../public/complete-3d-ticket.png";
+import Ticketing3DImg from "/complete-3d-ticket.png";
 
-import CompleteBackgroudImg from "../../../../../public/ticketing-complete.png";
+import CompleteBackgroudImg from "/ticketing-complete.png";
 
 import Image from "next/image";
 
