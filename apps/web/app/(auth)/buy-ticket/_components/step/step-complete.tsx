@@ -41,7 +41,9 @@ export default function StepComplete({
           <Image
             src="/complete-3d-ticket.png"
             alt="티켓 이미지"
-            className="animate-rotate-axis w-[180px]"
+            width={180}
+            height={180}
+            className="animate-rotate-axis w-[180px] h-auto"
           />
           {deposit && (
             <div className="z-20 mt-10 flex flex-col justify-start gap-5 text-center">
@@ -69,7 +71,9 @@ export default function StepComplete({
           <Image
             src="/ticketing-complete.png"
             alt="티켓팅 완료 이미지"
-            className="animate-ping-dealy absolute h-full"
+            width={200}
+            height={200}
+            className="animate-ping-dealy absolute h-full w-full"
           />
         </ActivityHeader>
         <ActivityFooter>
