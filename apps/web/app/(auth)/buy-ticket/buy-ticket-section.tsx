@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Form } from "@uket/ui/components/ui/form";
@@ -5,6 +6,7 @@ import dynamic from "next/dynamic";
 
 import { useFunnel } from "@use-funnel/browser";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { z } from "zod";
 import { useBuyTicketForm } from "../../../hooks/use-buy-ticket-form";
 
@@ -59,6 +61,16 @@ export default function BuyTicketSection() {
       context: {},
     },
   });
+
+  // 새로 고침시에 초기 단계로 강제 이동
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const buyTicketStep = params.get("buy-ticket.step");
+
+    if (buyTicketStep) {
+      funnel.history.replace("Date");
+    }
+  }, []);
 
   return (
     <Form {...form}>
