@@ -39,7 +39,9 @@ export const TOAST_HANDLER: Record<
 
 /** 실패 시 토스트 */
 export const onErrorHandler = (error: CustomAxiosError) => {
-  toast.error(`${error.errorContent?.title || "에러가 발생했어요"}`, {
-    description: error.errorContent?.description || "잠시 후 시도해 주세요.",
-  });
+  if (error.isToast) {
+    toast.error(`${error.errorContent?.title || "에러가 발생했어요"}`, {
+      description: error.errorContent?.description || "잠시 후 시도해 주세요.",
+    });
+  }
 };
