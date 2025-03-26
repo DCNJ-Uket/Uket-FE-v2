@@ -11,6 +11,7 @@ import TicketBuyErrorFallback from "../../../../../components/error-fallback/tic
 import RetryApiErrorBoundary from "../../../../../components/retry-api-error-boundary";
 import { useSelectItem } from "../../../../../hooks/use-select-item";
 import { useSelectShow } from "../../../../../hooks/use-select-show";
+import BuyTicketLoadingFallback from "../buy-ticket-loading-fallback";
 import { SelectHeader } from "../select-element";
 import ShowList from "../show/show-list";
 import StepHeader from "../step-header";
@@ -64,7 +65,7 @@ export default function StepDate({
       <ActivityContent className="bg-[#F2F2F2] py-6">
         <StepHeader step={"01"} content={"예매 날짜를 선택해 주세요."} />
         <RetryApiErrorBoundary fallback={<TicketBuyErrorFallback />}>
-          <Suspense>
+          <Suspense fallback={<BuyTicketLoadingFallback />}>
             <ShowList
               eventId={eventId!}
               selectedItem={selectedItem}

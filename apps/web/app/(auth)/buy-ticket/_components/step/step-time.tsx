@@ -13,6 +13,7 @@ import {
   FormSchemaType,
   FormType,
 } from "../../../../../hooks/use-buy-ticket-form";
+import BuyTicketLoadingFallback from "../buy-ticket-loading-fallback";
 import { SelectHeader } from "../select-element";
 import StepHeader from "../step-header";
 import ReservationList from "../time/reservation-list";
@@ -65,7 +66,7 @@ export default function StepTime({
       <ActivityContent className="bg-[#F2F2F2] py-6">
         <StepHeader step={"02"} content={"예매 시간을 선택해 주세요."} />
         <RetryApiErrorBoundary fallback={<TicketBuyErrorFallback />}>
-          <Suspense>
+          <Suspense fallback={<BuyTicketLoadingFallback isTime />}>
             <ReservationList
               showId={showId}
               onSelect={handleSelectReservation}
