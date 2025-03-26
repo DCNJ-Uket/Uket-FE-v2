@@ -12,10 +12,6 @@ import { useQueryDepositurl } from "@uket/api/queries/reservation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import Ticketing3DImg from "/complete-3d-ticket.png";
-
-import CompleteBackgroudImg from "/ticketing-complete.png";
-
 import Image from "next/image";
 
 import { handleClipboard } from "../../../../../utils/clipboard";
@@ -43,7 +39,7 @@ export default function StepComplete({
       <ActivityContent>
         <ActivityHeader className="relative grow items-center justify-center overflow-hidden">
           <Image
-            src={Ticketing3DImg}
+            src="/complete-3d-ticket.png"
             alt="티켓 이미지"
             className="animate-rotate-axis w-[180px]"
           />
@@ -71,7 +67,7 @@ export default function StepComplete({
             </div>
           )}
           <Image
-            src={CompleteBackgroudImg}
+            src="/ticketing-complete.png"
             alt="티켓팅 완료 이미지"
             className="animate-ping-dealy absolute h-full"
           />
