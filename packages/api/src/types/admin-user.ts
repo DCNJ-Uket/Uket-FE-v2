@@ -24,3 +24,16 @@ export interface AdminUseDefaultResponse {
   adminId: Content["id"];
   name: Content["name"];
 }
+
+export interface AdminRemoveParams {
+  adminId: Content["id"];
+}
+
+export type Organization = {
+  organizationId: number;
+  name: string;
+}
+
+export type OrganizationList = Organization[];
+
+export type OrganizationResponse = OrganizationList;

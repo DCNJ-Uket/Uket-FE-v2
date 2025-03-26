@@ -1,8 +1,11 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getQueryClient } from "../get-query-client";
-import { AdminUserListResponse } from "../types/admin-user";
+import {
+  AdminUserListResponse,
+  OrganizationResponse,
+} from "../types/admin-user";
 
 const DEFAULT_PAGE_NUMBER = 0;
 const DEFAULT_PAGE_SIZE = 10;
@@ -26,6 +29,15 @@ export const adminUser = createQueryKeys("admin-user", {
     queryKey: [page],
     queryFn: () => getAdminUserList({ page, size }),
   }),
+  organizations: () => ({
+    queryKey: ["organizations"],
+    queryFn: async () => {
+      const { data } =
+        await axios.get<OrganizationResponse>("/api/organizations");
+
+      return data;
+    },
+  }),
 });
 
 export const useQueryAdminUserList = ({
@@ -44,5 +56,11 @@ export const prefetchAdminUserList = (
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...adminUser.list({ page, size }),
+  });
+};
+
+export const useQueryOrganizationList = () => {
+  return useQuery({
+    ...adminUser.organizations(),
   });
 };
