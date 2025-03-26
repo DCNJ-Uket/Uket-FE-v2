@@ -56,7 +56,7 @@ export const columns: ColumnDef<Entry>[] = [
     header: "변경",
     cell: ({ row }) => {
       const { id, name } = row.original;
-      return <UserRemoveButton userId={id.toString()} userName={name} />;
+      return <UserRemoveButton userId={id} userName={name} />;
     },
   },
 ];
