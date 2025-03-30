@@ -5,6 +5,7 @@ import LogoImage from "../public/logo.png";
 
 interface AdminLogoProps {
   isMobileDevice?: boolean;
+  isMobileAuth?: boolean;
   styleOverride?: {
     image: string;
     font: string;
@@ -13,6 +14,7 @@ interface AdminLogoProps {
 
 export default function AdminLogo({
   isMobileDevice = false,
+  isMobileAuth = false,
   styleOverride,
 }: AdminLogoProps) {
   return (
@@ -21,6 +23,7 @@ export default function AdminLogo({
         className={cn(
           "relative",
           isMobileDevice ? "w-16" : "w-32",
+          isMobileAuth && "w-24",
           styleOverride && styleOverride.image,
         )}
       >
