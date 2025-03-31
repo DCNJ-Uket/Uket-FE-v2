@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { getQueryClient } from "../get-query-client";
 import { adminUser } from "../queries/admin-user";
 import { AdminRemoveParams, AdminUserListResponse } from "../types/admin-user";
@@ -35,9 +34,7 @@ export const useMutationRemoveAdmin = (page: number) => {
   const mutation = useMutation({
     mutationKey: ["removeAdmin"],
     mutationFn: async ({ adminId }: AdminRemoveParams) => {
-      const { data } = await axios.delete(`/api/admin/users/${adminId}`);
-
-      return data;
+      // TODO: 어드민 삭제 API 연결
     },
     onMutate: async ({ adminId }) => {
       const previousData = queryClient.getQueryData<AdminUserListResponse>([

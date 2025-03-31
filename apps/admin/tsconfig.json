@@ -16,6 +16,6 @@
     "next-env.d.ts",
     "next.config.js",
     ".next/types/**/*.ts"
-, "../web/hooks/use-custom-map.ts"  ],
+, "../web/hooks/use-custom-map.ts", "app/(main)/(super-admin)/super-admin/user-manage/_components/admin-formtsx"  ],
   "exclude": ["node_modules"]
 }

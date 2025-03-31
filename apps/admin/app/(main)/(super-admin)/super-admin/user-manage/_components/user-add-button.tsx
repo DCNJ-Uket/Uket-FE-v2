@@ -11,7 +11,7 @@ import {
 } from "@ui/components/ui/dialog";
 import { useState } from "react";
 import { useNewAdminForm } from "../../../../../../hooks/use-new-admin-form";
-import UserForm from "./user-form";
+import AdminForm from "./admin-form";
 
 export default function UserAddButton() {
   const [open, setOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function UserAddButton() {
           <DialogTitle className="text-lg font-bold">사용자 추가</DialogTitle>
           <DialogDescription hidden />
         </DialogHeader>
-        <UserForm form={form} onSubmit={handleSubmit} />
+        <AdminForm form={form} onSubmit={handleSubmit} />
       </DialogContent>
     </Dialog>
   );

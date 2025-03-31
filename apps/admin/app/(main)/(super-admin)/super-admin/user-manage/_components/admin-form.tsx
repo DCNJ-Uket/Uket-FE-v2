@@ -23,12 +23,12 @@ import {
 import { NewAdminFormType } from "../../../../../../hooks/use-new-admin-form";
 import SelectorOrganization from "./selector-organization";
 
-interface UserFormProps {
+interface AdminFormProps {
   form: NewAdminFormType;
   onSubmit: () => void;
 }
 
-export default function UserForm({ form, onSubmit }: UserFormProps) {
+export default function AdminForm({ form, onSubmit }: AdminFormProps) {
   return (
     <section>
       <Form {...form}>
