@@ -5,6 +5,8 @@ import PrevNavButton from "../../../components/prev-nav-button";
 import { Select_Event_Site_Config } from "../../../config/site";
 import EventListSection from "./_components/event-list-section";
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: Select_Event_Site_Config.title,
   description: Select_Event_Site_Config.description,
