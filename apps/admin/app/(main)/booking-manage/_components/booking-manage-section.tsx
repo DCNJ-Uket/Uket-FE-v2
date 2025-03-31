@@ -1,10 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  useQueryAdminTicketList,
-  useQueryAdminTicketSearch,
-} from "@uket/api/queries/admin-ticket";
+import { useQueryAdminTicketList } from "@uket/api/queries/admin-ticket";
 import { SearchType, TicketResponse } from "@uket/api/types/admin-ticket";
 import { Button } from "@uket/ui/components/ui/button";
 import { useTicketBook } from "../../../../hooks/use-ticket-book";
@@ -70,30 +67,14 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
 ];
 
 export default function BookingManageSection() {
-  const { page, searchType, searchValue, isSearchMode, updateQuery } =
-    useTicketBook();
+  const { page, searchType, searchValue, updateQuery } = useTicketBook();
 
   const { data: ticketList } = useQueryAdminTicketList({
-    page,
-    enabled: !isSearchMode,
-  });
-
-  const { data: searchedTicketList } = useQueryAdminTicketSearch({
     searchType: searchType as SearchType,
     value: searchValue,
     page,
-    enabled: isSearchMode,
   });
 
-  const tickets = isSearchMode
-    ? searchedTicketList?.timezoneData
-    : ticketList?.timezoneData;
-
-  const totalPages = isSearchMode
-    ? searchedTicketList?.totalPages
-    : ticketList?.totalPages;
-
-  // TODO: 티켓 상태 변경 후 전체 내역 보기에서 반영안되는 문제 수정 -> API 통합 후 처리 예정
   const handleViewAllTicket = () => {
     updateQuery({ page: 1, searchType: null, searchValue: null });
   };
@@ -117,13 +98,13 @@ export default function BookingManageSection() {
         </Button>
         <SearchInput onSearchTicket={handleTicketSearch} />
       </header>
-      {tickets && (
+      {ticketList && (
         <BookingDataTable
           columns={columns(page)}
-          data={tickets}
+          data={ticketList.timezoneData}
           pageIndex={page}
           setPageIndex={newPage => updateQuery({ page: newPage })}
-          pageCount={totalPages || 1}
+          pageCount={ticketList.totalPages || 1}
         />
       )}
     </main>
