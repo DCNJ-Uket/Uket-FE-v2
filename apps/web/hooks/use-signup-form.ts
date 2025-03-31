@@ -7,7 +7,7 @@ import { user } from "@uket/api/queries/user";
 import { deleteCookie, setToken } from "@uket/util/cookie-client";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { EXP } from "../utils/validate-form";
+import { EXP } from "@uket/util/validate-form";
 
 export const baseSchema = z
   .object({
