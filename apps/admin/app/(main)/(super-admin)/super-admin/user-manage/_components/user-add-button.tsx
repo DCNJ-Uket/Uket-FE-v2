@@ -1,18 +1,29 @@
+"use client";
+
 import { Button } from "@ui/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@ui/components/ui/dialog";
-import UserForm from "./user-form";
+import { useState } from "react";
+import { useNewAdminForm } from "../../../../../../hooks/use-new-admin-form";
+import AdminForm from "./admin-form";
 
 export default function UserAddButton() {
+  const [open, setOpen] = useState(false);
+  const { form, onSubmit } = useNewAdminForm();
+
+  const handleSubmit = () => {
+    form.handleSubmit(onSubmit)();
+    setOpen(false);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="font-bold bg-brand hover:bg-brandHover w-44">
           사용자 추가
@@ -21,18 +32,9 @@ export default function UserAddButton() {
       <DialogContent className="max-w-md sm:rounded-2xl border-none" isXHidden>
         <DialogHeader>
           <DialogTitle className="text-lg font-bold">사용자 추가</DialogTitle>
+          <DialogDescription hidden />
         </DialogHeader>
-        <UserForm />
-        <DialogFooter className="flex-row space-x-2 sm:justify-center">
-          <DialogClose asChild>
-            <Button className="basis-1/2 text-xs bg-formInput hover:bg-[#c1c1c1]">
-              취소
-            </Button>
-          </DialogClose>
-          <Button className="basis-1/2 bg-brand hover:bg-brandHover">
-            확인
-          </Button>
-        </DialogFooter>
+        <AdminForm form={form} onSubmit={handleSubmit} />
       </DialogContent>
     </Dialog>
   );

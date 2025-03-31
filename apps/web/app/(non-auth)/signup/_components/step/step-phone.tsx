@@ -12,10 +12,14 @@ import {
   FormItem,
   FormMessage,
 } from "@ui/components/ui/form";
+import { validateForm } from "@uket/util/validate-form";
 import { useFormContext } from "react-hook-form";
 import { BaseSchema, FormType } from "../../../../../hooks/use-signup-form";
-import { validateForm } from "../../../../../utils/validate-form";
-import { StepControllerProps, StepNextController, StepPrevController } from "./step-controller";
+import {
+  StepControllerProps,
+  StepNextController,
+  StepPrevController,
+} from "./step-controller";
 
 interface StepPhoneProps extends StepControllerProps {
   form: FormType;

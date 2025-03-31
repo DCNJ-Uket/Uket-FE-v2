@@ -54,7 +54,7 @@ export default function SideNav() {
         ))}
       </div>
       <div className="h-[0.5px] w-full bg-[#CCCCCC]" />
-      <div className="py-4 flex flex-col gap-8 ">
+      <div className="py-4 flex flex-col gap-8 grow">
         {SUPER_ADMIN_NAV_LINK_LIST.map(({ href, title }) => (
           <NavLink key={href} href={href} title={title} />
         ))}

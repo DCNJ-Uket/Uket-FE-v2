@@ -37,6 +37,7 @@
     "./time": "./src/time.ts",
     "./token": "./src/token.ts",
     "./cookie-client": "./src/cookie-client.ts",
-    "./cookie-server": "./src/cookie-server.ts"
+    "./cookie-server": "./src/cookie-server.ts",
+    "./validate-form": "./src/validate-form.ts"
   }
 }
