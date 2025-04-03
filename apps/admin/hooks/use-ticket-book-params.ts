@@ -1,7 +1,7 @@
 import { SearchType } from "@uket/api/types/admin-ticket";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export const DEFAULT_SEARCH_TYPE = "USER_NAME" as const;
+export const DEFAULT_SEARCH_TYPE = "NONE" as const;
 
 export interface SearchParams {
   page?: number;
@@ -9,14 +9,13 @@ export interface SearchParams {
   searchValue?: string | null;
 }
 
-export const useTicketBook = () => {
+export const useTicketBookParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const page = Number(searchParams.get("page")) || 1;
   const searchType = searchParams.get("searchType") || DEFAULT_SEARCH_TYPE;
   const searchValue = searchParams.get("searchValue") || "";
-  const isSearchMode = Boolean(searchValue);
 
   const updateQuery = (params: SearchParams) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -33,7 +32,6 @@ export const useTicketBook = () => {
     page,
     searchType,
     searchValue,
-    isSearchMode,
     updateQuery,
   };
 };
