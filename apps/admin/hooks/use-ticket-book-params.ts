@@ -9,7 +9,7 @@ export interface SearchParams {
   searchValue?: string | null;
 }
 
-export const useTicketBook = () => {
+export const useTicketBookParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
