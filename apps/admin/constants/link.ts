@@ -28,7 +28,7 @@ export const SUPER_ADMIN_NAV_LINK_LIST: LinkDetail[] = [
     title: "사용자 관리",
   },
   {
-    href: "#",
+    href: "/super-admin/ticket-info-list",
     title: "티켓 정보 목록",
   },
 ];
