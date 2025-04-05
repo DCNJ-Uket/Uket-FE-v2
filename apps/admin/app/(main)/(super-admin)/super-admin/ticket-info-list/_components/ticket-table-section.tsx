@@ -6,15 +6,24 @@ import { cn } from "@ui/lib/utils";
 import { useQueryAdminTicketInfoList } from "@uket/api/queries/admin-ticket-info";
 import { Content } from "@uket/api/types/admin-ticket-info";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import EventTypeFilter, { EventType } from "./event-type-filter";
 import TicketInfoTable from "./ticket-info-table";
 import TicketStatusSelector from "./ticket-status-selector";
 
 export type Entry = Content;
 
-export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
+export const columns = (
+  pageIndex: number,
+  selectedEventType: EventType,
+  setSelectedEventType: (value: EventType) => void,
+): ColumnDef<Entry>[] => [
   {
-    accessorKey: "organizationId",
+    id: "rowNumber",
     header: "번호",
+    cell: ({ row }) => {
+      return (pageIndex - 1) * 10 + row.index + 1;
+    },
   },
   {
     accessorKey: "eventName",
@@ -26,7 +35,21 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
   },
   {
     accessorKey: "eventType",
-    header: "구분",
+    header: () => (
+      <div className="flex justify-center">
+        <EventTypeFilter
+          value={selectedEventType}
+          onSelect={setSelectedEventType}
+        />
+      </div>
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="rounded-lg border border-[#8989A1] px-1 py-px">
+          {row.original.eventType === "FESTIVAL" ? "축제" : "공연"}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "eventDate",
@@ -99,9 +122,25 @@ export default function TicketTableSection() {
   const pageParam = searchParams.get("page");
   const currentPage = pageParam ? parseInt(pageParam) : 1;
 
+  const [selectedEventType, setSelectedEventType] = useState<EventType>("ALL");
+
   const { data } = useQueryAdminTicketInfoList({
     page: currentPage,
   });
+
+  const itemsPerPage = 10;
+
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    if (selectedEventType === "ALL") return data.timezoneData;
+    return data.timezoneData.filter(
+      entry => entry.eventType === selectedEventType,
+    );
+  }, [data, selectedEventType]);
+
+  const pageCount = useMemo(() => {
+    return Math.ceil(filteredData.length / itemsPerPage);
+  }, [filteredData]);
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -112,11 +151,11 @@ export default function TicketTableSection() {
   return (
     <section className="flex flex-col gap-3">
       <TicketInfoTable
-        columns={columns(currentPage)}
-        data={data.timezoneData}
+        columns={columns(currentPage, selectedEventType, setSelectedEventType)}
+        data={filteredData}
         pageIndex={currentPage}
         setPageIndex={handlePageChange}
-        pageCount={data.totalPages || 1}
+        pageCount={pageCount || 1}
       />
     </section>
   );
