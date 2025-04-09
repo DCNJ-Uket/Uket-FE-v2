@@ -10,6 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notoSans } from "../config/fonts";
 import { Base_Site_Config } from "../config/site";
 
+import GoogleAnalytics from "../config/google-analytics";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -54,7 +55,9 @@ export const metadata: Metadata = {
   manifest: null,
   openGraph: Base_Site_Config.openGraph,
   twitter: Base_Site_Config.twitter,
-  verification: undefined,
+  verification: {
+    google: "Wmg92mVG9rJfROJ1uuXKS0RXHIekFV7YfzYuO79C780",
+  },
 };
 
 // TODO: sitemap, dynamic routes metadata, robots.txt
@@ -74,9 +77,10 @@ export default function RootLayout({
             </div>
           </main>
         </Providers>
-        <Sonner richColors position="bottom-center" duration={3000}/>
+        <Sonner richColors position="bottom-center" duration={3000} />
         <SpeedInsights />
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );
