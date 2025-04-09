@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "uket-image-bucket.s3.ap-northeast-2.amazonaws.com",
+        hostname: "uket-images-bucket.s3.ap-northeast-2.amazonaws.com",
       },
       {
         protocol: "http",

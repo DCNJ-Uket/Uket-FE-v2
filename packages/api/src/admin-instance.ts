@@ -7,7 +7,7 @@ import { getTokenServer } from "@uket/util/cookie-server";
 import { isAdminDynamicUrlMatched } from "@uket/util/path";
 import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = "https://uketadmin.p-e.kr";
+const BASE_URL = "https://api.uket.co.kr";
 const SERVER_VERSION = "/admin/v1";
 
 const instance = axios.create({

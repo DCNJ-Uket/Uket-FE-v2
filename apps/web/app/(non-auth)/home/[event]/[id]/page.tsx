@@ -33,7 +33,7 @@ export async function generateMetadata(
       description: ``,
       images: [...images],
       siteName: `${data.name} | Uket`,
-      url: `https://uket.site/home/${event}/${id}`,
+      url: `https://uket.co.kr/home/${event}/${id}`,
     },
     twitter: {
       title: `${data.name} | Uket`,
@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
   }
 
   const { state, error } = await prefetchFestivalDetail(parseInt(id));
-
+  
   if (error) {
     redirect("/404");
   }
