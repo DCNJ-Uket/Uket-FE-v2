@@ -1,3 +1,4 @@
+import { ChevronTripleRightIcon } from "@ui/components/ui/chevron-triple-icon";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,26 +9,27 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@uket/ui/components/ui/alert-dialog";
-import { ChevronTripleRightIcon } from "./chevron-triple-icon";
-import TicketInfoChangeItem from "./ticket-info-change-item";
+import StatusChangeItem from "./status-change-item";
 
-interface TicketInfoChangeDialogProps {
-  eventName: string;
+interface StatusChangeDialogProps {
+  isTicket?: boolean;
+  name: string;
   isOpen: boolean;
   onOpenDialog: (open: boolean) => void;
-  beforeStatus: string;
-  newStatus: string;
+  beforeStatusText: string;
+  newStatusText: string;
   onConfirmChange: () => void;
 }
 
-export default function TicketInfoChangeDialog({
-  eventName,
+export default function StatusChangeDialog({
+  isTicket = true,
+  name,
   isOpen,
   onOpenDialog,
-  beforeStatus,
-  newStatus,
+  beforeStatusText,
+  newStatusText,
   onConfirmChange,
-}: TicketInfoChangeDialogProps) {
+}: StatusChangeDialogProps) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenDialog}>
       <AlertDialogContent className="max-w-[380px] pt-11">
@@ -35,19 +37,23 @@ export default function TicketInfoChangeDialog({
           <AlertDialogTitle>
             <div className="text-center font-bold">
               <span className="underline decoration-1 underline-offset-4">
-                {eventName}
+                {name}
               </span>
               <span>
                 의
                 <br />
-                티켓 등록 상태를 수정하시겠습니까?
+                {isTicket ? "티켓" : "행사"} 등록 상태를 수정하시겠습니까?
               </span>
             </div>
           </AlertDialogTitle>
           <AlertDialogDescription className="flex items-center justify-center gap-5">
-            <TicketInfoChangeItem status={beforeStatus} before />
+            <StatusChangeItem
+              isTicket={isTicket}
+              statusText={beforeStatusText}
+              before
+            />
             <ChevronTripleRightIcon />
-            <TicketInfoChangeItem status={newStatus} />
+            <StatusChangeItem isTicket={isTicket} statusText={newStatusText} />
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="mt-5 flex gap-3 sm:justify-center">

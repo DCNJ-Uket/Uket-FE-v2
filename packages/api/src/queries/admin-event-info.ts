@@ -2,17 +2,17 @@ import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { formatDate } from "@uket/util/time";
 import axios from "axios";
-import { AdminTicketInfoResponse } from "../types/admin-ticket-info";
+import { AdminTicketInfoResponse } from "../types/admin-event";
 
 const DEFAULT_PAGE_NUMBER = 0;
 const DEFAULT_PAGE_SIZE = 10;
 
-const getAdminTicketInfoList = async ({
+const getAdminEventInfoList = async ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
 }) => {
   const { data } = await axios.get<AdminTicketInfoResponse>(
-    "/api/admin/ticket-info",
+    "/api/admin/event-info",
     {
       params: {
         page,
@@ -24,19 +24,19 @@ const getAdminTicketInfoList = async ({
   return data;
 };
 
-export const adminTicketInfo = createQueryKeys("admin-ticket-info", {
+export const adminEventInfo = createQueryKeys("admin-event-info", {
   list: ({ page, size }) => ({
     queryKey: [page],
-    queryFn: () => getAdminTicketInfoList({ page, size }),
+    queryFn: () => getAdminEventInfoList({ page, size }),
   }),
 });
 
-export const useQueryAdminTicketInfoList = ({
+export const useQueryAdminEventInfoList = ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
 }) => {
   return useSuspenseQuery({
-    ...adminTicketInfo.list({ page, size }),
+    ...adminEventInfo.list({ page, size }),
     select: data => {
       const timeDate = data.content.map(item => {
         return {

@@ -1,4 +1,4 @@
-const allAdminTicketInfoList = [
+const allAdminEventInfoList = [
   {
     organizationId: 1,
     organizationName: "건국대학교",
@@ -56,10 +56,10 @@ const allAdminTicketInfoList = [
   },
 ];
 
-export function getAdminTicketInfo(page = 1, size = 10) {
+export function getAdminEventInfo(page = 1, size = 10) {
   const startIndex = (page - 1) * size;
   const endIndex = startIndex + size;
-  const paginatedTicketInfos = allAdminTicketInfoList.slice(
+  const paginatedTicketInfos = allAdminEventInfoList.slice(
     startIndex,
     endIndex,
   );
@@ -69,9 +69,9 @@ export function getAdminTicketInfo(page = 1, size = 10) {
     pageNumber: page,
     pageSize: size,
     first: page === 0,
-    last: endIndex >= allAdminTicketInfoList.length,
-    totalElements: allAdminTicketInfoList.length,
-    totalPages: Math.ceil(allAdminTicketInfoList.length / size),
+    last: endIndex >= allAdminEventInfoList.length,
+    totalElements: allAdminEventInfoList.length,
+    totalPages: Math.ceil(allAdminEventInfoList.length / size),
     empty: paginatedTicketInfos.length === 0,
   };
 }

@@ -4,10 +4,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useQueryAdminTicketList } from "@uket/api/queries/admin-ticket";
 import { SearchType, TicketResponse } from "@uket/api/types/admin-ticket";
 import { Button } from "@uket/ui/components/ui/button";
+import StatusSelector from "../../../../components/status-selector";
 import { useTicketBookParams } from "../../../../hooks/use-ticket-book-params";
 import BookingDataTable from "./booking-data-table";
 import SearchInput from "./search-input";
-import TicketStatusSelector from "./ticket-status-selector";
 
 export type Entry = TicketResponse;
 
@@ -46,11 +46,11 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
 
       return (
         <div className="flex justify-center">
-          <TicketStatusSelector
+          <StatusSelector
             key={ticketId}
             id={ticketId}
             status={ticketStatus}
-            userName={depositorName}
+            name={depositorName}
             page={pageIndex}
           />
         </div>

@@ -3,13 +3,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
-import { useQueryAdminTicketInfoList } from "@uket/api/queries/admin-ticket-info";
-import { Content } from "@uket/api/types/admin-ticket-info";
+import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
+import { Content } from "@uket/api/types/admin-event";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import StatusSelector from "../../../../../../components/status-selector";
+import EventTable from "./event-table";
 import EventTypeFilter, { EventType } from "./event-type-filter";
-import TicketInfoTable from "./ticket-info-table";
-import TicketStatusSelector from "./ticket-status-selector";
 
 export type Entry = Content;
 
@@ -76,11 +76,12 @@ export const columns = (
 
       return (
         <div className="flex justify-center">
-          <TicketStatusSelector
+          <StatusSelector
+            isTicket={false}
             key={uketEventRegistrationId}
             id={uketEventRegistrationId}
             status={registationStatus}
-            eventName={eventName}
+            name={eventName}
             page={pageIndex}
           />
         </div>
@@ -116,7 +117,7 @@ export const columns = (
   },
 ];
 
-export default function TicketTableSection() {
+export default function EventTableSection() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pageParam = searchParams.get("page");
@@ -124,7 +125,7 @@ export default function TicketTableSection() {
 
   const [selectedEventType, setSelectedEventType] = useState<EventType>("ALL");
 
-  const { data } = useQueryAdminTicketInfoList({
+  const { data } = useQueryAdminEventInfoList({
     page: currentPage,
   });
 
@@ -150,7 +151,7 @@ export default function TicketTableSection() {
 
   return (
     <section className="flex flex-col gap-3">
-      <TicketInfoTable
+      <EventTable
         columns={columns(currentPage, selectedEventType, setSelectedEventType)}
         data={filteredData}
         pageIndex={currentPage}

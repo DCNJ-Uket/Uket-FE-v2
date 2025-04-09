@@ -23,7 +23,7 @@ interface DataTableProps<TData, TValue> {
   pageCount: number;
 }
 
-export default function TicketInfoTable<TData, TValue>({
+export default function EventTable<TData, TValue>({
   columns,
   data,
   pageIndex,
