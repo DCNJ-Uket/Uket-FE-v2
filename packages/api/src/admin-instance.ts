@@ -8,10 +8,10 @@ import { isAdminDynamicUrlMatched } from "@uket/util/path";
 import axios, { AxiosResponse } from "axios";
 
 const BASE_URL = "https://api.uket.co.kr";
-const SERVER_VERSION = "/admin/v1";
+const API_TYPE = "/admin";
 
 const instance = axios.create({
-  baseURL: `${BASE_URL}${SERVER_VERSION}`,
+  baseURL: `${BASE_URL}${API_TYPE}`,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -43,6 +43,7 @@ instance.interceptors.response.use(
   async (error: CustomAxiosError) => {
     const { status } = error.response!;
     const config = error.config as RequestConfig;
+    
     return Promise.reject(
       new CustomAxiosError(
         error,

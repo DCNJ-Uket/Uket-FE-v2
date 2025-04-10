@@ -7,7 +7,7 @@ import {
 import { fetcherAdmin } from "../../../packages/api/src/admin-instance";
 
 export const adminLogin = async ({ email, password }: AdminLoginRequestParams) => {
-  const { data } = await fetcherAdmin.post<AdminLoginResponse>(`/auth/login`, {
+  const { data } = await fetcherAdmin.post<AdminLoginResponse>(`/users/login`, {
     email,
     password,
   });
