@@ -5,9 +5,9 @@ import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
 import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import { Content } from "@uket/api/types/admin-event";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import StatusSelector from "../../../../../../components/status-selector";
+import { useEventManageParams } from "../../../../../../hooks/use-event-manage-params";
 import EventTable from "./event-table";
 import EventTypeFilter, { EventType } from "./event-type-filter";
 
@@ -118,44 +118,33 @@ export const columns = (
 ];
 
 export default function EventTableSection() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pageParam = searchParams.get("page");
-  const currentPage = pageParam ? parseInt(pageParam) : 1;
-
-  const [selectedEventType, setSelectedEventType] = useState<EventType>("ALL");
+  const { page, eventType, updateQuery } = useEventManageParams();
 
   const { data } = useQueryAdminEventInfoList({
-    page: currentPage,
+    page,
   });
 
   const itemsPerPage = 10;
 
   const filteredData = useMemo(() => {
     if (!data) return [];
-    if (selectedEventType === "ALL") return data.timezoneData;
-    return data.timezoneData.filter(
-      entry => entry.eventType === selectedEventType,
-    );
-  }, [data, selectedEventType]);
+    if (eventType === "ALL") return data.timezoneData;
+    return data.timezoneData.filter(entry => entry.eventType === eventType);
+  }, [data, eventType]);
 
   const pageCount = useMemo(() => {
     return Math.ceil(filteredData.length / itemsPerPage);
   }, [filteredData]);
 
-  const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", newPage.toString());
-    router.push(`?${params.toString()}`);
-  };
-
   return (
     <section className="flex flex-col gap-3">
       <EventTable
-        columns={columns(currentPage, selectedEventType, setSelectedEventType)}
+        columns={columns(page, eventType, newType =>
+          updateQuery({ eventType: newType }),
+        )}
         data={filteredData}
-        pageIndex={currentPage}
-        setPageIndex={handlePageChange}
+        pageIndex={page}
+        setPageIndex={newPage => updateQuery({ page: newPage })}
         pageCount={pageCount || 1}
       />
     </section>
