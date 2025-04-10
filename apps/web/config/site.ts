@@ -4,7 +4,7 @@ import { Twitter } from "next/dist/lib/metadata/types/twitter-types";
 export const Base_Title = "Uket";
 export const Base_Description =
   "Uket을 이용해 축제/공연을 웨이팅 없이 즐겨보세요!";
-export const Base_Url = "https://uket.site";
+export const Base_Url = "https://uket.co.kr";
 export const Base_Image_Url =
   "https://res.cloudinary.com/dhn3axbhj/image/upload/f_auto,q_auto/nt7u0nxxijucwh8jjdb8";
 
