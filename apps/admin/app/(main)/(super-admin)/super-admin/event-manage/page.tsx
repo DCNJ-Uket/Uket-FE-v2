@@ -13,7 +13,7 @@ export default async function Page() {
     <HydrationBoundary>
       <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
         <header className="flex items-center justify-between">
-          <h1 className="text-[34px] font-bold">티켓 정보 목록</h1>
+          <h1 className="text-[34px] font-bold">전체 행사 관리</h1>
         </header>
 
         <Suspense fallback={<LoadingFallback />}>
