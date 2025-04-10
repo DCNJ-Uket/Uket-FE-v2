@@ -68,7 +68,7 @@ export const columns = (
   },
   {
     accessorKey: "registrationStatus",
-    header: "티켓 등록 상태",
+    header: "행사 등록 상태",
     cell: ({ row }) => {
       const uketEventRegistrationId = row.original.uketEventRegistrationId;
       const registationStatus = row.original.registrationStatus;
@@ -90,7 +90,7 @@ export const columns = (
   },
   {
     accessorKey: "eventInfo",
-    header: () => <div>티켓 정보</div>,
+    header: () => <div>행사 정보</div>,
     cell: ({ row }) => {
       const registrationStatus = row.original.registrationStatus;
       const isEditable = ["검수 진행", "검수 완료"].includes(
