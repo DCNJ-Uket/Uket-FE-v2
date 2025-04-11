@@ -11,6 +11,7 @@ import UserRemoveButton from "./user-remove-button";
 
 export type Entry = Content;
 
+// TODO: 소속 데이터 변경
 export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "id",
@@ -29,11 +30,11 @@ export const columns: ColumnDef<Entry>[] = [
     header: "소속",
   },
   {
-    accessorKey: "authority",
+    accessorKey: "isSuperAdmin",
     header: () => <div>권한</div>,
     cell: ({ row }) => {
-      const role = row.original.authority;
-      const isAdmin = role === "관리자";
+      const isAdmin = row.original.isSuperAdmin;
+      const role = isAdmin ? "관리자" : "멤버";
       const style = isAdmin
         ? "bg-[#17171B] text-white hover:bg-[#17171B]"
         : "bg-[#F0EDFD] text-brand hover:bg-[#F0EDFD]";
