@@ -1,6 +1,6 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 import {
   AdminUserListResponse,
@@ -14,7 +14,8 @@ const getAdminUserList = async ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
 }) => {
-  const { data } = await axios.get<AdminUserListResponse>(`/api/admin/users`, {
+  const { data } = await fetcherAdmin.get<AdminUserListResponse>("/users", {
+    mode: "BOUNDARY",
     params: {
       page,
       size,
@@ -33,9 +34,9 @@ export const adminUser = createQueryKeys("admin-user", {
     queryKey: ["organizations"],
     queryFn: async () => {
       const { data } =
-        await axios.get<OrganizationResponse>("/api/organizations");
+        await fetcherAdmin.get<OrganizationResponse>("/organizations");
 
-      return data;
+      return data.items;
     },
   }),
 });
