@@ -1,18 +1,19 @@
+// TODO: 타입 변경?
 export type Content = {
   id: number;
   name: string;
   email: string;
   organization: string;
-  authority: string;
+  isSuperAdmin: boolean;
 };
 
 export interface PaginationMeta {
   pageNumber: number;
   pageSize: number;
-  totalElements: number;
-  totalPages: number;
   first: boolean;
   last: boolean;
+  totalElements: number;
+  totalPages: number;
   empty: boolean;
 }
 
@@ -20,20 +21,25 @@ export interface AdminUserListResponse extends PaginationMeta {
   content: Content[];
 }
 
-export interface AdminUseDefaultResponse {
-  adminId: Content["id"];
-  name: Content["name"];
-}
-
 export interface AdminRemoveParams {
   adminId: Content["id"];
 }
 
-export type Organization = {
-  organizationId: number;
+export interface AdminRemoveResponse {
+  adminId: number;
   name: string;
 }
 
-export type OrganizationList = Organization[];
+export interface AdminAddResponse {
+  success: boolean;
+  email: string;
+}
 
-export type OrganizationResponse = OrganizationList;
+export type Organization = {
+  id: number;
+  name: string;
+};
+
+export interface OrganizationResponse {
+  items: Organization[];
+}
