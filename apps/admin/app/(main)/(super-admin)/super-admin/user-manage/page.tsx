@@ -1,8 +1,8 @@
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary } from "@uket/api";
 import { prefetchAdminUserList } from "@uket/api/queries/admin-user";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import UserAddButton from "./_components/user-add-button";
 import UserTableSection from "./_components/user-table-section";
 
 const LoadingFallback = () => (
@@ -10,6 +10,8 @@ const LoadingFallback = () => (
     <Skeleton className="w-full h-[800px]" />
   </div>
 );
+
+const UserAddButton = dynamic(() => import("./_components/user-add-button"));
 
 // TODO: 사용자 목록 테이블 추가
 export default async function Page({
