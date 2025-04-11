@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -56,6 +57,7 @@ export default function UserRemoveButton({
             </p>
             <p>삭제하시겠습니까?</p>
           </DialogTitle>
+          <DialogDescription hidden />
         </DialogHeader>
         <section></section>
         <DialogFooter className="flex-row space-x-2 sm:justify-center">
