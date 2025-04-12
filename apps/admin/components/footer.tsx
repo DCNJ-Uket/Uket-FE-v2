@@ -3,14 +3,14 @@
 import { cn } from "@uket/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_LINK_LIST } from "../constants/link";
+import { MOBILE_NAV_LINK_LIST } from "../constants/link";
 
 export default function Footer() {
   const pathname = usePathname();
 
   return (
     <div className="flex h-14">
-      {NAV_LINK_LIST.map(({ href, title }) => (
+      {MOBILE_NAV_LINK_LIST.map(({ href, title }) => (
         <Link
           href={href}
           key={href}

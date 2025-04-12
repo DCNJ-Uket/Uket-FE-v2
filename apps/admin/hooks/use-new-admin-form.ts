@@ -29,6 +29,12 @@ export const useNewAdminForm = () => {
 
   const form = useForm<NewAdminFormSchemaType>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      organization: "",
+      authority: "",
+    },
   });
 
   function onSubmit(data: NewAdminFormSchemaType) {

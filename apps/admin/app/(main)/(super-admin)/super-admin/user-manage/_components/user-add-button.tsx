@@ -20,6 +20,7 @@ export default function UserAddButton() {
   const handleSubmit = () => {
     form.handleSubmit(onSubmit)();
     setOpen(false);
+    form.reset();
   };
 
   return (

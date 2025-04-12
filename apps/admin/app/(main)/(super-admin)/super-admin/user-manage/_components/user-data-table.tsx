@@ -3,6 +3,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -34,15 +35,23 @@ export default function UserDataTable<TData, TValue>({
     data,
     columns,
     pageCount,
-    state: {
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(), //provide a sorting row model
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    sortDescFirst: false,
+    initialState: {
+      sorting: [
+        {
+          id: "id",
+          desc: false, // sort by name in descending order by default
+        },
+      ],
       pagination: {
         pageIndex: pageIndex - 1,
         pageSize: 10,
       },
     },
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: true,
   });
 
   return (

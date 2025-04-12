@@ -31,8 +31,8 @@ export default function SelectorOrganization({
         <SelectGroup>
           <SelectLabel>선택</SelectLabel>
           {data &&
-            data.map(({ organizationId, name }) => (
-              <SelectItem key={organizationId} value={name}>
+            data.map(({ id, name }) => (
+              <SelectItem key={id} value={name}>
                 {name}
               </SelectItem>
             ))}

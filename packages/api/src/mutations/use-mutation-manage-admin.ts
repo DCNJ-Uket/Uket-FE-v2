@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMutation } from "@tanstack/react-query";
+import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 import { adminUser } from "../queries/admin-user";
 import { AdminRemoveParams, AdminUserListResponse } from "../types/admin-user";
@@ -18,7 +18,14 @@ export const useMutationAddAdmin = () => {
       organization: string;
       authority: string;
     }) => {
-      // TODO: 어드민 추가 API 연결
+      const { data } = await fetcherAdmin.post("/users/register", {
+        name,
+        email,
+        organization,
+        authority,
+      });
+
+      return data;
     },
     onMutate: () => {
       return { mutationKey: "addAdmin" };
@@ -34,21 +41,23 @@ export const useMutationRemoveAdmin = (page: number) => {
   const mutation = useMutation({
     mutationKey: ["removeAdmin"],
     mutationFn: async ({ adminId }: AdminRemoveParams) => {
-      // TODO: 어드민 삭제 API 연결
+      const { data } = await fetcherAdmin.delete(`/users/${adminId}`);
+
+      return data;
     },
     onMutate: async ({ adminId }) => {
       const previousData = queryClient.getQueryData<AdminUserListResponse>([
-        ...adminUser.list(page).queryKey,
+        ...adminUser.list({ page }).queryKey,
         adminId,
       ]);
 
       await queryClient.cancelQueries({
-        queryKey: adminUser.list(page).queryKey,
+        queryKey: adminUser.list({ page }).queryKey,
       });
 
       if (previousData) {
         queryClient.setQueryData<AdminUserListResponse>(
-          [...adminUser.list(page).queryKey, adminId],
+          [...adminUser.list({ page }).queryKey, adminId],
           { ...previousData },
         );
       }
@@ -58,14 +67,14 @@ export const useMutationRemoveAdmin = (page: number) => {
     onError: (error, variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(
-          [...adminUser.list(page).queryKey, variables.adminId],
+          [...adminUser.list({ page }).queryKey, variables.adminId],
           context.previousData,
         );
       }
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: adminUser.list(page).queryKey,
+        queryKey: adminUser.list({ page }).queryKey,
       });
     },
   });

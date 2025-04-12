@@ -27,12 +27,12 @@ export const TOAST_HANDLER: Record<
   },
   addAdmin: {
     onSuccess: () => {
-      toast.success("초대 이메일을 전송했습니다.");
+      toast.success("등록이 완료되었습니다.");
     },
   },
   removeAdmin: {
     onSuccess: () => {
-      toast.success("선택하신 멤버를 삭제했습니다.");
+      toast.success("삭제가 완료되었습니다.");
     },
   },
 };
