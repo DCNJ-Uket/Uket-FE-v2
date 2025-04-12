@@ -11,11 +11,13 @@ export type AdminLoginResponse = {
   authority: string;
 };
 
-export type AdminSignupRequestParams = {
-  name: string;
-} & AccountInfo;
+export type AdminSignupRequestParams = {} & AccountInfo;
 
 export type AdminSignupResponse = {
   adminId: number;
+  organization: string;
   name: string;
+  email: string;
+  password: string;
+  isSuperAdmin: boolean;
 };
