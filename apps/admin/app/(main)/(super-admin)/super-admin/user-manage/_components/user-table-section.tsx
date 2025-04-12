@@ -16,6 +16,7 @@ export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "id",
     header: "번호",
+    id: "id",
   },
   {
     accessorKey: "name",
