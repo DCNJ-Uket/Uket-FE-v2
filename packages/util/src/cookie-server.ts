@@ -42,6 +42,13 @@ export const clearTokenServer = async (
   await deleteCookie(tokenName, { cookies });
 };
 
+export const setCookieServerForAdmin = async (name: string, value: string) => {
+  await setCookie(name, value, {
+    ...ADMIN_OPTIONS,
+    cookies,
+  });
+};
+
 export {
   deleteCookie as deleteCookieServer,
   getCookie as getCookieServer,

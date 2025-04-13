@@ -8,7 +8,8 @@ export type AdminLoginRequestParams = {} & AccountInfo;
 export type AdminLoginResponse = {
   accessToken: string;
   name: string;
-  authority: string;
+  email: string;
+  isSuperAdmin: boolean;
 };
 
 export type AdminSignupRequestParams = {} & AccountInfo;
