@@ -68,7 +68,7 @@ export const useSignupForm = () => {
         token,
       },
       {
-        onSuccess: async () => {
+        onSuccess: () => {
           router.replace("/");
         },
       },

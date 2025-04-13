@@ -18,21 +18,6 @@ export const adminLogin = async ({
   return data;
 };
 
-// export const adminSignup = async ({
-//   email,
-//   password,
-// }: AdminSignupRequestParams) => {
-//   const { data } = await fetcherAdmin.post<AdminSignupResponse>(
-//     `/users/password`,
-//     {
-//       email,
-//       password,
-//     },
-//   );
-
-//   return data;
-// };
-
 export const adminSignup = async ({
   email,
   password,
