@@ -11,7 +11,6 @@ import UserRemoveButton from "./user-remove-button";
 
 export type Entry = Content;
 
-// TODO: 소속 데이터 변경
 export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "id",
@@ -27,7 +26,7 @@ export const columns: ColumnDef<Entry>[] = [
     header: "아이디",
   },
   {
-    accessorKey: "organization",
+    accessorKey: "organizationName",
     header: "소속",
   },
   {
