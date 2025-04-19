@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthRequiredModalButton from "../components/auth-requried-modal-button";
 import LandingBackgroundImage from "../public/landing-bg.png";
+import Footer from "../components/footer";
 
 export default async function Page() {
   return (
@@ -15,7 +16,7 @@ export default async function Page() {
           className="bg-contain bg-center bg-no-repeat"
         />
       </div>
-      <main className="flex h-full w-full flex-col justify-evenly">
+      <main className="flex h-screen w-full flex-col justify-evenly">
         <section className="mt-10 flex w-full grow flex-col items-center gap-5 pt-10">
           <h1 className="text-center text-3xl font-bold text-white">
             <p>당신을 위한 공연 감상,</p>
@@ -38,6 +39,7 @@ export default async function Page() {
           />
         </section>
       </main>
+      <Footer />
     </main>
   );
 }
