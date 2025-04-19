@@ -13,7 +13,7 @@ import { Input } from "@uket/ui/components/ui/input";
 import { useSignupForm } from "../../../hooks/use-signup-form";
 
 export default function SignupAuthSection() {
-  const { form, onSubmit } = useSignupForm();
+  const { form, onSubmit, error } = useSignupForm();
   const { isValid } = form.formState;
 
   return (
@@ -85,7 +85,7 @@ export default function SignupAuthSection() {
             />
           </div>
           <div className="h-5 text-center text-sm text-[#EF4444] sm:text-left">
-            에러
+            {error}
           </div>
 
           <Button

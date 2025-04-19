@@ -2,8 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useMutationAdminSignup } from "../../../packages/api/src/mutations/use-mutation-admin-signup";
 
 export type FormSchemaType = z.infer<typeof SignupFormSchema>;
 export type FormType = UseFormReturn<FormSchemaType, unknown, undefined>;
@@ -40,6 +42,10 @@ const SignupFormSchema = z
 export const useSignupForm = () => {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const token = searchParams.get("token") || "";
+
+  const { mutate, error } = useMutationAdminSignup();
+
   const router = useRouter();
 
   const form = useForm<FormSchemaType>({
@@ -52,12 +58,28 @@ export const useSignupForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async () => {
-    router.replace("/login");
+  const onSubmit = async (data: FormSchemaType) => {
+    const { email, password } = data;
+
+    mutate(
+      {
+        email,
+        password,
+        token,
+      },
+      {
+        onSuccess: () => {
+          router.replace("/");
+        },
+      },
+    );
   };
 
   return {
     form,
     onSubmit,
+    error: error
+      ? error.response.data.message || "Unknwon Error has Occured"
+      : null,
   };
 };
