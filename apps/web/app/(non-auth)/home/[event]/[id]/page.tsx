@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
   }
 
   const { state, error } = await prefetchFestivalDetail(parseInt(id));
-  
+
   if (error) {
     redirect("/404");
   }
