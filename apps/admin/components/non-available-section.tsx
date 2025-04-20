@@ -9,7 +9,7 @@ export default function NonAvailableSection({
     <section className="flex h-full flex-col bg-white">
       <div className="flex grow flex-col items-center justify-center gap-4">
         <p className="text-center text-2xl font-bold text-brand">
-          {title}는(은)
+          {title}는
           <br />
           PC에서만 지원됩니다.
         </p>

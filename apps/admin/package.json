@@ -15,12 +15,16 @@
     "@uket/api": "workspace:*",
     "@uket/ui": "workspace:*",
     "@uket/util": "workspace:*",
+    "@use-funnel/browser": "^0.0.13",
     "@yudiel/react-qr-scanner": "^2.2.1",
     "axios": "^1.6.8",
+    "date-fns": "^4.1.0",
     "next": "^15.1.6",
+    "novel": "^1.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.51.3",
+    "tiptap-markdown": "^0.8.10",
     "zod": "^3.22.5"
   },
   "devDependencies": {
