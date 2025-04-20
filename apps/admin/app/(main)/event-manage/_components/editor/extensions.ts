@@ -20,7 +20,12 @@ import { cn } from "@ui/lib/utils";
 
 //TODO I am using cn here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 //You can overwrite the placeholder with your own configuration
-const placeholder = Placeholder;
+const placeholder = Placeholder.configure({
+  placeholder: () => {
+    return "정보를 입력해 주세요.";
+  },
+  includeChildren: true,
+});
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cn(

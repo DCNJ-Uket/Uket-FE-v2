@@ -77,14 +77,14 @@ export default function StepAccountInfo({
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <Input className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" />
+                <Input className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" placeholder="입금 계좌정보 입력"/>
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <Label className="text-[#8989A1] text-base font-normal">
                 예금주
               </Label>
-              <Input className="disabled:bg-[#f2f2f2] border-formInput" />
+              <Input className="disabled:bg-[#f2f2f2] border-formInput" placeholder="예금주 입력"/>
             </div>
           </aside>
           <aside className="flex flex-col gap-4 basis-1/2">
@@ -92,7 +92,7 @@ export default function StepAccountInfo({
               <Label className="text-[#8989A1] text-base font-normal">
                 송금 코드 링크
               </Label>
-              <Input className="disabled:bg-[#f2f2f2] border-formInput" />
+              <Input className="disabled:bg-[#f2f2f2] border-formInput" placeholder="https://qr.kakaopay.com/..." />
             </div>
             <div className="rounded-lg bg-[#F2F2F2] p-4">
               <h1 className="font-medium text-sm mb-2">
