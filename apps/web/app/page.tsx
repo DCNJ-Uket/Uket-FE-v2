@@ -23,7 +23,7 @@ export default async function Page() {
             <p>기다림 없이 UKET</p>
           </h1>
         </section>
-        <section className="mb-5 flex w-full flex-col items-center justify-center gap-2">
+        <section className="flex w-full flex-col items-center justify-center gap-2 bottom-0 sticky pb-5">
           <Link href={"/select-event"} className="block w-full text-center">
             <Button
               variant="secondary"

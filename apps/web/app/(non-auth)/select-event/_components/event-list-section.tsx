@@ -40,7 +40,7 @@ export default function EventListSection() {
           />
         </Suspense>
       </RetryApiErrorBoundary>
-      <footer className="container sticky bottom-5 flex w-full flex-col items-center justify-center">
+      <footer className="container sticky bottom-0 flex w-full flex-col items-center justify-center">
         <Button
           className={cn(
             "bg-formInput text-buttonDisabled hover:bg-formInput w-full rounded-xl p-6 text-base font-black",
