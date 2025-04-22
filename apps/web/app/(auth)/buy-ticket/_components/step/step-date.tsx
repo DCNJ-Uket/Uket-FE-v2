@@ -60,7 +60,7 @@ export default function StepDate({
     <Activity>
       <StepPrevController onPrev={onPrev} />
       <SelectHeader eventName={eventName} formatShowDate={formatShowDate} />
-      <ActivityContent className="bg-[#F2F2F2] py-6">
+      <ActivityContent className="bg-[#F2F2F2] py-6 justify-start">
         <StepHeader step={"01"} content={"예매 날짜를 선택해 주세요."} />
         <RetryApiErrorBoundary fallback={<TicketBuyErrorFallback />}>
           <Suspense fallback={<BuyTicketLoadingFallback />}>

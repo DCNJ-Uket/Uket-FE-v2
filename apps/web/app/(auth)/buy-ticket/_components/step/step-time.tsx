@@ -48,7 +48,7 @@ export default function StepTime({
         formatShowDate={showDate}
         formatSelectTime={formatSelectTime}
       />
-      <ActivityContent className="bg-[#F2F2F2] py-6">
+      <ActivityContent className="bg-[#F2F2F2] py-6 justify-start">
         <StepHeader step={"02"} content={"예매 시간을 선택해 주세요."} />
         <RetryApiErrorBoundary fallback={<TicketBuyErrorFallback />}>
           <Suspense fallback={<BuyTicketLoadingFallback isTime />}>

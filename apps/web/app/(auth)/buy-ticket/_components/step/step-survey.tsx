@@ -69,7 +69,7 @@ export default function StepSurvey({
         formatShowDate={showDate}
         formatSelectTime={showTime}
       />
-      <ActivityContent className="bg-[#F2F2F2] py-6">
+      <ActivityContent className="bg-[#F2F2F2] py-6 justify-start">
         <StepHeader step={"03"} content={"아래 질문에 답변해주세요."} />
         {surveys[0] && (
           <QuestionSection
