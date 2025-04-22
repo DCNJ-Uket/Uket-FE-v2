@@ -1,4 +1,3 @@
-"use client";
 import {
   Activity,
   ActivityContent,
@@ -9,10 +8,6 @@ import { Suspense, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import TicketBuyErrorFallback from "../../../../../components/error-fallback/ticket-buy-error-fallback";
 import RetryApiErrorBoundary from "../../../../../components/retry-api-error-boundary";
-import {
-  FormSchemaType,
-  FormType,
-} from "../../../../../hooks/use-buy-ticket-form";
 import BuyTicketLoadingFallback from "../buy-ticket-loading-fallback";
 import { SelectHeader } from "../select-element";
 import StepHeader from "../step-header";
@@ -24,16 +19,12 @@ import {
 } from "./step-controller";
 
 interface StepTimeProps extends StepControllerProps {
-  form: FormType;
-  onSubmit: (data: FormSchemaType) => Promise<number>;
   eventName: string;
   showDate: string;
   showId: string;
 }
 
 export default function StepTime({
-  form,
-  onSubmit,
   eventName,
   showDate,
   showId,
@@ -47,12 +38,6 @@ export default function StepTime({
 
   const handleSelectReservation = (startTime: string, endTime: string) => {
     setFormatSelectTime(`${startTime} ~ ${endTime}`);
-  };
-
-  const handleNextStep = async () => {
-    const ticketId = await onSubmit(form.getValues());
-    onNext(ticketId.toString());
-    return true;
   };
 
   return (
@@ -76,7 +61,7 @@ export default function StepTime({
       </ActivityContent>
       <ActivityFooter className="sticky bottom-0 z-50">
         <StepNextController
-          onNext={() => handleNextStep()}
+          onNext={() => onNext(formatSelectTime)}
           disabled={selectedItem === -1}
         />
       </ActivityFooter>
