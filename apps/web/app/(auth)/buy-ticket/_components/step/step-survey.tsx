@@ -71,7 +71,7 @@ export default function StepSurvey({
       />
       <ActivityContent className="bg-[#F2F2F2] py-6 justify-start">
         <StepHeader step={"03"} content={"아래 질문에 답변해주세요."} />
-        {surveys[0] && (
+        {surveys[0] ? (
           <QuestionSection
             isNecessary={surveys[0].isNecessary}
             performer={performer}
@@ -79,6 +79,8 @@ export default function StepSurvey({
             question={surveys[0].question}
             performerList={surveys[0].options}
           />
+        ) : (
+          <div className="flex justify-center">질의응답 내용이 없습니다😭</div>
         )}
       </ActivityContent>
       <ActivityFooter className="sticky bottom-0 z-50">
