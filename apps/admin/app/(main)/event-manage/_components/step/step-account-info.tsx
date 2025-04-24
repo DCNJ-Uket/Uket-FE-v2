@@ -87,7 +87,7 @@ export default function StepAccountInfo({
               <Input className="disabled:bg-[#f2f2f2] border-formInput" placeholder="예금주 입력"/>
             </div>
           </aside>
-          <aside className="flex flex-col gap-4 basis-1/2">
+          <aside className="flex flex-col gap-4 basis-1/2 shrink-0 grow">
             <div className="flex flex-col gap-2">
               <Label className="text-[#8989A1] text-base font-normal">
                 송금 코드 링크
@@ -113,7 +113,7 @@ export default function StepAccountInfo({
                   </li>
                 </ol>
               </div>
-              <div className="relative flex gap-4">
+              <div className="relative flex gap-4 overflow-hidden">
                 <Image
                   src={"/account-link-1.png"}
                   alt="송금 링크 만들기-1"
