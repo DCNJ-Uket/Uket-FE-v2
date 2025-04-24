@@ -10,6 +10,15 @@ export type AdminLoginResponse = {
   name: string;
   email: string;
   isSuperAdmin: boolean;
+  organization: string;
+};
+
+export type AdminUserInfoResponse = {
+  adminId: number;
+  organization: string;
+  name: string;
+  email: string;
+  isSuperAdmin: boolean;
 };
 
 export type AdminSignupRequestParams = {} & AccountInfo;
