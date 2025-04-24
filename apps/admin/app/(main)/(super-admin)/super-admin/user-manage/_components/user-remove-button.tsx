@@ -11,7 +11,8 @@ import {
 } from "@ui/components/ui/dialog";
 import { Trash2Icon } from "@ui/components/ui/icon";
 import { useMutationRemoveAdmin } from "@uket/api/mutations/use-mutation-manage-admin";
-import { clearToken, deleteCookie, getCookie } from "@uket/util/cookie-client";
+import { useQueryAdminInfo } from "@uket/api/queries/admin-user";
+import { clearToken, deleteCookie } from "@uket/util/cookie-client";
 import { redirect, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -19,6 +20,7 @@ interface UserRemoveButtonProps {
   userId: number;
   userName: string;
   userEmail: string;
+  organizationName: string;
 }
 
 // TODO: 사용자 이름 연동 및 핸들러 추가
@@ -26,23 +28,28 @@ export default function UserRemoveButton({
   userId,
   userName,
   userEmail,
+  organizationName,
 }: UserRemoveButtonProps) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get("page") as string;
   const [open, setOpen] = useState(false);
 
+  const { data } = useQueryAdminInfo();
+
   const { mutate } = useMutationRemoveAdmin(Number(pageParam));
 
   const handleRemove = () => {
+    if (!data) return;
+
     mutate(
       { adminId: userId },
       {
         onSuccess: () => {
           setOpen(false);
 
-          const currentLoginedUserEmail = getCookie("admin-email");
-          
-          if (currentLoginedUserEmail === userEmail) {
+          const { email, organization } = data;
+
+          if (email === userEmail && organization === organizationName) {
             clearToken("admin", "access");
             deleteCookie("admin-email");
             redirect("/");

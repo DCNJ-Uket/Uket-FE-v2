@@ -56,8 +56,15 @@ export const columns: ColumnDef<Entry>[] = [
     enableHiding: false,
     header: "변경",
     cell: ({ row }) => {
-      const { id, name, email } = row.original;
-      return <UserRemoveButton userId={id} userName={name} userEmail={email} />;
+      const { id, name, email, organizationName } = row.original;
+      return (
+        <UserRemoveButton
+          userId={id}
+          userName={name}
+          userEmail={email}
+          organizationName={organizationName}
+        />
+      );
     },
   },
 ];
