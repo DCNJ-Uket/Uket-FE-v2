@@ -18,7 +18,7 @@ const DYNAMIC_AUTH_REQUIRED_PATH = [
   /\/events\/\d+\/survey/,
 ];
 
-const ADMIN_STATIC_AUTH_REQUIRED_PATH = ["/admin/users"];
+const ADMIN_STATIC_AUTH_REQUIRED_PATH = ["/users", "/users/info"];
 
 const ADMIN_DYNAMIC_AUTH_REQUIRED_PATH = [
   /\/ticket\/[^/]+\/enter/,
