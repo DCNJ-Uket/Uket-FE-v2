@@ -10,7 +10,7 @@ import {
 } from "@uket/util/path";
 import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = "https://api.uket.co.kr";
+const BASE_URL = `https://api.uket.co.kr`;
 const API_TYPE = "/admin";
 
 const instance = axios.create({
@@ -29,7 +29,7 @@ instance.interceptors.request.use(async config => {
       (isAdminDynamicUrlMatched(url) || isAdminStaticUrlMatched(url))
     ) {
       const accessToken = await getTokenServer("admin", "access");
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
     }
   } else {
     if (
@@ -37,7 +37,7 @@ instance.interceptors.request.use(async config => {
       (isAdminDynamicUrlMatched(url) || isAdminStaticUrlMatched(url))
     ) {
       const accessToken = getToken("admin", "access");
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
     }
   }
 
