@@ -72,9 +72,7 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
                 </Label>
                 <div className="flex border rounded-lg border-formInput overflow-hidden">
                   <Select defaultValue={"인스타그램"}>
-                    <SelectTrigger
-                      className="w-40 border-r border-formInput"
-                    >
+                    <SelectTrigger className="w-40 border-r border-formInput">
                       <SelectValue placeholder="문의처" />
                     </SelectTrigger>
                     <SelectContent>

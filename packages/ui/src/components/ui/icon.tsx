@@ -10,6 +10,7 @@ export {
   CircleHelpIcon,
   CircleIcon,
   CircleX,
+  ClockIcon,
   DotIcon,
   ExternalLink,
   FilterIcon,

@@ -1,11 +1,5 @@
 import { Button } from "@ui/components/ui/button";
-import { Calendar, DateRange } from "@ui/components/ui/calendar";
-import {
-  ArrowRightIcon,
-  CalendarIcon,
-  CircleHelpIcon,
-  PlusCircleIcon,
-} from "@ui/components/ui/icon";
+import { ArrowRightIcon, PlusCircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import { Label } from "@ui/components/ui/label";
 import {
@@ -15,26 +9,15 @@ import {
 } from "@ui/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@ui/components/ui/radio-group";
 import { Separator } from "@ui/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@ui/components/ui/tooltip";
-import { formatDate } from "@uket/util/time";
-import { useState } from "react";
+import EventCalendar from "../event-calendar";
+import StepTooltip from "../step-tooltip";
+import TicketCalendar from "../ticket-calendar";
 
 interface StepBasicInfoProps {
   onNext: () => void;
 }
 
 export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
-  const [eventDate, setEventDate] = useState<Date>();
-  const [ticketDate, setTicketDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
-
   return (
     <main className="flex w-full flex-col gap-2">
       <section className="flex w-full bg-white shadow-sm p-11 grow rounded-lg">
@@ -119,34 +102,7 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
                   >
                     공연일시
                   </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className="flex justify-start font-normal p-0 overflow-hidden bg-[#d9d9d9] border-formInput hover:bg-[#c3c3c3]"
-                      >
-                        <div className="text-[#5F6368] h-full flex justify-center items-center p-3">
-                          <CalendarIcon className="" />
-                        </div>
-                        <div className="text-[#8989A1] bg-white grow h-full flex items-center px-3 rounded-md">
-                          {eventDate
-                            ? formatDate(
-                                eventDate.toDateString(),
-                                "eventFormDate",
-                              )
-                            : "YY/MM/DD 00:00"}
-                        </div>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={eventDate}
-                        onSelect={setEventDate}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <EventCalendar />
                 </div>
                 <div className="flex justify-center">
                   <Button
@@ -167,51 +123,7 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
                 >
                   티켓 판매 기간
                 </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className="flex justify-start font-normal hover:bg-[#c3c3c3] p-0 overflow-hidden bg-[#d9d9d9] border-formInput"
-                    >
-                      <div className="text-[#5F6368] h-full flex justify-center items-center p-3">
-                        <CalendarIcon className="" />
-                      </div>
-                      <div className="text-[#8989A1] bg-white grow h-full flex items-center px-3 rounded-md">
-                        {ticketDate?.from ? (
-                          ticketDate.to ? (
-                            <>
-                              {formatDate(
-                                ticketDate.from.toDateString(),
-                                "eventFormDate",
-                              )}{" "}
-                              ~{" "}
-                              {formatDate(
-                                ticketDate.to.toDateString(),
-                                "eventFormDate",
-                              )}
-                            </>
-                          ) : (
-                            formatDate(
-                              ticketDate.from.toDateString(),
-                              "eventFormDate",
-                            )
-                          )
-                        ) : (
-                          <span>YY/MM/DD 00:00 ~ YY/MM/DD 00:00</span>
-                        )}
-                      </div>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      initialFocus
-                      mode="range"
-                      defaultMonth={ticketDate?.from}
-                      selected={ticketDate}
-                      onSelect={setTicketDate}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <TicketCalendar />
               </div>
               <div className="grid w-full items-center gap-2">
                 <Label
@@ -245,7 +157,7 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
                   type="text"
                   id="ticketCount"
                   className="border-formInput"
-                  placeholder="총 티켓 수 입력"
+                  placeholder="100"
                 />
               </div>
               <div className="flex flex-col justify-center gap-2">
@@ -255,25 +167,15 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
                     className="text-[#8989A1] text-base font-normal flex items-center gap-1"
                   >
                     <span>입장 그룹 설정</span>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <CircleHelpIcon size={18} />
-                        </TooltipTrigger>
-                        <TooltipContent
-                          className="bg-[#8989A1] text-white border-none max-w-xs p-3 rounded-xl font-normal"
-                          side="top"
-                          align="start"
-                          sideOffset={12}
-                        >
-                          <p>
-                            입장 그룹 설정을 통해 공연 입장 시 사용자 입장 대기
-                            시간을 줄일 수 있습니다. 티켓 수량 별로 입장 시간을
-                            다르게 설정할 수 있으니 참고 바랍니다.
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <StepTooltip
+                      content={
+                        <p>
+                          입장 그룹 설정을 통해 공연 입장 시 사용자 입장 대기
+                          시간을 줄일 수 있습니다. 티켓 수량 별로 입장 시간을
+                          다르게 설정할 수 있으니 참고 바랍니다.
+                        </p>
+                      }
+                    />
                   </Label>
                   <div className="flex gap-4 items-center">
                     <Input
