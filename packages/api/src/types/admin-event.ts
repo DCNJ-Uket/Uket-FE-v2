@@ -65,3 +65,10 @@ export interface PaginationMeta {
 export interface AdminTicketInfoResponse extends PaginationMeta {
   content: Content[];
 }
+
+export interface ChangeEventStatusParams {
+  uketEventRegistrationId: number;
+  registrationStatus: string;
+}
+
+export type ChangeEventStatusResponse = ChangeEventStatusParams;
