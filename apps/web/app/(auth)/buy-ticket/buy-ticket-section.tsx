@@ -18,6 +18,10 @@ const StepTime = dynamic(() => import("./_components/step/step-time"), {
   ssr: false,
 });
 
+const StepSurvey = dynamic(() => import("./_components/step/step-survey"), {
+  ssr: false,
+});
+
 const StepComplete = dynamic(() => import("./_components/step/step-complete"), {
   ssr: false,
 });
@@ -26,12 +30,14 @@ const DateSchema = z
   .object({
     showId: z.string(),
     showDate: z.string(),
+    showTime: z.string(),
     ticketId: z.string(),
   })
   .partial();
 
 const TimeSchema = DateSchema.required({ showId: true, showDate: true });
-const CompleteSchema = TimeSchema.required({ ticketId: true });
+const SurveySchema = TimeSchema.required({ showTime: true });
+const CompleteSchema = SurveySchema.required({ ticketId: true });
 
 export default function BuyTicketSection() {
   const { form, onSubmit } = useBuyTicketForm();
@@ -51,6 +57,9 @@ export default function BuyTicketSection() {
       },
       Time: {
         parse: TimeSchema.parse,
+      },
+      Survey: {
+        parse: SurveySchema.parse,
       },
       Complete: {
         parse: CompleteSchema.parse,
@@ -94,9 +103,23 @@ export default function BuyTicketSection() {
           <StepTime
             showDate={context.showDate}
             showId={context.showId}
+            eventName={eventName!}
+            onPrev={() => history.back()}
+            onNext={(showTime: string) =>
+              history.push("Survey", {
+                showTime: showTime,
+              })
+            }
+          />
+        )}
+        Survey={({ history, context }) => (
+          <StepSurvey
             form={form}
             onSubmit={onSubmit}
             eventName={eventName!}
+            showDate={context.showDate}
+            showTime={context.showTime}
+            eventId={eventId!}
             onPrev={() => history.back()}
             onNext={(ticketId: string) =>
               history.replace("Complete", {
