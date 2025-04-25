@@ -26,10 +26,10 @@ const SEARCH_OPTIONS: Array<{
     value: "SHOW_DATE",
     label: "티켓 날짜(YY.MM.DD)",
   },
-  {
-    value: "RESERVATION_USER_TYPE",
-    label: "사용자 구분",
-  },
+  // {
+  //   value: "RESERVATION_USER_TYPE",
+  //   label: "사용자 구분",
+  // },
   {
     value: "STATUS",
     label: "티켓 상태",
