@@ -89,7 +89,14 @@ export default function BookingManageSection() {
       <header className="flex justify-between items-center gap-4">
         <AdminFilterEventList
           currentEventId={uketEventId}
-          onChangeEventId={id => updateQuery({ page: 1, uketEventId: id })}
+          onChangeEventId={id =>
+            updateQuery({
+              page: 1,
+              uketEventId: id,
+              searchType: null,
+              searchValue: null,
+            })
+          }
         />
         <SearchInput onSearchTicket={handleTicketSearch} />
       </header>
