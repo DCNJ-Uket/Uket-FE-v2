@@ -6,7 +6,7 @@ export type EventStatus =
   | "행사 완료";
 
 interface EventStatusInfo {
-  value: string; //백엔드에서 영어로 줄 것임.
+  value: string;
   text: EventStatus | "검수 진행";
   color: string;
 }

@@ -18,7 +18,9 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
   },
   {
     accessorKey: "userType",
-    header: "사용자 구분",
+    header: () => (
+      <div className="flex justify-center opacity-50">사용자 구분</div>
+    ),
   },
   {
     accessorKey: "showTime",
@@ -61,7 +63,7 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
     accessorKey: "friend",
     header: "지인",
     cell: ({ row }) => {
-      return <div>{row.original.formAnswers[0]?.answer}</div>;
+      return <div>{row.original.friend}</div>;
     },
   },
 ];

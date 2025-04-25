@@ -14,13 +14,13 @@ const getAdminEntranceList = async ({
   size = DEFAULT_PAGE_SIZE,
 }) => {
   const { data } = await fetcherAdmin.get<EntryListResponse>(
-    `/ticket/live/enter-users`,
+    `/live/enter-users`,
     {
       mode: "BOUNDARY",
       params: { page, size },
     },
   );
-  
+
   return data;
 };
 
@@ -75,6 +75,6 @@ export const prefetchEntranceList = (
       size,
     }),
   });
-  
+
   return dehydrate(queryClient);
 };
