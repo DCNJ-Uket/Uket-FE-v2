@@ -41,14 +41,15 @@ export const EVENT_STATUS_INFO: EventStatusInfo[] = [
 
 export type Content = {
   organizationId: number;
+  organizationName: string;
   uketEventRegistrationId: number;
   eventName: string;
-  organizationName: string;
   eventType: string;
   eventStartDate: string;
   eventEndDate: string;
   ticketingStartDateTime: string;
   registrationStatus: string;
+  isModifiable: boolean;
 };
 
 export interface PaginationMeta {
@@ -64,3 +65,10 @@ export interface PaginationMeta {
 export interface AdminTicketInfoResponse extends PaginationMeta {
   content: Content[];
 }
+
+export interface ChangeEventStatusParams {
+  uketEventRegistrationId: number;
+  registrationStatus: string;
+}
+
+export type ChangeEventStatusResponse = ChangeEventStatusParams;
