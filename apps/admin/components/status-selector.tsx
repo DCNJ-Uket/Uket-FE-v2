@@ -88,6 +88,7 @@ export default function StatusSelector({
         </SelectContent>
       </Select>
       <StatusChangeDialog
+        isTicket={isTicket}
         name={name}
         isOpen={isOpen}
         onOpenDialog={setIsOpen}
