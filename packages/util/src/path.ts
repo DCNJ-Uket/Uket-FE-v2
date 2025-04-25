@@ -32,7 +32,7 @@ const ADMIN_STATIC_AUTH_REQUIRED_PATH = [
 ];
 
 const ADMIN_DYNAMIC_AUTH_REQUIRED_PATH = [
-  /\/ticket\/[^/]+\/enter/,
+  /\/[^/]+\/enter/,
   /^\/ticket(\/.*)?$/,
   /^\/users\/([^/]+)$/,
   /^\/uket-event-registrations\/([^/]+)$/,
