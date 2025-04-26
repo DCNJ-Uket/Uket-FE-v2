@@ -6,7 +6,8 @@ import { Content } from "@uket/api/types/admin-entrance";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
 import { Button } from "@uket/ui/components/ui/button";
 import { RefreshCwIcon } from "@uket/ui/components/ui/icon";
-import { useRouter, useSearchParams } from "next/navigation";
+import AdminFilterEventList from "../../../../components/admin-filter-event-list";
+import { useEntranceParams } from "../../../../hooks/use-entrance-params";
 import EntranceDataTable from "./entrance-data-table";
 
 export type Entry = Content;
@@ -46,42 +47,40 @@ export const columns: ColumnDef<Entry>[] = [
 ];
 
 export default function EntranceTableSection() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pageParam = searchParams.get("page");
-  const currentPage = pageParam ? parseInt(pageParam) : 1;
+  const { page, uketEventId, updateQuery } = useEntranceParams();
 
   const { data, refetch, isRefetching } = useQueryEntranceList({
-    page: currentPage,
+    page: page,
+    uketEventId,
   });
-
-  const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", newPage.toString());
-    router.push(`?${params.toString()}`);
-  };
 
   return (
     <section className="flex flex-col gap-3">
-      <aside className="flex items-center justify-end gap-2">
-        <p className="text-sm text-[#9191A1]">
-          입장 조회 내역은 10초마다 또는 새로고침 버튼을 누르면 갱신됩니다.
-        </p>
-        <Button
-          disabled={isRefetching}
-          variant="ghost"
-          className="flex items-center gap-2 text-desc hover:bg-gray-200"
-          onClick={() => refetch()}
-        >
-          <RefreshCwIcon className="h-6 w-6 rounded-md bg-white p-1" />
-          <span className="text-sm font-bold">내역 갱신</span>
-        </Button>
-      </aside>
+      <header className="flex justify-between items-center gap-4">
+        <AdminFilterEventList
+          currentEventId={uketEventId}
+          onChangeEventId={id => updateQuery({ page: 1, uketEventId: id })}
+        />
+        <aside className="flex items-center justify-end gap-2">
+          <p className="text-sm text-[#9191A1]">
+            입장 조회 내역은 10초마다 또는 새로고침 버튼을 누르면 갱신됩니다.
+          </p>
+          <Button
+            disabled={isRefetching}
+            variant="ghost"
+            className="flex items-center gap-2 text-desc hover:bg-gray-200"
+            onClick={() => refetch()}
+          >
+            <RefreshCwIcon className="h-6 w-6 rounded-md bg-white p-1" />
+            <span className="text-sm font-bold">내역 갱신</span>
+          </Button>
+        </aside>
+      </header>
       <EntranceDataTable
         columns={columns}
         data={data.content}
-        pageIndex={currentPage}
-        setPageIndex={handlePageChange}
+        pageIndex={page}
+        setPageIndex={newPage => updateQuery({ page: newPage })}
         pageCount={data.totalPages || 1}
       />
     </section>

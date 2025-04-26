@@ -26,15 +26,19 @@ const ADMIN_STATIC_AUTH_REQUIRED_PATH = [
   "/organizations",
   "/uket-event-registrations",
   "/upload/images",
+  "/search",
+  "/filtering/events",
+  "/live/enter-users",
 ];
 
 const ADMIN_DYNAMIC_AUTH_REQUIRED_PATH = [
-  /\/ticket\/[^/]+\/enter/,
+  /\/[^/]+\/enter/,
   /^\/ticket(\/.*)?$/,
   /^\/users\/([^/]+)$/,
   /^\/uket-event-registrations\/([^/]+)$/,
   /^\/uket-event-registrations\/([^/]+)\/status\/([^/]+)$/,
   /^\/uket-event-registrations\/organiztaions\/([^/]+)\/event-type\/([^/]+)$/,
+  /^\/(\d+)\/status\/([^/]+)$/,
 ];
 
 const isDynamicUrlMatched = (url: string): boolean => {
