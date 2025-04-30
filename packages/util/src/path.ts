@@ -21,6 +21,7 @@ const DYNAMIC_AUTH_REQUIRED_PATH = [
 const ADMIN_STATIC_AUTH_REQUIRED_PATH = [
   "/users",
   "/users/info",
+  "/users/password",
   "/users/register",
   "/organizations",
   "/uket-event-registrations",
