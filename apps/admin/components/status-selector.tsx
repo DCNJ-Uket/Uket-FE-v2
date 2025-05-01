@@ -1,6 +1,9 @@
 import { useMutationChangeEventStatus } from "@uket/api/mutations/use-mutation-change-event-status";
 import { useMutationChangeTicketStatus } from "@uket/api/mutations/use-mutation-change-ticket-status";
-import { EVENT_STATUS_INFO } from "@uket/api/types/admin-event";
+import {
+  ADMIN_EVENT_STATUS_INFO,
+  EVENT_STATUS_INFO,
+} from "@uket/api/types/admin-event";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
 import {
   Select,
@@ -18,6 +21,7 @@ interface TicketStatusSelectorProps {
   status: string;
   name: string;
   page: number;
+  isSuperAdmin?: boolean;
 }
 
 export default function StatusSelector({
@@ -26,8 +30,13 @@ export default function StatusSelector({
   status,
   name,
   page,
+  isSuperAdmin = true,
 }: TicketStatusSelectorProps) {
-  const statusInfo = isTicket ? TICKET_STATUS_INFO : EVENT_STATUS_INFO;
+  const statusInfo = isTicket
+    ? TICKET_STATUS_INFO
+    : isSuperAdmin
+      ? EVENT_STATUS_INFO
+      : ADMIN_EVENT_STATUS_INFO;
   const ticketMutation = useMutationChangeTicketStatus(page);
   const eventMutation = useMutationChangeEventStatus(page);
 

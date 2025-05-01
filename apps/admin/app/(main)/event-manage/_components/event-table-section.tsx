@@ -83,6 +83,7 @@ export const columns = (
             status={registationStatus}
             name={eventName}
             page={pageIndex}
+            isSuperAdmin={false}
           />
         </div>
       );
