@@ -43,7 +43,7 @@ export default async function Page({
         </header>
         
         <Suspense fallback={<LoadingFallback />}>
-          <EventTableSection />
+          <EventTableSection isSuperAdmin={false}/>
         </Suspense>
       </main>
     </HydrationBoundary>

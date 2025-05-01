@@ -1,6 +1,6 @@
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary, Suspense } from "@uket/api";
-import EventTableSection from "./_components/event-table-section";
+import EventTableSection from "../../../event-manage/_components/event-table-section";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
@@ -17,7 +17,7 @@ export default async function Page() {
         </header>
 
         <Suspense fallback={<LoadingFallback />}>
-          <EventTableSection />
+          <EventTableSection isSuperAdmin={true}/>
         </Suspense>
       </main>
     </HydrationBoundary>

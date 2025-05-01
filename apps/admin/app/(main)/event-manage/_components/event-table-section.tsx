@@ -8,15 +8,16 @@ import { Content } from "@uket/api/types/admin-event";
 import { useMemo } from "react";
 import StatusSelector from "../../../../components/status-selector";
 import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
-import EventTable from "./event-table";
 import EventTypeFilter, { EventType } from "./event-type-filter";
+import EventTable from "./event-table";
 
 export type Entry = Content;
 
 export const columns = (
   pageIndex: number,
   selectedEventType: EventType,
-  setSelectedEventType: (value: EventType) => void,
+  isSuperAdmin: boolean,
+  setSelectedEventType: (value: EventType) => void
 ): ColumnDef<Entry>[] => [
   {
     id: "rowNumber",
@@ -83,7 +84,7 @@ export const columns = (
             status={registationStatus}
             name={eventName}
             page={pageIndex}
-            isSuperAdmin={false}
+            isSuperAdmin={isSuperAdmin}
           />
         </div>
       );
@@ -115,7 +116,7 @@ export const columns = (
   },
 ];
 
-export default function EventTableSection() {
+export default function EventTableSection({isSuperAdmin}: {isSuperAdmin: boolean}) {
   const { page, eventType, updateQuery } = useEventManageParams();
 
   const { data: events } = useQueryAdminEventInfoList({
@@ -137,7 +138,7 @@ export default function EventTableSection() {
   return (
     <section className="flex flex-col gap-3">
       <EventTable
-        columns={columns(page, eventType, newType =>
+        columns={columns(page, eventType, isSuperAdmin, newType =>
           updateQuery({ eventType: newType }),
         )}
         data={filteredEvents}
