@@ -120,7 +120,7 @@ export default function BookingManageSection() {
           />
           {ticketList && (
             <DownloadCSV
-              data={ticketList.timezoneData}
+              totalElements={ticketList.totalElements}
               headers={headers}
               filename={`${selectedEventName}_예매내역관리`}
             />

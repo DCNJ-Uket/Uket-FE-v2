@@ -103,7 +103,7 @@ export const adminTicket = createQueryKeys("admin-ticket", {
 
         return data;
       } else {
-        return { content: [], totalPages: 0 };
+        return { content: [], totalPages: 0, totalElements: 0 };
       }
     },
   }),

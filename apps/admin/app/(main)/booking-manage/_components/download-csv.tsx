@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useQueryAdminTicketList } from "@uket/api/queries/admin-ticket";
+import { SearchType } from "@uket/api/types/admin-ticket";
+
 import { formatDate } from "@uket/util/time";
 import React from "react";
+import { useTicketBookParams } from "../../../../hooks/use-ticket-book-params";
 
 const generateCSV = (
   data: any[],
@@ -33,14 +37,23 @@ const generateCSV = (
 };
 
 const DownloadCSV: React.FC<{
-  data: any[];
+  totalElements: number;
   headers: { key: string; label: string }[];
   filename: string;
-}> = ({ data, headers, filename }) => {
+}> = ({ totalElements, headers, filename }) => {
+  const { searchType, searchValue, uketEventId } = useTicketBookParams();
+
+  const { data } = useQueryAdminTicketList({
+    searchType: searchType as SearchType,
+    value: searchValue,
+    size: totalElements,
+    uketEventId,
+  });
+
   return (
     <button
       className="border-[0.5px] border-brand text-brand px-3 py-1 text-xs rounded"
-      onClick={() => generateCSV(data, headers, filename)}
+      onClick={() => data && generateCSV(data.timezoneData, headers, filename)}
     >
       CSV 다운로드
     </button>
