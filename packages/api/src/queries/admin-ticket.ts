@@ -85,7 +85,7 @@ export const adminTicket = createQueryKeys("admin-ticket", {
     size?: number;
     uketEventId?: number;
   }) => ({
-    queryKey: ["admin-ticket-list", uketEventId, searchType, value, page],
+    queryKey: ["admin-ticket-list", uketEventId, searchType, value, page, size],
     queryFn: async () => {
       const searchRequest = getAdminTicketRequest(searchType, value);
 
@@ -103,7 +103,7 @@ export const adminTicket = createQueryKeys("admin-ticket", {
 
         return data;
       } else {
-        return { content: [], totalPages: 0 };
+        return { content: [], totalPages: 0, totalElements: 0 };
       }
     },
   }),
