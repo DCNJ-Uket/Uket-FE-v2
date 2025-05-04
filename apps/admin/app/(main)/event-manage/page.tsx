@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@ui/components/ui/button";
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary } from "@uket/api";
@@ -14,20 +13,14 @@ const LoadingFallback = () => (
   </div>
 );
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) {
+export default async function Page() {
   const isMobileDevice = await checkUserAgent();
 
   if (isMobileDevice) {
     return <NonAvailableSection title="내 행사 관리" />;
   }
 
-  // TODO: prefetch로 행사 목록을 불러온다.
   // TODO: 행사 목록이 없다면, 행사 등록으로 이동한다.
-  // TODO: 행사 목록이 있다면, 목록을 보여준다.
 
   return (
     <HydrationBoundary>
