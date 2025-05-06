@@ -14,14 +14,13 @@ const SelectValue = SelectPrimitive.Value;
 const NonSelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }) => (
+>(({ className, children, ...props }, ref) => (
   <button
     className={cn(
-      "flex h-10 w-full items-center justify-center bg-white px-3 py-2 text-sm font-normal focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300 [&>span]:line-clamp-1",
+      "flex h-10 w-full items-center justify-center bg-white px-3 py-2 text-sm font-normal focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300 [&>span]:line-clamp-1 cursor-default",
       className,
     )}
     {...props}
-    disabled
   >
     {children}
   </button>

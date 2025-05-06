@@ -1,12 +1,4 @@
-export type AdminEventStatus = "검수 진행" | "검수 완료" | "행사 완료";
-
-export type EventStatus = AdminEventStatus | "등록 완료" | "등록 취소";
-
-interface AdminEventStatusInfo {
-  value: string;
-  text: AdminEventStatus | "검수 진행";
-  color: string;
-}
+export type EventStatus = "검수 진행" | "검수 완료" | "행사 완료" | "등록 완료" | "등록 취소";
 
 interface EventStatusInfo {
   value: string;
@@ -14,7 +6,7 @@ interface EventStatusInfo {
   color: string;
 }
 
-export const ADMIN_EVENT_STATUS_INFO: AdminEventStatusInfo[] = [
+export const EVENT_STATUS_INFO: EventStatusInfo[] = [
   {
     value: "검수 진행",
     text: "검수 진행",
@@ -30,10 +22,6 @@ export const ADMIN_EVENT_STATUS_INFO: AdminEventStatusInfo[] = [
     text: "행사 완료",
     color: "#9981FE",
   },
-];
-
-export const EVENT_STATUS_INFO: EventStatusInfo[] = [
-  ...ADMIN_EVENT_STATUS_INFO,
   {
     value: "등록 완료",
     text: "등록 완료",

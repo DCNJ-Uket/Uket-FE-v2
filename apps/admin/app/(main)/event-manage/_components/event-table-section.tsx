@@ -84,7 +84,7 @@ export const columns = (
             status={registationStatus}
             name={eventName}
             page={pageIndex}
-            isSuperAdmin={isSuperAdmin}
+            changeable={isSuperAdmin}
           />
         </div>
       );
@@ -116,7 +116,7 @@ export const columns = (
   },
 ];
 
-export default function EventTableSection({isSuperAdmin}: {isSuperAdmin: boolean}) {
+export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?: boolean}) {
   const { page, eventType, updateQuery } = useEventManageParams();
 
   const { data: events } = useQueryAdminEventInfoList({
