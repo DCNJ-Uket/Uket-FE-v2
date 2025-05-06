@@ -6,17 +6,18 @@ import { cn } from "@ui/lib/utils";
 import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import { Content } from "@uket/api/types/admin-event";
 import { useMemo } from "react";
-import StatusSelector from "../../../../../../components/status-selector";
-import { useEventManageParams } from "../../../../../../hooks/use-event-manage-params";
-import EventTable from "./event-table";
+import StatusSelector from "../../../../components/status-selector";
+import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
 import EventTypeFilter, { EventType } from "./event-type-filter";
+import EventTable from "./event-table";
 
 export type Entry = Content;
 
 export const columns = (
   pageIndex: number,
   selectedEventType: EventType,
-  setSelectedEventType: (value: EventType) => void,
+  isSuperAdmin: boolean,
+  setSelectedEventType: (value: EventType) => void
 ): ColumnDef<Entry>[] => [
   {
     id: "rowNumber",
@@ -83,6 +84,7 @@ export const columns = (
             status={registationStatus}
             name={eventName}
             page={pageIndex}
+            changeable={isSuperAdmin}
           />
         </div>
       );
@@ -114,32 +116,32 @@ export const columns = (
   },
 ];
 
-export default function EventTableSection() {
+export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?: boolean}) {
   const { page, eventType, updateQuery } = useEventManageParams();
 
-  const { data } = useQueryAdminEventInfoList({
+  const { data: events } = useQueryAdminEventInfoList({
     page,
   });
 
   const itemsPerPage = 10;
 
-  const filteredData = useMemo(() => {
-    if (!data) return [];
-    if (eventType === "ALL") return data.timezoneData;
-    return data.timezoneData.filter(entry => entry.eventType === eventType);
-  }, [data, eventType]);
+  const filteredEvents = useMemo(() => {
+    if (!events) return [];
+    if (eventType === "ALL") return events.timezoneData;
+    return events.timezoneData.filter(entry => entry.eventType === eventType);
+  }, [events, eventType]);
 
   const pageCount = useMemo(() => {
-    return Math.ceil(filteredData.length / itemsPerPage);
-  }, [filteredData]);
+    return Math.ceil(filteredEvents.length / itemsPerPage);
+  }, [filteredEvents]);
 
   return (
     <section className="flex flex-col gap-3">
       <EventTable
-        columns={columns(page, eventType, newType =>
+        columns={columns(page, eventType, isSuperAdmin, newType =>
           updateQuery({ eventType: newType }),
         )}
-        data={filteredData}
+        data={filteredEvents}
         pageIndex={page}
         setPageIndex={newPage => updateQuery({ page: newPage })}
         pageCount={pageCount || 1}

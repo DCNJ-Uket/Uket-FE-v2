@@ -1,15 +1,31 @@
 "use client";
 
-import * as React from "react";
-import { ChevronDown, ChevronUp, DotIcon } from "lucide-react";
-import { cn } from "@ui/lib/utils";
 import * as SelectPrimitive from "@radix-ui/react-select";
+import { cn } from "@ui/lib/utils";
+import { ChevronDown, ChevronUp, DotIcon } from "lucide-react";
+import * as React from "react";
 
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
+
+const NonSelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <button
+    className={cn(
+      "flex h-10 w-full items-center justify-center bg-white px-3 py-2 text-sm font-normal focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300 [&>span]:line-clamp-1 cursor-default",
+      className,
+    )}
+    {...props}
+  >
+    {children}
+  </button>
+));
+NonSelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
@@ -146,14 +162,15 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {
+  NonSelectTrigger,
   Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
   SelectContent,
-  SelectLabel,
+  SelectGroup,
   SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
+  SelectLabel,
   SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
 };

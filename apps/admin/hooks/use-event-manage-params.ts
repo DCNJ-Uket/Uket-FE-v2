@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { EventType } from "../app/(main)/(super-admin)/super-admin/event-manage/_components/event-type-filter";
+import { EventType } from "../app/(main)/event-manage/_components/event-type-filter";
 
 export const DEFAULT_EVENT_TYPE: EventType = "ALL" as const;
 

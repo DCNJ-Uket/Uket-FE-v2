@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@uket/ui/components/ui/table";
-import PaginationControls from "../../../../../../components/pagination-controls";
+import PaginationControls from "../../../../components/pagination-controls";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

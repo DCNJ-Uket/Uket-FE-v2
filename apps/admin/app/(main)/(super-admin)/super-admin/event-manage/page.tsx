@@ -1,12 +1,14 @@
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary, Suspense } from "@uket/api";
-import EventTableSection from "./_components/event-table-section";
+import EventTableSection from "../../../event-manage/_components/event-table-section";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
     <Skeleton className="w-full h-[800px]" />
   </div>
 );
+
+  // TODO: 행사 목록이 없다면, 행사 등록으로 이동한다.
 
 export default async function Page() {
   return (
@@ -17,7 +19,7 @@ export default async function Page() {
         </header>
 
         <Suspense fallback={<LoadingFallback />}>
-          <EventTableSection />
+          <EventTableSection isSuperAdmin={true}/>
         </Suspense>
       </main>
     </HydrationBoundary>
