@@ -207,3 +207,10 @@ span[style] > strong {
 mark[style] > strong {
   color: inherit;
 }
+
+ul[data-type="taskList"]::before,
+ul[data-type="taskList"] > li::before,
+.list-disc::before,
+.list-decimal::before {
+  display: none;
+}

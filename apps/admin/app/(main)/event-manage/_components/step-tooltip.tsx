@@ -15,7 +15,7 @@ export default function StepTooltip({ content }: StepTooltipProps) {
     <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger>
-          <CircleHelpIcon size={18} />
+          <CircleHelpIcon size={18} className="text-white fill-[#8989A1]" />
         </TooltipTrigger>
         <TooltipContent
           className="bg-[#8989A1] text-white border-none max-w-xs p-3 rounded-xl font-normal"
