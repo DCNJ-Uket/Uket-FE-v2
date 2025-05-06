@@ -5,12 +5,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@ui/components/ui/form";
 import { CircleX, PlusCircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import Image from "next/image";
 import {
   Control,
+  ControllerRenderProps,
   FieldValues,
   useFieldArray,
   UseFormGetValues,
@@ -32,7 +34,7 @@ function RemoveImageButton({
 }: {
   index: number;
   remove: (index: number) => void;
-  field: any;
+  field: ControllerRenderProps<FieldValues, any>;
 }) {
   return (
     <Button
@@ -59,16 +61,12 @@ export default function BannerImageField({
     name: "banners",
     control,
   });
-  
-  const handleFileChange =
-    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        const previewUrl = URL.createObjectURL(file);
-        onSetValue(`banners.${index}.file`, file);
-        onSetValue(`banners.${index}.previewImage`, previewUrl);
-      }
-    };
+
+  const handleFileChange = (index: number) => (file: File) => {
+    const previewUrl = URL.createObjectURL(file);
+    onSetValue(`banners.${index}.file`, file);
+    onSetValue(`banners.${index}.previewImage`, previewUrl);
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -155,11 +153,21 @@ export default function BannerImageField({
                   {...field}
                   value={""}
                   onChange={e => {
-                    handleFileChange(index)(e);
-                    field.onChange(e.target.files?.[0] || null);
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    if (file.size > 1024 * 1024 * 5) {
+                      control.setError(`banners.${index}.file`, {
+                        type: "custom",
+                        message: "이미지 파일은 5MB 이하만 가능합니다.",
+                      });
+                      return;
+                    }
+                    handleFileChange(index)(file);
+                    field.onChange(file || null);
                   }}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

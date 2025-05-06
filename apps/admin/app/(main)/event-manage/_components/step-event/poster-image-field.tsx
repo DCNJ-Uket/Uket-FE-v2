@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@ui/components/ui/form";
 import { Input } from "@ui/components/ui/input";
 import Image from "next/image";
@@ -25,13 +26,10 @@ export default function PosterImageField({
   onSetValue,
   onGetValue,
 }: PosterImageFieldProps) {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      onSetValue("uketEventImageId.file", file);
-      onSetValue("uketEventImageId.previewImage", previewUrl);
-    }
+  const handleFileChange = (file: File) => {
+    const previewUrl = URL.createObjectURL(file);
+    onSetValue("uketEventImageId.file", file);
+    onSetValue("uketEventImageId.previewImage", previewUrl);
   };
 
   return (
@@ -39,7 +37,7 @@ export default function PosterImageField({
       control={control}
       name="uketEventImageId.file"
       render={({ field }) => (
-        <FormItem className="flex flex-col gap-2">
+        <FormItem className="flex flex-col">
           <FormLabel
             htmlFor="poster-upload"
             className="text-[#8989A1] text-base font-normal flex flex-col gap-4"
@@ -87,11 +85,21 @@ export default function PosterImageField({
               {...field}
               value={""}
               onChange={e => {
-                handleFileChange(e);
-                field.onChange(e.target.files?.[0] || null);
+                const file = e.target.files?.[0];
+                if (!file) return;
+                if (file.size > 1024 * 1024 * 5) {
+                  control.setError("uketEventImageId.file", {
+                    type: "validate",
+                    message: "이미지 파일은 5MB 이하만 가능합니다.",
+                  });
+                  return;
+                }
+                handleFileChange(file);
+                field.onChange(file || null);
               }}
             />
           </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />
