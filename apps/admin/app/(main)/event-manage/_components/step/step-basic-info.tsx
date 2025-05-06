@@ -1,23 +1,65 @@
-import { Button } from "@ui/components/ui/button";
-import { ArrowRightIcon, PlusCircleIcon } from "@ui/components/ui/icon";
-import { Input } from "@ui/components/ui/input";
-import { Label } from "@ui/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@ui/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@ui/components/ui/radio-group";
 import { Separator } from "@ui/components/ui/separator";
-import EventCalendar from "../event-calendar";
-import StepTooltip from "../step-tooltip";
-import TicketCalendar from "../ticket-calendar";
+import { FieldValues, useFormContext, useWatch } from "react-hook-form";
+import EventCalendarField from "../event-calendar-field";
+import EventNameField from "../event-name-field";
+import EventTypeField from "../event-type-field";
+import TicketCalendarField from "../ticket-calendar-field";
+import TicketCountField from "../ticket-count-field";
+import ZipcodeField from "../zipcode-field";
+import StepController from "./step-controller";
 
 interface StepBasicInfoProps {
-  onNext: () => void;
+  onNext: (
+    values: Pick<
+      FieldValues,
+      | "eventType"
+      | "eventName"
+      | "eventRound"
+      | "ticketingDate"
+      | "location"
+      | "totalTicketCount"
+    >,
+  ) => void;
 }
 
 export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
+  const { control, setValue, trigger, watch } = useFormContext();
+  const eventType = useWatch({
+    control,
+    name: "eventType",
+  });
+  const allFieldValues = watch();
+
+  const handleNext = async () => {
+    const isValid = await trigger(
+      [
+        "eventType",
+        "eventName",
+        "ticketingDate",
+        "location.base",
+        "location.detail",
+        "totalTicketCount",
+      ],
+      { shouldFocus: true },
+    );
+
+    if (!isValid) return;
+
+    const selectedValues = {
+      eventType: allFieldValues.eventType,
+      eventName: allFieldValues.eventName,
+      eventRound: allFieldValues.eventRound,
+      ticketingDate: allFieldValues.ticketingDate,
+      location: {
+        base: allFieldValues.location.base,
+        detail: allFieldValues.location?.detail,
+      },
+      totalTicketCount: allFieldValues.totalTicketCount,
+    };
+
+    onNext(selectedValues);
+  };
+
   return (
     <main className="flex w-full flex-col gap-2">
       <section className="flex w-full bg-white shadow-sm p-11 grow rounded-lg">
@@ -25,39 +67,7 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
           <h3 className="text-[#17171C] font-bold text-xl">
             1. 어떤 행사인가요?
           </h3>
-          <RadioGroup
-            className="flex flex-col items-center gap-4"
-            defaultValue="공연"
-          >
-            <div className="w-full">
-              <RadioGroupItem
-                value="공연"
-                id="공연"
-                isCircleVisible={false}
-                className="peer hidden"
-              />
-              <Label
-                htmlFor="공연"
-                className="cursor-pointer flex p-4 justify-center rounded-md border border-formInput text-[#BFBFBF] peer-aria-checked:bg-brand peer-data-[state=checked]:bg-brand [&:has([data-state=checked])]:bg-brand peer-aria-checked:text-white peer-aria-checked:border-none"
-              >
-                공연
-              </Label>
-            </div>
-            <div className="w-full">
-              <RadioGroupItem
-                value="축제"
-                id="축제"
-                isCircleVisible={false}
-                className="peer hidden"
-              />
-              <Label
-                htmlFor="축제"
-                className="cursor-pointer flex p-4 justify-center rounded-md border border-formInput text-[#BFBFBF] peer-aria-checked:bg-brand peer-data-[state=checked]:bg-brand [&:has([data-state=checked])]:bg-brand peer-aria-checked:text-white peer-aria-checked:border-none"
-              >
-                축제
-              </Label>
-            </div>
-          </RadioGroup>
+          <EventTypeField control={control} />
         </aside>
         <Separator orientation="vertical" className="mx-10 bg-[#BFBFBF]" />
         <aside className="flex flex-col gap-6 grow">
@@ -66,160 +76,25 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
           </h3>
           <section className="flex gap-9">
             <aside className="basis-1/2 flex flex-col gap-4">
-              <div className="grid w-full items-center gap-2">
-                <Label
-                  htmlFor="organization"
-                  className="text-[#8989A1] text-base font-normal"
-                >
-                  주최명
-                </Label>
-                <Input
-                  type="text"
-                  id="organization"
-                  disabled
-                  className="disabled:bg-[#f2f2f2] border-formInput"
-                />
-              </div>
-              <div className="grid w-full items-center gap-2">
-                <Label
-                  htmlFor="eventName"
-                  className="text-[#8989A1] text-base font-normal"
-                >
-                  공연명
-                </Label>
-                <Input
-                  type="text"
-                  id="eventName"
-                  className="border-formInput"
-                  placeholder="공연명"
-                />
-              </div>
-              <div className="flex flex-col justify-center gap-2">
-                <div className="grid w-full items-center gap-2">
-                  <Label
-                    htmlFor="eventDate"
-                    className="text-[#8989A1] text-base font-normal"
-                  >
-                    공연일시
-                  </Label>
-                  <EventCalendar />
-                </div>
-                <div className="flex justify-center">
-                  <Button
-                    size={"icon"}
-                    variant="ghost"
-                    className="rounded-full hover:bg-[#f2f2f2]"
-                  >
-                    <PlusCircleIcon className="text-[#d9d9d9]" />
-                  </Button>
-                </div>
-              </div>
+              <EventNameField
+                control={control}
+                onSetValue={setValue}
+                labelTitle={eventType === "축제" ? "축제명" : "공연명"}
+              />
+              <EventCalendarField
+                control={control}
+                labelTitle={eventType === "축제" ? "축제 일시" : "공연 일시"}
+              />
             </aside>
             <aside className="basis-1/2 flex flex-col gap-4">
-              <div className="grid w-full items-center gap-2">
-                <Label
-                  htmlFor="eventDate"
-                  className="text-[#8989A1] text-base font-normal"
-                >
-                  티켓 판매 기간
-                </Label>
-                <TicketCalendar />
-              </div>
-              <div className="grid w-full items-center gap-2">
-                <Label
-                  htmlFor="eventLocation"
-                  className="text-[#8989A1] text-base font-normal"
-                >
-                  위치
-                </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      id="eventLocation"
-                      className="flex hover:bg-[#c3c3c3] p-0 overflow-hidden bg-[#d9d9d9] border-formInput text-[#5f6368] text-center"
-                    >
-                      우편 번호 찾기
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="" align="start">
-                    우편 번호 검색 창
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="grid w-full items-center gap-2">
-                <Label
-                  htmlFor="ticketCount"
-                  className="text-[#8989A1] text-base font-normal"
-                >
-                  티켓 총 수량
-                </Label>
-                <Input
-                  type="text"
-                  id="ticketCount"
-                  className="border-formInput"
-                  placeholder="100"
-                />
-              </div>
-              <div className="flex flex-col justify-center gap-2">
-                <div className="grid w-full items-center gap-2">
-                  <Label
-                    htmlFor="group"
-                    className="text-[#8989A1] text-base font-normal flex items-center gap-1"
-                  >
-                    <span>입장 그룹 설정</span>
-                    <StepTooltip
-                      content={
-                        <p>
-                          입장 그룹 설정을 통해 공연 입장 시 사용자 입장 대기
-                          시간을 줄일 수 있습니다. 티켓 수량 별로 입장 시간을
-                          다르게 설정할 수 있으니 참고 바랍니다.
-                        </p>
-                      }
-                    />
-                  </Label>
-                  <div className="flex gap-4 items-center">
-                    <Input
-                      type="text"
-                      className="border-formInput"
-                      defaultValue="A(기본)"
-                      disabled
-                    />
-                    <Input
-                      type="text"
-                      className="border-formInput"
-                      placeholder="00:00"
-                    />
-                    <Input
-                      type="text"
-                      className="border-formInput"
-                      placeholder="100"
-                    />
-                  </div>
-                </div>
-                <div className="text-center">
-                  <Button
-                    size={"icon"}
-                    variant="ghost"
-                    className="rounded-full hover:bg-[#f2f2f2]"
-                  >
-                    <PlusCircleIcon className="text-[#d9d9d9]" />
-                  </Button>
-                </div>
-              </div>
+              <TicketCalendarField control={control} />
+              <ZipcodeField control={control} onSetValue={setValue} />
+              <TicketCountField control={control} />
             </aside>
           </section>
         </aside>
       </section>
-      <footer className="flex justify-end">
-        <Button
-          variant="ghost"
-          className="hover:bg-gray-200 text-[#8989A1] flex gap-1"
-          onClick={onNext}
-        >
-          다음으로
-          <ArrowRightIcon size={16} strokeWidth={3} />
-        </Button>
-      </footer>
+      <StepController onNext={handleNext} isFirstStep />
     </main>
   );
 }
