@@ -77,33 +77,33 @@ export const adminTicket = createQueryKeys("admin-ticket", {
     value = "",
     page = DEFAULT_PAGE_NUMBER,
     size = DEFAULT_PAGE_SIZE,
+    uketEventId = undefined,
   }: {
     searchType?: SearchType;
     value?: string;
     page?: number;
     size?: number;
+    uketEventId?: number;
   }) => ({
-    queryKey: ["admin-ticket-list", searchType, value, page],
+    queryKey: ["admin-ticket-list", uketEventId, searchType, value, page, size],
     queryFn: async () => {
       const searchRequest = getAdminTicketRequest(searchType, value);
 
       if (searchRequest !== null) {
-        const { data } = await fetcherAdmin.get<TicketListResponse>(
-          `/ticket/search`,
-          {
-            mode: "BOUNDARY",
-            params: {
-              searchType,
-              [searchRequest.type]: searchRequest.value,
-              page,
-              size,
-            },
+        const { data } = await fetcherAdmin.get<TicketListResponse>(`/search`, {
+          mode: "BOUNDARY",
+          params: {
+            searchType,
+            [searchRequest.type]: searchRequest.value,
+            page,
+            size,
+            uketEventId,
           },
-        );
+        });
 
         return data;
       } else {
-        return { content: [], totalPages: 0 };
+        return { content: [], totalPages: 0, totalElements: 0 };
       }
     },
   }),
@@ -114,15 +114,16 @@ export const useQueryAdminTicketList = ({
   value = "",
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
+  uketEventId = undefined,
 }: {
   searchType?: SearchType;
   value?: string;
   page?: number;
   size?: number;
-  enabled?: boolean;
+  uketEventId?: number;
 }) => {
   return useQuery({
-    ...adminTicket.list({ searchType, value, page, size }),
+    ...adminTicket.list({ searchType, value, page, size, uketEventId }),
     select: data => {
       const timeData = data.content.map(item => {
         return {

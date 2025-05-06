@@ -6,7 +6,7 @@ export type EventStatus =
   | "행사 완료";
 
 interface EventStatusInfo {
-  value: string; //백엔드에서 영어로 줄 것임.
+  value: string;
   text: EventStatus | "검수 진행";
   color: string;
 }
@@ -41,14 +41,15 @@ export const EVENT_STATUS_INFO: EventStatusInfo[] = [
 
 export type Content = {
   organizationId: number;
+  organizationName: string;
   uketEventRegistrationId: number;
   eventName: string;
-  organizationName: string;
   eventType: string;
   eventStartDate: string;
   eventEndDate: string;
   ticketingStartDateTime: string;
   registrationStatus: string;
+  isModifiable: boolean;
 };
 
 export interface PaginationMeta {
@@ -64,3 +65,10 @@ export interface PaginationMeta {
 export interface AdminTicketInfoResponse extends PaginationMeta {
   content: Content[];
 }
+
+export interface ChangeEventStatusParams {
+  uketEventRegistrationId: number;
+  registrationStatus: string;
+}
+
+export type ChangeEventStatusResponse = ChangeEventStatusParams;

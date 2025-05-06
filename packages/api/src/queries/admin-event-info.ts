@@ -1,7 +1,7 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { formatDate } from "@uket/util/time";
-import axios from "axios";
+import { fetcherAdmin } from "../admin-instance";
 import { AdminTicketInfoResponse } from "../types/admin-event";
 
 const DEFAULT_PAGE_NUMBER = 0;
@@ -11,9 +11,10 @@ const getAdminEventInfoList = async ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
 }) => {
-  const { data } = await axios.get<AdminTicketInfoResponse>(
-    "/api/admin/event-info",
+  const { data } = await fetcherAdmin.get<AdminTicketInfoResponse>(
+    "/uket-event-registrations",
     {
+      mode: "BOUNDARY",
       params: {
         page,
         size,

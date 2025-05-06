@@ -12,28 +12,29 @@ const DEFAULT_PAGE_SIZE = 10;
 const getAdminEntranceList = async ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
+  uketEventId = undefined,
 }) => {
   const { data } = await fetcherAdmin.get<EntryListResponse>(
-    `/ticket/live/enter-users`,
+    `/live/enter-users`,
     {
       mode: "BOUNDARY",
-      params: { page, size },
+      params: { page, size, uketEventId },
     },
   );
-  
+
   return data;
 };
 
 export const adminEntrance = createQueryKeys("admin-entrance", {
-  list: ({ page, size }) => ({
-    queryKey: [page],
-    queryFn: () => getAdminEntranceList({ page, size }),
+  list: ({ uketEventId, page, size }) => ({
+    queryKey: [uketEventId, page],
+    queryFn: () => getAdminEntranceList({ uketEventId, page, size }),
   }),
   scan: (token: string | null) => ({
     queryKey: ["admin-entrance-scan"],
     queryFn: async () => {
       const { data } = await fetcherAdmin.post<TicketQrCodeResponse>(
-        `/ticket/${token}/enter`,
+        `/${token}/enter`,
       );
       return data;
     },
@@ -43,9 +44,14 @@ export const adminEntrance = createQueryKeys("admin-entrance", {
 export const useQueryEntranceList = ({
   page = DEFAULT_PAGE_NUMBER,
   size = DEFAULT_PAGE_SIZE,
+  uketEventId = undefined,
+}: {
+  page?: number;
+  size?: number;
+  uketEventId?: number;
 }) => {
   return useSuspenseQuery({
-    ...adminEntrance.list({ page, size }),
+    ...adminEntrance.list({ uketEventId, page, size }),
     select: data => {
       const newContent = data.content.map(item => {
         return {
@@ -75,6 +81,6 @@ export const prefetchEntranceList = (
       size,
     }),
   });
-  
+
   return dehydrate(queryClient);
 };
