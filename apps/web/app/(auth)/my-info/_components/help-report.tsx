@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ExternalLink } from "@ui/components/ui/icon";
 import { useEffect } from "react";
 
