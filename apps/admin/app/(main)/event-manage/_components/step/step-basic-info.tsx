@@ -1,11 +1,11 @@
 import { Separator } from "@ui/components/ui/separator";
 import { FieldValues, useFormContext, useWatch } from "react-hook-form";
-import EventCalendarField from "../event-calendar-field";
-import EventNameField from "../event-name-field";
-import EventTypeField from "../event-type-field";
-import TicketCalendarField from "../ticket-calendar-field";
-import TicketCountField from "../ticket-count-field";
-import ZipcodeField from "../zipcode-field";
+import EventCalendarField from "../step-basic/event-calendar-field";
+import EventNameField from "../step-basic/event-name-field";
+import EventTypeField from "../step-basic/event-type-field";
+import TicketCalendarField from "../step-basic/ticket-calendar-field";
+import TicketCountField from "../step-basic/ticket-count-field";
+import ZipcodeField from "../step-basic/zipcode-field";
 import StepController from "./step-controller";
 
 interface StepBasicInfoProps {

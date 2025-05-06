@@ -17,7 +17,7 @@ import {
 } from "@ui/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@ui/components/ui/radio-group";
 import { Control, FieldValues } from "react-hook-form";
-import { BANK_OPTION } from "../../../../constants/bank-option";
+import { BANK_OPTION } from "../../../../../constants/bank-option";
 
 interface BankCodeDialogProps {
   open: boolean;

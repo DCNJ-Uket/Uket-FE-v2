@@ -55,6 +55,7 @@ export default function PaymentCodeField({ control }: PaymentCodeFieldProps) {
               width={500}
               height={500}
               className="w-full h-fit object-contain"
+              unoptimized
             />
           </div>
           <div className="w-60">
@@ -64,6 +65,7 @@ export default function PaymentCodeField({ control }: PaymentCodeFieldProps) {
               width={500}
               height={500}
               className="w-full h-fit object-contain"
+              unoptimized
             />
           </div>
           <div className="w-60">
@@ -73,6 +75,7 @@ export default function PaymentCodeField({ control }: PaymentCodeFieldProps) {
               width={500}
               height={500}
               className="w-full h-fit object-contain"
+              unoptimized
             />
           </div>
         </div>

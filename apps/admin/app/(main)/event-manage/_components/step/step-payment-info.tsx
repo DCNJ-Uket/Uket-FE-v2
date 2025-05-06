@@ -6,9 +6,9 @@ import {
   AddEventFormType,
   BaseSchemaType,
 } from "../../../../../hooks/use-add-event-form";
-import PaymentCodeField from "../payment-code-field";
-import PaymentInfoField from "../payment-info-field";
-import PaymentTicketPriceField from "../payment-ticket-price-field";
+import PaymentCodeField from "../step-payment/payment-code-field";
+import PaymentInfoField from "../step-payment/payment-info-field";
+import PaymentTicketPriceField from "../step-payment/payment-ticket-price-field";
 import StepController from "./step-controller";
 
 interface StepPaymentInfoProps {

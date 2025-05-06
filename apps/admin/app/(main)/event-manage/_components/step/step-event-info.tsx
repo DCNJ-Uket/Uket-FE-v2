@@ -7,11 +7,11 @@ import {
   FormLabel,
 } from "@ui/components/ui/form";
 import { FieldValues, useFormContext } from "react-hook-form";
-import BannerImageField from "../banner-image-field";
-import ContactField from "../contact-field";
+import BannerImageField from "../step-event/banner-image-field";
+import ContactField from "../step-event/contact-field";
 import EventEditor from "../editor/event-editor";
-import PosterImageField from "../poster-image-field";
-import ThumbnailImageField from "../thumbnail-image-field";
+import PosterImageField from "../step-event/poster-image-field";
+import ThumbnailImageField from "../step-event/thumbnail-image-field";
 import StepController from "./step-controller";
 
 interface StepEventInfoProps {

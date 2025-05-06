@@ -10,7 +10,7 @@ import {
 import { CircleX, PlusCircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import { Control, FieldValues, useFieldArray, useWatch } from "react-hook-form";
-import StepTooltip from "./step-tooltip";
+import StepTooltip from "../step/step-tooltip";
 
 interface EntryGroupFieldProps {
   control: Control<FieldValues, any>;

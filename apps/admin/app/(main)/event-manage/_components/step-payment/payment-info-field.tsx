@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@ui/components/ui/select";
 import { Control, FieldValues } from "react-hook-form";
-import { BANK_OPTION } from "../../../../constants/bank-option";
+import { BANK_OPTION } from "../../../../../constants/bank-option";
 
 interface PaymentInfoFieldProps {
   control: Control<FieldValues, any>;
