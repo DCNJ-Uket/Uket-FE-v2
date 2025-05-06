@@ -11,9 +11,10 @@ import { Control, FieldValues } from "react-hook-form";
 
 interface PaymentCodeFieldProps {
   control: Control<FieldValues, any>;
+  isDisabled: boolean;
 }
 
-export default function PaymentCodeField({ control }: PaymentCodeFieldProps) {
+export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFieldProps) {
   return (
     <>
       <FormField
@@ -28,6 +29,7 @@ export default function PaymentCodeField({ control }: PaymentCodeFieldProps) {
               <Input
                 className="disabled:bg-[#f2f2f2] border-formInput"
                 placeholder="https://qr.kakaopay.com/..."
+                disabled={isDisabled}
                 {...field}
               />
             </FormControl>

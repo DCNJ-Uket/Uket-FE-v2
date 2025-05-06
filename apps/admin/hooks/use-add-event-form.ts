@@ -47,22 +47,28 @@ export const BaseSchema = z
     }),
     contact: z.object({
       type: z.string(),
-      content: z.string(),
+      content: z.string().min(1),
       link: z.string().url().or(z.literal("")),
     }),
     uketEventImageId: z.object({
-      file: typeof window === "undefined" ? z.any() : z.instanceof(File),
+      file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
+        message: "이미지를 추가해 주세요.",
+      }),
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
     thumbnailImageId: z.object({
-      file: typeof window === "undefined" ? z.any() : z.instanceof(File),
+      file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
+        message: "이미지를 추가해 주세요.",
+      }),
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
     banners: z.array(
       z.object({
-        file: typeof window === "undefined" ? z.any() : z.instanceof(File),
+        file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
+          message: "이미지를 추가해 주세요.",
+        }),
         previewImage: z.string().nullish(),
         link: z.string().url().or(z.literal("")),
         id: z.string().nullish(),
@@ -73,16 +79,16 @@ export const BaseSchema = z
       ticketPrice: z.number().default(0),
       bankCode: z.string({
         message: "은행을 선택해 주세요.",
-      }),
+      }).or(z.literal("")),
       accountNumber: z.string({
         message: "계좌번호를 입력해 주세요.",
-      }),
+      }).or(z.literal("")),
       depositorName: z.string({
         message: "예금주를 입력해 주세요.",
-      }),
+      }).or(z.literal("")),
       depositUrl: z.string().url({
         message: "입금 정보를 입력해 주세요.",
-      }),
+      }).or(z.literal("")),
     }),
   })
   .partial();
@@ -154,10 +160,10 @@ export const useAddEventForm = () => {
       paymentInfo: {
         isFree: "무료",
         ticketPrice: 0,
-        bankCode: undefined,
-        accountNumber: undefined,
-        depositorName: undefined,
-        depositUrl: undefined,
+        bankCode: "",
+        accountNumber: "",
+        depositorName: "",
+        depositUrl: "",
       },
     },
     reValidateMode: "onChange",

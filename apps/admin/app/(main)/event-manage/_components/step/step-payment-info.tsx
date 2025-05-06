@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldValues, useFormContext } from "react-hook-form";
+import { FieldValues, useFormContext, useWatch } from "react-hook-form";
 import { useMutationUploadImage } from "../../../../../../../packages/api/src/mutations/use-mutation-upload-image";
 import {
   AddEventFormType,
@@ -30,6 +30,12 @@ export default function StepPaymentInfo({
   bannerImageList,
 }: StepPaymentInfoProps) {
   const { control, setValue, trigger } = useFormContext();
+  const isFree = useWatch({
+    control,
+    name: "paymentInfo.isFree",
+  });
+  const isDisabled = isFree === "무료";
+
   const { mutateAsync } = useMutationUploadImage();
 
   const handleNext = async () => {
@@ -93,10 +99,10 @@ export default function StepPaymentInfo({
                 control={control}
                 onSetValue={setValue}
               />
-              <PaymentInfoField control={control} />
+              <PaymentInfoField control={control} isDisabled={isDisabled} />
             </aside>
             <aside className="flex flex-col gap-4 basis-1/2 pr-32">
-              <PaymentCodeField control={control} />
+              <PaymentCodeField control={control} isDisabled={isDisabled} />
             </aside>
           </section>
         </section>

@@ -18,9 +18,13 @@ import { BANK_OPTION } from "../../../../../constants/bank-option";
 
 interface PaymentInfoFieldProps {
   control: Control<FieldValues, any>;
+  isDisabled: boolean;
 }
 
-export default function PaymentInfoField({ control }: PaymentInfoFieldProps) {
+export default function PaymentInfoField({
+  control,
+  isDisabled,
+}: PaymentInfoFieldProps) {
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -33,6 +37,7 @@ export default function PaymentInfoField({ control }: PaymentInfoFieldProps) {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={isDisabled}
                 >
                   <FormControl>
                     <SelectTrigger className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-brand text-white hover:bg-brandHover hover:text-white w-32 gap-4">
@@ -58,6 +63,7 @@ export default function PaymentInfoField({ control }: PaymentInfoFieldProps) {
                 <Input
                   className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                   placeholder="입금 계좌정보 입력"
+                  disabled={isDisabled}
                   {...field}
                 />
               </FormItem>
@@ -77,6 +83,7 @@ export default function PaymentInfoField({ control }: PaymentInfoFieldProps) {
               <Input
                 className="disabled:bg-[#f2f2f2] border-formInput"
                 placeholder="예금주 입력"
+                disabled={isDisabled}
                 {...field}
               />
             </FormControl>
