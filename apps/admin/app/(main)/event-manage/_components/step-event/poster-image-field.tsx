@@ -14,6 +14,7 @@ import {
   UseFormGetValues,
   UseFormSetValue,
 } from "react-hook-form";
+import StepTooltip from "../step/step-tooltip";
 
 interface PosterImageFieldProps {
   control: Control<FieldValues, any>;
@@ -42,7 +43,17 @@ export default function PosterImageField({
             htmlFor="poster-upload"
             className="text-[#8989A1] text-base font-normal flex flex-col gap-4"
           >
-            <span>공연 상세 이미지 {"(ex.포스터)"}</span>
+            <div className="flex items-center gap-1">
+              <span>공연 상세 이미지 {"(ex.포스터)"}</span>
+              <StepTooltip
+                content={
+                  <div className="flex flex-col">
+                    <p>권장 사이즈: 335x467 px</p>
+                    <p>최대 파일 크기: 5MB</p>
+                  </div>
+                }
+              />
+            </div>
             <div className="h-32 rounded-lg flex items-center justify-between bg-formInput text-sm">
               {field.value ? (
                 <div className="w-full h-full flex items-center justify-between text-sm">

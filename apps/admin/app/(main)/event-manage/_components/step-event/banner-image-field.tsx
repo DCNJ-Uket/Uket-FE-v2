@@ -19,6 +19,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
+import StepTooltip from "../step/step-tooltip";
 
 interface BannerImageProps {
   control: Control<FieldValues, any>;
@@ -70,8 +71,16 @@ export default function BannerImageField({
 
   return (
     <div className="flex flex-col gap-2">
-      <FormLabel className="text-[#8989A1] text-base font-normal">
-        메인 배너 이미지
+      <FormLabel className="text-[#8989A1] text-base font-normal flex items-center gap-1">
+        <span>메인 배너 이미지</span>
+        <StepTooltip
+          content={
+            <div className="flex flex-col">
+              <p>권장 사이즈: 335x210 px</p>
+              <p>최대 파일 크기: 5MB</p>
+            </div>
+          }
+        />
       </FormLabel>
       {fields.map((field, index) => (
         <FormField
