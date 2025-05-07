@@ -20,6 +20,16 @@ type ContactType = {
   value: "인스타그램" | "카카오톡" | "연락처" | "기타";
 };
 
+type ContactTypeKey = ContactType["type"];
+
+type DisplayOption = {
+  [key in ContactTypeKey]: {
+    label: string;
+    placeholder: string;
+    linkPlaceholder?: string;
+  };
+};
+
 const contact: ContactType[] = [
   { type: "INSTAGRAM", value: "인스타그램" },
   { type: "KAKAO", value: "카카오톡" },
@@ -27,12 +37,33 @@ const contact: ContactType[] = [
   { type: "ETC", value: "기타" },
 ];
 
+const displayOption: DisplayOption = {
+  INSTAGRAM: {
+    label: "프로필 이름",
+    placeholder: "ex. @official.uket",
+    linkPlaceholder: "https://instagram.com/...",
+  },
+  KAKAO: {
+    label: "채널 이름",
+    placeholder: "ex. UKET",
+    linkPlaceholder: "https://pf.kakao.com/...",
+  },
+  CONTACT: {
+    label: "연락처",
+    placeholder: "ex. 010-1234-5678",
+  },
+  ETC: {
+    label: "기타 문의 방법",
+    placeholder: "이메일 주소 또는 다른 연락 방법 입력",
+  },
+};
+
 interface ContactFieldProps {
   control: Control<FieldValues, any>;
 }
 
 export default function ContactField({ control }: ContactFieldProps) {
-  const contactType = useWatch({
+  const contactType: ContactTypeKey = useWatch({
     control,
     name: "contact.type",
   });
@@ -72,11 +103,12 @@ export default function ContactField({ control }: ContactFieldProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-[#8989A1] text-base font-normal">
-              표시 이름
+              {displayOption[contactType].label}
             </FormLabel>
             <FormControl>
               <Input
                 className="disabled:bg-[#f2f2f2] border-formInput"
+                placeholder={displayOption[contactType].placeholder}
                 {...field}
               />
             </FormControl>
@@ -95,6 +127,11 @@ export default function ContactField({ control }: ContactFieldProps) {
               <FormControl>
                 <Input
                   className="disabled:bg-[#f2f2f2] border-formInput"
+                  placeholder={
+                    contactType === "INSTAGRAM"
+                      ? displayOption[contactType].linkPlaceholder
+                      : displayOption[contactType].linkPlaceholder
+                  }
                   {...field}
                 />
               </FormControl>
