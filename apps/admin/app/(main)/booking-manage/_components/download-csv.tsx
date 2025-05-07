@@ -28,7 +28,7 @@ const generateCSV = (
   const dateString = formatDate(new Date().toISOString(), "compact");
   const fullFilename = `${filename}_${dateString}.csv`;
 
-  const csvString = csvRows.join("\n");
+  const csvString = "\uFEFF" + csvRows.join("\n");
   const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
