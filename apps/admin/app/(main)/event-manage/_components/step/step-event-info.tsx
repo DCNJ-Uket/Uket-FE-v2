@@ -1,26 +1,72 @@
 "use client";
 
-import { Button } from "@ui/components/ui/button";
-import { ArrowLeftIcon, ArrowRightIcon } from "@ui/components/ui/icon";
-import { Input } from "@ui/components/ui/input";
-import { Label } from "@ui/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@ui/components/ui/select";
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@ui/components/ui/form";
+import { FieldValues, useFormContext } from "react-hook-form";
+import BannerImageField from "../step-event/banner-image-field";
+import ContactField from "../step-event/contact-field";
 import EventEditor from "../editor/event-editor";
-import ImageUploader from "../image-uploader";
+import PosterImageField from "../step-event/poster-image-field";
+import ThumbnailImageField from "../step-event/thumbnail-image-field";
+import StepController from "./step-controller";
 
 interface StepEventInfoProps {
   onPrev: () => void;
-  onNext: () => void;
+  onNext: (
+    values: Pick<
+      FieldValues,
+      "details" | "contact" | "uketEventImageId" | "thumbnailImageId"
+    > & {
+      banners?: FieldValues["banners"];
+    },
+  ) => void;
 }
 
 export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
+  const { control, register, trigger, watch, setValue, getValues } =
+    useFormContext();
+  const allFieldValues = watch();
+
+  const handleNext = async () => {
+    const isValid = await trigger(
+      [
+        "details.information",
+        "details.caution",
+        "contact.type",
+        "contact.content",
+        "uketEventImageId.file",
+        "thumbnailImageId.file",
+        "banners.[0].file",
+      ],
+      {
+        shouldFocus: true,
+      },
+    );
+
+    if (!isValid) return;
+
+    const selectedValues = {
+      details: {
+        information: allFieldValues.details.information,
+        caution: allFieldValues.details.caution,
+      },
+      contact: {
+        type: allFieldValues.contact.type,
+        content: allFieldValues.contact.content,
+        link: allFieldValues.contact.link,
+      },
+      uketEventImageId: allFieldValues.uketEventImageId,
+      thumbnailImageId: allFieldValues.thumbnailImageId,
+      banners: allFieldValues.banners,
+    };
+
+    onNext(selectedValues);
+  };
+
   return (
     <main className="flex w-full flex-col gap-2">
       <section className="flex w-full bg-white shadow-sm p-11 grow rounded-lg flex-col gap-6">
@@ -31,84 +77,61 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
         </header>
         <section className="flex gap-12">
           <aside className="flex flex-col gap-6 basis-1/2">
-            <div className="flex flex-col gap-2">
-              <Label className="text-[#8989A1] text-base font-normal">
-                공연 상세 정보
-              </Label>
-              <EventEditor />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label className="text-[#8989A1] text-base font-normal">
-                주의 사항
-              </Label>
-              <EventEditor />
-            </div>
+            <FormField
+              control={control}
+              name="details.information"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2">
+                  <FormLabel className="text-[#8989A1] text-base font-normal">
+                    공연 상세 정보
+                  </FormLabel>
+                  <FormControl>
+                    <EventEditor field={field} id={field.name} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="details.caution"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2">
+                  <FormLabel className="text-[#8989A1] text-base font-normal">
+                    주의 사항
+                  </FormLabel>
+                  <FormControl>
+                    <EventEditor field={field} id={field.name} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </aside>
           <aside className="flex basis-1/2 gap-12">
             <aside className="flex flex-col gap-6 basis-1/2">
-              <div className="flex flex-col gap-2">
-                <Label className="text-[#8989A1] text-base font-normal">
-                  공연 썸네일 이미지
-                </Label>
-                <ImageUploader maxFiles={1} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label className="text-[#8989A1] text-base font-normal">
-                  메인 배너 이미지
-                </Label>
-                <ImageUploader maxFiles={2} />
-              </div>
+              <ThumbnailImageField
+                control={control}
+                onSetValue={setValue}
+                onGetValue={getValues}
+              />
+              <BannerImageField
+                control={control}
+                onRegister={register}
+                onSetValue={setValue}
+                onGetValue={getValues}
+              />
             </aside>
             <aside className="flex flex-col gap-6 basis-1/2">
-              <div className="flex flex-col gap-2">
-                <Label className="text-[#8989A1] text-base font-normal">
-                  공연 상세 이미지 {"(ex.포스터)"}
-                </Label>
-                <ImageUploader maxFiles={1} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label className="text-[#8989A1] text-base font-normal">
-                  문의처 {"(sns, 담당자 연락처)"}
-                </Label>
-                <div className="flex border rounded-lg border-formInput overflow-hidden">
-                  <Select defaultValue={"인스타그램"}>
-                    <SelectTrigger className="w-40 border-r border-formInput">
-                      <SelectValue placeholder="문의처" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="인스타그램">인스타그램</SelectItem>
-                        <SelectItem value="카카오톡">카카오톡</SelectItem>
-                        <SelectItem value="연락처">연락처</SelectItem>
-                        <SelectItem value="기타">기타</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <Input className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" />
-                </div>
-              </div>
+              <PosterImageField
+                control={control}
+                onSetValue={setValue}
+                onGetValue={getValues}
+              />
+              <ContactField control={control} />
             </aside>
           </aside>
         </section>
       </section>
-      <footer className="flex justify-between">
-        <Button
-          variant="ghost"
-          className="hover:bg-gray-200 text-[#8989A1] flex gap-1"
-          onClick={onPrev}
-        >
-          <ArrowLeftIcon size={16} strokeWidth={3} />
-          이전으로
-        </Button>
-        <Button
-          variant="ghost"
-          className="hover:bg-gray-200 text-[#8989A1] flex gap-1"
-          onClick={onNext}
-        >
-          다음으로
-          <ArrowRightIcon size={16} strokeWidth={3} />
-        </Button>
-      </footer>
+      <StepController onPrev={onPrev} onNext={handleNext} />
     </main>
   );
 }

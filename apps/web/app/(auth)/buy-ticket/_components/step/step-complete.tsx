@@ -8,12 +8,12 @@ import {
 } from "@ui/components/ui/activity";
 
 import { Button } from "@ui/components/ui/button";
-import { useQueryDepositurl } from "@uket/api/queries/reservation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 
+import { useQueryDepositurl } from "@uket/api/queries/reservation";
 import { handleClipboard } from "../../../../../utils/clipboard";
 
 interface StepCompleteProps {
@@ -49,10 +49,10 @@ export default function StepComplete({
             <div className="z-20 mt-10 flex flex-col justify-start gap-5 text-center">
               <h1 className="text-[23px] font-black">
                 <p>예매 정보가 등록되었습니다.</p>
-                <p>입금 후 예매가 완료됩니다.</p>
+                <p>입금 후 예매가 확정됩니다.</p>
               </h1>
               <h6 className="text-desc text-base font-medium">
-                공연 티켓가 ₩{deposit.ticketPrice}
+                티켓가 {deposit.ticketPrice.toLocaleString()}원
               </h6>
               <div className="flex items-center justify-center gap-2">
                 <div className="text-base font-normal text-[#8989A1]">

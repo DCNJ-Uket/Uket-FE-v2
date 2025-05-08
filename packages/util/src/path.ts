@@ -36,7 +36,7 @@ const ADMIN_DYNAMIC_AUTH_REQUIRED_PATH = [
   /^\/users\/([^/]+)$/,
   /^\/uket-event-registrations\/([^/]+)$/,
   /^\/uket-event-registrations\/([^/]+)\/status\/([^/]+)$/,
-  /^\/uket-event-registrations\/organiztaions\/([^/]+)\/event-type\/([^/]+)$/,
+  /^\/uket-event-registrations\/organizations\/([^/]+)\/event-type\/([^/]+)$/,
   /^\/(\d+)\/status\/([^/]+)$/,
 ];
 

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "cookies-next": "^5.1.0",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.11",
     "next": "^15.1.6",
     "react-cookie": "^7.1.4"

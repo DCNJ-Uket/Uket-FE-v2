@@ -9,8 +9,8 @@ import { Command, createSuggestionItems, renderItems } from "novel";
 
 export const suggestionItems = createSuggestionItems([
   {
-    title: "Text",
-    description: "Just start typing with plain text.",
+    title: "텍스트",
+    description: "",
     searchTerms: ["p", "paragraph"],
     icon: <Text size={18} />,
     command: ({ editor, range }) => {
@@ -23,8 +23,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 1",
-    description: "Big section heading.",
+    title: "제목1",
+    description: "",
     searchTerms: ["title", "big", "large"],
     icon: <Heading1 size={18} />,
     command: ({ editor, range }) => {
@@ -37,8 +37,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 2",
-    description: "Medium section heading.",
+    title: "제목2",
+    description: "",
     searchTerms: ["subtitle", "medium"],
     icon: <Heading2 size={18} />,
     command: ({ editor, range }) => {
@@ -51,8 +51,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 3",
-    description: "Small section heading.",
+    title: "제목3",
+    description: "",
     searchTerms: ["subtitle", "small"],
     icon: <Heading3 size={18} />,
     command: ({ editor, range }) => {
@@ -65,8 +65,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Bullet List",
-    description: "Create a simple bullet list.",
+    title: "리스트",
+    description: "",
     searchTerms: ["unordered", "point"],
     icon: <List size={18} />,
     command: ({ editor, range }) => {
