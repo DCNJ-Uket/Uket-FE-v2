@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Form } from "@ui/components/ui/form";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import {
   BaseSchema,
   EventInfoSchema,
@@ -24,6 +27,7 @@ const StepPaymentInfo = dynamic(() => import("./step/step-payment-info"), {
 
 export default function EventAddSection() {
   const { form, onSubmit } = useAddEventForm();
+  const searchParams = useSearchParams();
 
   const funnel = useFunnel({
     id: "event-add",
@@ -44,6 +48,15 @@ export default function EventAddSection() {
     },
   });
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const initialStep = params.get("event-add.step");
+
+    if (initialStep) {
+      funnel.history.replace("기본정보");
+    }
+  }, []);
+  
   return (
     <section className="w-full h-3/4 rounded-lg flex">
       <Form {...form}>
