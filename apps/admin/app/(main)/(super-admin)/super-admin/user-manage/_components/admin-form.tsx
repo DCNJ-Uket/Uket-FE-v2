@@ -22,6 +22,7 @@ import {
 } from "@ui/components/ui/select";
 import { NewAdminFormType } from "../../../../../../hooks/use-new-admin-form";
 import SelectorOrganization from "./selector-organization";
+import { useMemo } from "react";
 
 interface AdminFormProps {
   form: NewAdminFormType;
@@ -29,6 +30,15 @@ interface AdminFormProps {
 }
 
 export default function AdminForm({ form, onSubmit }: AdminFormProps) {
+  const formatPhoneNumber = useMemo(
+    () => (value: string) => {
+      const cleaned = value.replace(/\D/g, "");
+      const match = cleaned.match(/^([\d]{3})([\d]{4})([\d]{4})$/);
+      return match ? `${match[1]}-${match[2]}-${match[3]}` : value;
+    },
+    [],
+  );
+
   return (
     <section>
       <Form {...form}>
@@ -73,6 +83,29 @@ export default function AdminForm({ form, onSubmit }: AdminFormProps) {
                       autoComplete="off"
                       className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-brand placeholder:text-[#8989a1] border-formInput"
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid w-full items-center gap-1.5">
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>전화번호</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      id="phone"
+                      placeholder="전화번호를 입력하세요."
+                      autoComplete="off"
+                      className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-brand placeholder:text-[#8989a1] border-formInput"
+                      {...field}
+                      value={formatPhoneNumber(field.value) || ""}
                     />
                   </FormControl>
                   <FormMessage />
