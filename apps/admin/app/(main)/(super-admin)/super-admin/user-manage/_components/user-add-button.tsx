@@ -13,11 +13,13 @@ import { useState } from "react";
 import { useNewAdminForm } from "../../../../../../hooks/use-new-admin-form";
 import AdminForm from "./admin-form";
 
-export default function UserAddButton() {
+export default function UserAddButton({ page }: { page: number }) {
   const [open, setOpen] = useState(false);
-  const { form, onSubmit } = useNewAdminForm();
+  const { form, onSubmit } = useNewAdminForm({ page });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (Object.keys(form.formState.errors).length > 0) return;
+    
     form.handleSubmit(onSubmit)();
     setOpen(false);
     form.reset();
