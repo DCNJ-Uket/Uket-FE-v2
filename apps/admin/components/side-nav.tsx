@@ -11,14 +11,14 @@ import LogoutModal from "./logout-modal";
 function NavLink({ href, title }: { href: string; title: string }) {
   const pathname = usePathname();
   const isQRScan = href === "/qr-scan";
-
+  
   return (
     <Link
       key={href}
       href={href}
       className={cn(
         "flex items-center text-lg text-[#8989A1] hover:text-black transition-colors duration-150 h-fit px-3",
-        pathname === href && "font-bold text-black border-l-2 border-black",
+        pathname.startsWith(href) && "font-bold text-black border-l-2 border-black",
         isQRScan && "disabled cursor-not-allowed pointer-events-none",
       )}
       aria-disabled={isQRScan}
