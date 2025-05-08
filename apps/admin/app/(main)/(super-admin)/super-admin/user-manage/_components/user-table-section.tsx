@@ -13,9 +13,16 @@ export type Entry = Content;
 
 export const columns: ColumnDef<Entry>[] = [
   {
-    accessorKey: "id",
     header: "번호",
     id: "id",
+    cell: ({ row, table }) => {
+      return (
+        table.getState().pagination.pageIndex *
+          table.getState().pagination.pageSize +
+        row.index +
+        1
+      );
+    },
   },
   {
     accessorKey: "name",

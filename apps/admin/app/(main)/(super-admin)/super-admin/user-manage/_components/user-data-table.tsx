@@ -52,6 +52,12 @@ export default function UserDataTable<TData, TValue>({
         pageSize: 10,
       },
     },
+    state: {
+      pagination: {
+        pageIndex: pageIndex - 1,
+        pageSize: 10,
+      },
+    },
   });
 
   return (
