@@ -64,7 +64,7 @@ export default function StepPhone({
               name="userPhone"
               render={({ field }) => (
                 <div className="flex h-full flex-col justify-between">
-                  <FormItem className="container">
+                  <FormItem className="container px-6">
                     <FormControl>
                       <Input
                         {...field}
