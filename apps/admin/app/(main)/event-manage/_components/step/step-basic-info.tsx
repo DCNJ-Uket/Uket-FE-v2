@@ -7,7 +7,6 @@ import TicketCalendarField from "../step-basic/ticket-calendar-field";
 import TicketCountField from "../step-basic/ticket-count-field";
 import ZipcodeField from "../step-basic/zipcode-field";
 import StepController from "./step-controller";
-
 interface StepBasicInfoProps {
   onNext: (
     values: Pick<
