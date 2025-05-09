@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { useEffect } from "react";
 import { FieldValues, useFormContext, useWatch } from "react-hook-form";
 import { useMutationUploadImage } from "../../../../../../../packages/api/src/mutations/use-mutation-upload-image";
 import {
@@ -79,6 +81,22 @@ export default function StepPaymentInfo({
     });
   };
 
+  useEffect(() => {
+    if (isFree) {
+      setValue("paymentInfo.ticketPrice", 0);
+      setValue("paymentInfo.bankCode", "");
+      setValue("paymentInfo.accountNumber", "");
+      setValue("paymentInfo.depositorName", "");
+      setValue("paymentInfo.depositUrl", "");
+    } else {
+      setValue("paymentInfo.ticketPrice", 100);
+      setValue("paymentInfo.bankCode", undefined);
+      setValue("paymentInfo.accountNumber", undefined);
+      setValue("paymentInfo.depositorName", undefined);
+      setValue("paymentInfo.depositUrl", undefined);
+    }
+  }, [isFree]);
+  
   return (
     <main className="flex w-full">
       <form

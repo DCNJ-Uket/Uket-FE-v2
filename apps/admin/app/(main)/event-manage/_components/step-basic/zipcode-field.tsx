@@ -109,6 +109,7 @@ export default function ZipcodeField({
                 <Input
                   type="text"
                   className="border-formInput peer pe-9"
+                  placeholder="상세 주소 입력"
                   {...field}
                 />
               </FormControl>
