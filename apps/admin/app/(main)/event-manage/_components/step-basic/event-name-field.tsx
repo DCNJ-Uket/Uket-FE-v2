@@ -61,7 +61,7 @@ export default function EventNameField({
               <Input
                 type="text"
                 className="border-formInput"
-                placeholder="공연명"
+                placeholder={labelTitle}
                 {...field}
                 value={field.value || ""}
               />
