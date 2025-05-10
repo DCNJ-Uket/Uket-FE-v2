@@ -86,7 +86,7 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
               />
             </aside>
             <aside className="basis-1/2 flex flex-col gap-4">
-              <TicketCalendarField control={control} />
+              <TicketCalendarField control={control} eventType={eventType} />
               <ZipcodeField control={control} onSetValue={setValue} />
               <TicketCountField control={control} />
             </aside>
