@@ -50,6 +50,7 @@ export const columns = (pageIndex: number): ColumnDef<Entry>[] => [
             status={ticketStatus}
             name={depositorName}
             page={pageIndex}
+            changeable
           />
         </div>
       );
