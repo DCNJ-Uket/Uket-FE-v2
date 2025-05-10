@@ -31,11 +31,39 @@ export default function StatusSelector({
   changeable = false,
 }: TicketStatusSelectorProps) {
   const stateInfo = isTicket ? TICKET_STATUS_INFO : EVENT_STATUS_INFO;
+  const currentItem = stateInfo.find(item => item.text === status)!;
+
+  const getFilteredOptions = () => {
+    let options: typeof stateInfo = [];
+
+    if (!isTicket) {
+      switch (currentItem.text) {
+        case "검수 진행":
+          options = stateInfo.filter(item => item.text === "검수 완료");
+          break;
+        case "검수 완료":
+          options = stateInfo.filter(item => item.text === "등록 완료");
+          break;
+        case "등록 완료":
+          options = stateInfo.filter(
+            item => item.text === "검수 완료" || item.text === "등록 취소",
+          );
+          break;
+        default:
+          options = [];
+      }
+
+      if (!options.find(item => item.text === currentItem.text)) {
+        options = [currentItem, ...options];
+      }
+      return options;
+    }
+
+    return stateInfo;
+  };
 
   const ticketMutation = useMutationChangeTicketStatus(page);
   const eventMutation = useMutationChangeEventStatus(page);
-
-  const currentItem = stateInfo.find(item => item.text === status)!;
 
   const [selectedText, setSelectedText] = useState<string>(currentItem.text);
   const [isOpen, setIsOpen] = useState(false);
@@ -81,19 +109,19 @@ export default function StatusSelector({
               className="h-7 max-w-28 gap-2 rounded-lg px-2 py-px leading-tight text-[#2F2F37]"
               style={{ backgroundColor: currentItem.color }}
             >
-              <SelectValue placeholder={currentItem.text} />
+              <SelectValue>{currentItem.text}</SelectValue>
             </SelectTrigger>
           ) : (
             <NonSelectTrigger
               className="h-7 max-w-28 gap-2 rounded-lg px-2 py-px leading-tight text-[#2F2F37]"
               style={{ backgroundColor: currentItem.color }}
             >
-              <SelectValue placeholder={currentItem.text} />
+              <SelectValue>{currentItem.text}</SelectValue>
             </NonSelectTrigger>
           )}
 
           <SelectContent>
-            {stateInfo.map(item => (
+            {getFilteredOptions().map(item => (
               <SelectItem key={item.value} value={item.text}>
                 {item.text}
               </SelectItem>
