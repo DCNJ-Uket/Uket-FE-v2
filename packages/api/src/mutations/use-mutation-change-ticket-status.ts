@@ -14,6 +14,10 @@ export const useMutationChangeTicketStatus = (page: number) => {
     mutationFn: async ({ ticketId, status }: ChangeTicketParams) => {
       const { data } = await fetcherAdmin.patch<ChangeTicketResponse>(
         `/${ticketId}/status/${status}`,
+        undefined,
+        {
+          mode: "TOAST_UI",
+        },
       );
 
       return data;
