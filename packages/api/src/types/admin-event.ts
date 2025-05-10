@@ -1,6 +1,11 @@
-export type EventStatus = "검수 진행" | "검수 완료" | "행사 완료" | "등록 완료" | "등록 취소";
+export type EventStatus =
+  | "검수 진행"
+  | "검수 완료"
+  | "행사 완료"
+  | "등록 완료"
+  | "등록 취소";
 
-interface EventStatusInfo {
+export interface EventStatusInfo {
   value: string;
   text: EventStatus | "검수 진행";
   color: string;

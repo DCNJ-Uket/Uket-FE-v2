@@ -1,6 +1,6 @@
 import { useMutationChangeEventStatus } from "@uket/api/mutations/use-mutation-change-event-status";
 import { useMutationChangeTicketStatus } from "@uket/api/mutations/use-mutation-change-ticket-status";
-import { EVENT_STATUS_INFO } from "@uket/api/types/admin-event";
+import { EVENT_STATUS_INFO, EventStatus } from "@uket/api/types/admin-event";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
 import {
   NonSelectTrigger,
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@uket/ui/components/ui/select";
 import { useState } from "react";
+import { getNextEventStatusOptions } from "../hooks/use-next-event-options";
 import StatusChangeDialog from "./status-change-dialog";
 
 interface TicketStatusSelectorProps {
@@ -34,32 +35,9 @@ export default function StatusSelector({
   const currentItem = stateInfo.find(item => item.text === status)!;
 
   const getFilteredOptions = () => {
-    let options: typeof stateInfo = [];
-
-    if (!isTicket) {
-      switch (currentItem.text) {
-        case "검수 진행":
-          options = stateInfo.filter(item => item.text === "검수 완료");
-          break;
-        case "검수 완료":
-          options = stateInfo.filter(item => item.text === "등록 완료");
-          break;
-        case "등록 완료":
-          options = stateInfo.filter(
-            item => item.text === "검수 완료" || item.text === "등록 취소",
-          );
-          break;
-        default:
-          options = [];
-      }
-
-      if (!options.find(item => item.text === currentItem.text)) {
-        options = [currentItem, ...options];
-      }
-      return options;
-    }
-
-    return stateInfo;
+    return isTicket
+      ? TICKET_STATUS_INFO
+      : getNextEventStatusOptions(currentItem.text as EventStatus);
   };
 
   const ticketMutation = useMutationChangeTicketStatus(page);
