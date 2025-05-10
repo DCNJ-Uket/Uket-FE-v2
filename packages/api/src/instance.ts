@@ -39,10 +39,9 @@ interface RequestConfigWithBoundary extends RequestConfigBase {
 export type RequestConfig = RequestConfigWithToast | RequestConfigWithBoundary;
 
 const BASE_URL = `https://api.uket.co.kr`;
-const SERVER_VERSION = "/api/v1";
 
 const instance = axios.create({
-  baseURL: `${BASE_URL}${SERVER_VERSION}`,
+  baseURL: `${BASE_URL}`,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

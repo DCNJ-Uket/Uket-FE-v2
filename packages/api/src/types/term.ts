@@ -3,6 +3,9 @@ export type Term = {
   name: string;
   type: "MANDATORY" | "OPTIONAL";
   link: string;
+  documentId: number;
+  documentNo: number;
+  documentVersion: number;
   isAgreed: boolean;
 };
 
@@ -10,9 +13,11 @@ export type TermListResponse = {
   items: Term[];
 };
 
-export type TermAgreedParams = {
+export type TermAgreedParams = Pick<
+  Term,
+  "isAgreed" | "documentId" | "type"
+> & {
   termId: number;
-  isAgreed: boolean;
 };
 
 export type TermAgreedResponse = {
