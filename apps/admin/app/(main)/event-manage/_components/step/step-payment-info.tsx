@@ -82,7 +82,7 @@ export default function StepPaymentInfo({
   };
 
   useEffect(() => {
-    if (isFree) {
+    if (isFree === "무료") {
       setValue("paymentInfo.ticketPrice", 0);
       setValue("paymentInfo.bankCode", "");
       setValue("paymentInfo.accountNumber", "");
@@ -96,7 +96,7 @@ export default function StepPaymentInfo({
       setValue("paymentInfo.depositUrl", undefined);
     }
   }, [isFree]);
-  
+
   return (
     <main className="flex w-full">
       <form
