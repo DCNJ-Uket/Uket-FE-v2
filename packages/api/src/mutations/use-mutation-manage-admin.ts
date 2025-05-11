@@ -12,13 +12,13 @@ export const useMutationAddAdmin = (page: number) => {
     mutationFn: async ({
       name,
       email,
-      phone,
+      phoneNumber,
       organization,
       authority,
     }: {
       name: string;
       email: string;
-      phone: string;
+      phoneNumber: string;
       organization: string;
       authority: string;
     }) => {
@@ -26,7 +26,7 @@ export const useMutationAddAdmin = (page: number) => {
         name,
         email,
         organization,
-        phone,
+        phoneNumber,
         isSuperAdmin: authority === "관리자",
       });
 

@@ -20,7 +20,7 @@ const FormSchema = z.object({
   email: z
     .string({ required_error: "이메일을 입력해 주세요." })
     .email({ message: "이메일 형식에 맞게 입력해 주세요." }),
-  phone: z
+  phoneNumber: z
     .string({ required_error: "전화번호를 입력해 주세요." })
     .transform(val => {
       const cleaned = val.replace(/[^\d]/g, "");
@@ -55,7 +55,7 @@ export const useNewAdminForm = ({ page }: { page: number }) => {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
+      phoneNumber: "",
       organization: undefined,
       authority: undefined,
     },
