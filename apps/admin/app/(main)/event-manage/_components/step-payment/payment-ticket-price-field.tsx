@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button } from "@ui/components/ui/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@ui/components/ui/form";
-import { CircleIcon } from "@ui/components/ui/icon";
+import { CircleIcon, MinusIcon, PlusIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@ui/components/ui/radio-group";
 import {
@@ -35,7 +36,7 @@ export default function PaymentTicketPriceField({
         control={control}
         name="paymentInfo.isFree"
         render={({ field }) => (
-          <FormItem className="flex flex-col gap-2">
+          <FormItem className="flex flex-col gap-2 shrink-0">
             <FormLabel className="text-[#8989A1] text-base font-normal">
               티켓 가격
             </FormLabel>
@@ -90,31 +91,59 @@ export default function PaymentTicketPriceField({
         control={control}
         name="paymentInfo.ticketPrice"
         render={({ field }) => (
-          <FormItem className="flex flex-col gap-2 grow">
+          <FormItem className="flex flex-col gap-2 w-full">
             <FormControl>
-              <div className="relative">
-                <Input
-                  type="number"
-                  className="disabled:bg-[#f2f2f2] border-formInput peer pe-12"
-                  disabled={isFreeOption === "무료"}
-                  min={0}
-                  max={100000}
-                  {...field}
-                  onChange={e => {
-                    const number = Number(e.target.value);
-
-                    if (number < 0) {
-                      field.onChange(0);
-                    } else if (number > 100000) {
-                      field.onChange(100000);
-                    } else {
-                      field.onChange(number);
-                    }
+              <div className="w-full relative inline-flex items-center overflow-hidden border border-formInput rounded-md">
+                <Button
+                  type="button"
+                  size={"icon"}
+                  variant={"outline"}
+                  className="hover:bg-gray-100 rounded-none border-none disabled:bg-[#f2f2f2]"
+                  onClick={() => {
+                    field.onChange(Number(field.value) - 100 || 100);
                   }}
-                />
-                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
-                  원
-                </span>
+                  disabled={field.value <= 100 || isFreeOption === "무료"}
+                >
+                  <MinusIcon size={12} aria-hidden="true" />
+                </Button>
+                <div className="relative grow">
+                  <Input
+                    type="number"
+                    className="disabled:bg-[#f2f2f2] w-full peer pr-12 rounded-none border-t-0 border-b-0 border-formInput focus-visible:ring-offset-0 focus-visible:ring-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:margin-0"
+                    {...field}
+                    min={100}
+                    max={1000000}
+                    step={100}
+                    disabled={isFreeOption === "무료"}
+                    value={field.value || 100}
+                    onChange={e => {
+                      const number = Number(e.target.value);
+
+                      if (number < 100) {
+                        field.onChange(100);
+                      } else if (number > 1000000) {
+                        field.onChange(1000000);
+                      } else {
+                        field.onChange(number);
+                      }
+                    }}
+                  />
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+                    원
+                  </span>
+                </div>
+                <Button
+                  type="button"
+                  size={"icon"}
+                  variant={"outline"}
+                  className="hover:bg-gray-100 rounded-none border-none border-l border-formInput disabled:bg-[#f2f2f2]"
+                  onClick={() => {
+                    field.onChange(Number(field.value) + 100 || 100);
+                  }}
+                  disabled={field.value >= 1000000 || isFreeOption === "무료"}
+                >
+                  <PlusIcon size={12} aria-hidden="true" />
+                </Button>
               </div>
             </FormControl>
           </FormItem>

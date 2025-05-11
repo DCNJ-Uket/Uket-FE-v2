@@ -20,9 +20,11 @@ import { format, isSameDay } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useMemo } from "react";
 import { Control, FieldValues } from "react-hook-form";
+import StepTooltip from "../step/step-tooltip";
 
 interface TicketCalendarFieldProps {
   control: Control<FieldValues, any>;
+  eventType: "축제" | "공연";
 }
 
 const timeRangeData = [
@@ -37,7 +39,13 @@ const timeRangeData = [
 
 export default function TicketCalendarField({
   control,
+  eventType,
 }: TicketCalendarFieldProps) {
+  const tooltipContent =
+    eventType === "축제"
+      ? "판매 기간은 가장 빠른 축제 날짜 이전에 마감 설정을 권장합니다. 마지막 축제일 기준으로 판매 기간 설정 시, 예매 불가한 티켓은 축제 일시 기준으로 자동 판매 종료됩니다. 축제 날짜별 판매 기간을 세부적으로 설정하려면 날짜별로 티켓을 따로 생성해 주세요."
+      : "판매 기간은 가장 빠른 공연 날짜 이전에 마감 설정을 권장합니다. 마지막 공연일 기준으로 판매 기간 설정 시, 예매 불가한 티켓은 공연 일시 기준으로 자동 판매 종료됩니다. 공연 날짜별 판매 기간을 세부적으로 설정하려면 날짜별로 티켓을 따로 생성해 주세요.";
+
   return (
     <FormField
       control={control}
@@ -62,8 +70,9 @@ export default function TicketCalendarField({
         return (
           <div className="flex flex-col gap-2">
             <FormItem className="grid w-full items-center">
-              <FormLabel className="text-[#8989A1] text-base font-normal">
-                티켓 판매 기간
+              <FormLabel className="text-[#8989A1] text-base font-normal flex items-center gap-1">
+                <span>티켓 판매 기간</span>
+                <StepTooltip content={<p>{tooltipContent}</p>} />
               </FormLabel>
               <Popover>
                 <PopoverTrigger asChild>

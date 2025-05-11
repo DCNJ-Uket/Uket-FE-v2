@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@ui/components/ui/form";
 import { Input } from "@ui/components/ui/input";
 import Image from "next/image";
@@ -33,6 +34,7 @@ export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFie
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />

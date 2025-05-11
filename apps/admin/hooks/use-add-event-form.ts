@@ -51,24 +51,33 @@ export const BaseSchema = z
       link: z.string().url().or(z.literal("")),
     }),
     uketEventImageId: z.object({
-      file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
-        message: "이미지를 추가해 주세요.",
-      }),
+      file:
+        typeof window === "undefined"
+          ? z.any()
+          : z.instanceof(File, {
+              message: "이미지를 추가해 주세요.",
+            }),
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
     thumbnailImageId: z.object({
-      file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
-        message: "이미지를 추가해 주세요.",
-      }),
+      file:
+        typeof window === "undefined"
+          ? z.any()
+          : z.instanceof(File, {
+              message: "이미지를 추가해 주세요.",
+            }),
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
     banners: z.array(
       z.object({
-        file: typeof window === "undefined" ? z.any() : z.instanceof(File, {
-          message: "이미지를 추가해 주세요.",
-        }),
+        file:
+          typeof window === "undefined"
+            ? z.any()
+            : z.instanceof(File, {
+                message: "이미지를 추가해 주세요.",
+              }),
         previewImage: z.string().nullish(),
         link: z.string().url().or(z.literal("")),
         id: z.string().nullish(),
@@ -76,19 +85,30 @@ export const BaseSchema = z
     ),
     paymentInfo: z.object({
       isFree: z.enum(["무료", "유료"]).default("무료"),
-      ticketPrice: z.number().default(0),
-      bankCode: z.string({
-        message: "은행을 선택해 주세요.",
-      }).or(z.literal("")),
-      accountNumber: z.string({
-        message: "계좌번호를 입력해 주세요.",
-      }).or(z.literal("")),
-      depositorName: z.string({
-        message: "예금주를 입력해 주세요.",
-      }).or(z.literal("")),
-      depositUrl: z.string().url({
-        message: "입금 정보를 입력해 주세요.",
-      }).or(z.literal("")),
+      ticketPrice: z.number().default(100),
+      bankCode: z
+        .string({
+          message: "입금 은행을 선택해 주세요.",
+        })
+        .or(z.literal("")),
+      accountNumber: z
+        .string({
+          message: "입금 계좌를 입력해 주세요",
+        })
+        .or(z.literal("")),
+      depositorName: z
+        .string({
+          message: "예금주를 입력해 주세요",
+        })
+        .or(z.literal("")),
+      depositUrl: z
+        .string({
+          message: "송금 코드 링크를 입력해 주세요",
+        })
+        .url({
+          message: "형식에 맞지 않습니다.",
+        })
+        .or(z.literal("")),
     }),
   })
   .partial();
@@ -159,11 +179,11 @@ export const useAddEventForm = () => {
       ],
       paymentInfo: {
         isFree: "무료",
-        ticketPrice: 0,
-        bankCode: "",
-        accountNumber: "",
-        depositorName: "",
-        depositUrl: "",
+        ticketPrice: 100,
+        bankCode: undefined,
+        accountNumber: undefined,
+        depositorName: undefined,
+        depositUrl: undefined,
       },
     },
     reValidateMode: "onChange",
