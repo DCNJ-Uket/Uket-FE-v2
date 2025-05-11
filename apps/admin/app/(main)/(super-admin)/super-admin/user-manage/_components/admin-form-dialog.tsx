@@ -113,7 +113,7 @@ export default function AdminFormDialog({
             <div className="grid w-full items-center gap-1.5">
               <FormField
                 control={form.control}
-                name="phone"
+                name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>전화번호</FormLabel>
