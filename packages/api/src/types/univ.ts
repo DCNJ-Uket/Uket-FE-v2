@@ -9,23 +9,19 @@ export type FestivalInfo = {
 
 export type FestivalInfoResponse = FestivalInfo;
 
-export type FestivalUniversity = {
-  id: number;
-  name: string;
+export type TicketingStatus = "티켓팅_진행중" | "오픈_예정" | "티켓팅_종료";
+
+export type UketEventItem = {
+  eventId: number;
   eventName: string;
-  logoUrl: string;
-  startDateTime: string;
+  eventThumbnailImagePath: string;
+  eventStartDate: string;
+  eventEndDate: string;
+  ticketingStartDate: string;
+  ticketingEndDate: string;
+  ticketingStatus: TicketingStatus;
 };
 
-export type FestivalUniversityResponse = {
-  items: FestivalUniversity[];
-};
-
-export type UniversityInfo = {
-  universityId: number;
-  name: string;
-};
-
-export type UniversityResponse = {
-  items: UniversityInfo[];
+export type UketEventListResponse = {
+  events: UketEventItem[];
 };
