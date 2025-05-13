@@ -13,8 +13,8 @@ import {
 import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
 import {
-  FestivalInfoResponse,
   TicketingStatus,
+  UketEventDetailResponse,
   UketEventItem,
   UketEventListResponse,
 } from "../types/univ";
@@ -26,7 +26,7 @@ export type UketEventListRequestParams = {
 const formateEventDate = (start: string, end: string) => {
   const eventDayLabel = formatEventDayLabel(start);
   const eventDuration = differenceInDays(end, start);
-  
+
   switch (eventDayLabel) {
     case "오늘":
     case "내일":
@@ -114,9 +114,9 @@ const calculateLeftTimeBasedOnStatus = (
   }
 };
 
-export const festival = createQueryKeys("festival", {
+export const uketEvent = createQueryKeys("uket-event", {
   list: ({ type }: UketEventListRequestParams) => ({
-    queryKey: ["festival-list", type],
+    queryKey: ["uket-event-list", type],
     queryFn: async () => {
       const { data } = await fetcher.get<UketEventListResponse>(
         `/uket-events?type=${type}`,
@@ -125,10 +125,10 @@ export const festival = createQueryKeys("festival", {
     },
   }),
   detail: (id: UketEventItem["eventId"]) => ({
-    queryKey: ["festival-detail"],
+    queryKey: ["uket-event-detail"],
     queryFn: async () => {
-      const { data } = await fetcher.get<FestivalInfoResponse>(
-        `/universities/${id}/event`,
+      const { data } = await fetcher.get<UketEventDetailResponse>(
+        `/uket-events/${id}`,
       );
       return data;
     },
@@ -140,9 +140,9 @@ export const festival = createQueryKeys("festival", {
  * @param {UketEventListRequestParams} params
  * @returns {FestivalUniversity[]} 축제 목록 배열
  */
-export const useQueryFestivalList = ({ type }: UketEventListRequestParams) => {
+export const useQueryUketEventList = ({ type }: UketEventListRequestParams) => {
   return useSuspenseQuery({
-    ...festival.list({ type }),
+    ...uketEvent.list({ type }),
     select: data => {
       return data.map(item => ({
         ...item,
@@ -164,30 +164,25 @@ export const useQueryFestivalList = ({ type }: UketEventListRequestParams) => {
   });
 };
 
-/**
- * 전달된 id값을 가지는 축제의 상세 정보를 조회합니다.
- * @param {FestivalUniversity["eventId"]} id
- * @returns {FestivalInfo}
- */
-export const useQueryFestivalDetail = (id: UketEventItem["eventId"]) => {
-  return useSuspenseQuery(festival.detail(id));
+export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
+  return useSuspenseQuery(uketEvent.detail(id));
 };
 
-export const prefetchFestivalList = ({ type }: UketEventListRequestParams) => {
+export const prefetchUketEventList = ({ type }: UketEventListRequestParams) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
-    ...festival.list({ type }),
+    ...uketEvent.list({ type }),
   });
 
   return dehydrate(queryClient);
 };
 
-export const prefetchFestivalDetail = async (id: UketEventItem["eventId"]) => {
+export const prefetchUketEventDetail = async (id: UketEventItem["eventId"]) => {
   const queryClient = getQueryClient();
 
   try {
     await queryClient.fetchQuery({
-      ...festival.detail(id),
+      ...uketEvent.detail(id),
     });
 
     return { state: dehydrate(queryClient), error: null };

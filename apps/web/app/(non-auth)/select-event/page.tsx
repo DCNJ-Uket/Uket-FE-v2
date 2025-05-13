@@ -1,8 +1,8 @@
 import { HydrationBoundary } from "@uket/api";
 import {
   UketEventListRequestParams,
-  prefetchFestivalList,
-} from "@uket/api/queries/festival";
+  prefetchUketEventList,
+} from "@uket/api/queries/uket-event";
 import { Metadata } from "next";
 import PrevNavButton from "../../../components/prev-nav-button";
 import { Select_Event_Site_Config } from "../../../config/site";
@@ -25,7 +25,7 @@ export default async function Page({
   const eventType =
     ((await searchParams).type as UketEventListRequestParams["type"]) || "ALL";
   
-  const state = prefetchFestivalList({ type: eventType });
+  const state = prefetchUketEventList({ type: eventType });
 
   return (
     <HydrationBoundary state={state}>

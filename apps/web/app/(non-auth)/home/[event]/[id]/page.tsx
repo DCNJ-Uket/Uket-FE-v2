@@ -1,8 +1,8 @@
 import { Separator } from "@ui/components/ui/separator";
 import { HydrationBoundary } from "@uket/api";
 import { fetcher } from "@uket/api/instance";
-import { prefetchFestivalDetail } from "@uket/api/queries/festival";
-import { FestivalInfoResponse } from "@uket/api/types/univ";
+import { prefetchUketEventDetail } from "@uket/api/queries/uket-event";
+import { UketEventDetailResponse } from "@uket/api/types/univ";
 import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import EventSection from "./_components/event-section";
@@ -18,8 +18,8 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { id, event } = await params;
 
-  const { data } = await fetcher.get<FestivalInfoResponse>(
-    `/universities/${id}/event`,
+  const { data } = await fetcher.get<UketEventDetailResponse>(
+    `/uket-events/${id}`,
   );
 
   const images =
@@ -50,7 +50,7 @@ export default async function Page({ params }: Props) {
     redirect("/404");
   }
 
-  const { state, error } = await prefetchFestivalDetail(parseInt(id));
+  const { state, error } = await prefetchUketEventDetail(parseInt(id));
 
   if (error) {
     redirect("/404");

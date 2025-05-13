@@ -2,8 +2,8 @@
 import { Badge } from "@ui/components/ui/badge";
 import {
   UketEventListRequestParams,
-  useQueryFestivalList,
-} from "@uket/api/queries/festival";
+  useQueryUketEventList,
+} from "@uket/api/queries/uket-event";
 import Image from "next/image";
 
 interface UketEventListProps {
@@ -15,10 +15,10 @@ export default function UketEventList({
   onSelect,
   eventType,
 }: UketEventListProps) {
-  const { data } = useQueryFestivalList({ type: eventType });
+  const { data } = useQueryUketEventList({ type: eventType });
 
   return (
-    <main className="grid grow auto-rows-min grid-cols-2 items-start gap-4 md:grid-cols-2">
+    <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
       {data.length > 0 ? (
         <>
           {data.map(
@@ -35,23 +35,9 @@ export default function UketEventList({
               eventDayLabel,
               eventDate,
             }) => (
-              // <UketEventCard
-              //   key={eventId}
-              //   eventId={eventId}
-              //   eventName={eventName}
-              //   eventThumbnailImagePath={eventThumbnailImagePath}
-              //   eventStartDate={eventStartDate}
-              //   eventEndDate={eventEndDate}
-              //   ticketingStartDate={ticketingStartDate}
-              //   ticketingEndDate={ticketingEndDate}
-              //   ticketingStatus={ticketingStatus}
-              //   leftDate={leftDate}
-              //   eventDayLabel={eventDayLabel}
-              //   eventDate={eventDate}
-              // />
               <article
                 key={eventId}
-                className="flex flex-col gap-3 cursor-pointer"
+                className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
                 <div className="relative h-66 rounded-2xl overflow-hidden">
@@ -65,11 +51,11 @@ export default function UketEventList({
                 </div>
                 <div className="text-sm px-2">
                   <h3 className="font-bold font-buttonDisabled">{eventName}</h3>
-                  <div className="flex items-center gap-2">
-                    <span>{eventDate}</span>
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="shrink-0">{eventDate}</span>
                     <Badge
                       variant="outline"
-                      className="bg-transparent border-brand text-brand px-2 py-1 h-5 mt-1"
+                      className="bg-transparent border-brand text-brand px-2 py-1 h-5 mt-0.5 shrink-0 text-[10px]"
                     >
                       {"오늘"}
                     </Badge>
