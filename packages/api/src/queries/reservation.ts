@@ -11,7 +11,7 @@ import {
 } from "../types/show";
 import { SurveyResponse } from "../types/survey";
 import { DepositResponse, TicketItem } from "../types/ticket";
-import { UketEventDetail } from "../types/univ";
+import { UketEventDetail } from "../types/uket-event";
 
 export const reservation = createQueryKeys("reservation", {
   show: (id: UketEventDetail["id"]) => ({

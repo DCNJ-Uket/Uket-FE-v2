@@ -17,7 +17,7 @@ import {
   UketEventDetailResponse,
   UketEventItem,
   UketEventListResponse,
-} from "../types/univ";
+} from "../types/uket-event";
 
 export type UketEventListRequestParams = {
   type: "ALL" | "FESTIVAL" | "PERFORMANCE";

@@ -1,5 +1,5 @@
 import { fetcher } from "@uket/api/instance";
-import { UketEventListResponse } from "@uket/api/types/univ";
+import { UketEventListResponse } from "@uket/api/types/uket-event";
 import { MetadataRoute } from "next";
 
 export const dynamic = "force-dynamic";

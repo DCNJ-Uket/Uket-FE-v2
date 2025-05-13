@@ -6,7 +6,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@ui/components/ui/carousel";
-import { UketEventDetail } from "@uket/api/types/univ";
+import { UketEventDetail } from "@uket/api/types/uket-event";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";

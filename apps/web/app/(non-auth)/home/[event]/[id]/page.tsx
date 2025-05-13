@@ -2,7 +2,7 @@ import { Separator } from "@ui/components/ui/separator";
 import { HydrationBoundary } from "@uket/api";
 import { fetcher } from "@uket/api/instance";
 import { prefetchUketEventDetail } from "@uket/api/queries/uket-event";
-import { UketEventDetailResponse } from "@uket/api/types/univ";
+import { UketEventDetailResponse } from "@uket/api/types/uket-event";
 import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import EventSection from "./_components/event-section";
