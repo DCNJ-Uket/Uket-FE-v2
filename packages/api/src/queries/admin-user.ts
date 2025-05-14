@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createQueryKeys } from "@lukemorales/query-key-factory";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 import { AdminUserInfoResponse } from "../types/admin-auth";
@@ -74,6 +74,8 @@ export const prefetchAdminUserList = (
   queryClient.prefetchQuery({
     ...adminUser.list({ page, size }),
   });
+
+  return dehydrate(queryClient);
 };
 
 export const useQueryOrganizationList = () => {

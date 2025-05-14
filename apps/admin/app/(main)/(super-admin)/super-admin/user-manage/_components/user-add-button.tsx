@@ -1,42 +1,26 @@
 "use client";
 
+import { useOverlay } from "@toss/use-overlay";
 import { Button } from "@ui/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@ui/components/ui/dialog";
-import { useState } from "react";
-import { useNewAdminForm } from "../../../../../../hooks/use-new-admin-form";
-import AdminForm from "./admin-form";
+import AdminFormDialog from "./admin-form-dialog";
 
-export default function UserAddButton() {
-  const [open, setOpen] = useState(false);
-  const { form, onSubmit } = useNewAdminForm();
+interface UserAddButtonProps {
+  page: number;
+}
 
-  const handleSubmit = () => {
-    form.handleSubmit(onSubmit)();
-    setOpen(false);
-    form.reset();
-  };
+export default function UserAddButton({ page }: UserAddButtonProps) {
+  const overlay = useOverlay();
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="font-bold bg-brand hover:bg-brandHover w-44">
-          사용자 추가
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-md sm:rounded-2xl border-none" isXHidden>
-        <DialogHeader>
-          <DialogTitle className="text-lg font-bold">사용자 추가</DialogTitle>
-          <DialogDescription hidden />
-        </DialogHeader>
-        <AdminForm form={form} onSubmit={handleSubmit} />
-      </DialogContent>
-    </Dialog>
+    <Button
+      className="font-bold bg-brand hover:bg-brandHover w-44"
+      onClick={() =>
+        overlay.open(({ isOpen, close }) => (
+          <AdminFormDialog open={isOpen} onClose={close} page={page} />
+        ))
+      }
+    >
+      사용자 추가
+    </Button>
   );
 }
