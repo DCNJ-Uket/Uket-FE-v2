@@ -1,15 +1,23 @@
 export type UketEventDetail = {
-  id: number;
+  eventId: number;
   eventName: string;
+  eventType: string;
+  firstRoundStartDateTime: string;
+  lastRoundStartDateTime: string;
+  information: string;
+  detailImagePath: string;
   banners: {
     imageId: number;
     link: string;
   }[];
-  information: string;
   caution: string;
+  organization: string;
+  contact: {
+    type: string;
+    content: string;
+    link: string;
+  };
   location: string;
-  contactType: string;
-  contactContent: string;
 };
 
 export type UketEventDetailResponse = UketEventDetail;

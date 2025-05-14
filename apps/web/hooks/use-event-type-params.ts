@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { UketEventListRequestParams } from "@uket/api/queries/festival";
+import { UketEventListRequestParams } from "@uket/api/queries/uket-event";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 

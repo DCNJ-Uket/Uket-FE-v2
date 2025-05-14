@@ -165,7 +165,35 @@ export const useQueryUketEventList = ({ type }: UketEventListRequestParams) => {
 };
 
 export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
-  return useSuspenseQuery(uketEvent.detail(id));
+  return useSuspenseQuery({
+    ...uketEvent.detail(id),
+    select: data => {
+      const isSingleRound = differenceInDays(
+        data.lastRoundStartDateTime,
+        data.firstRoundStartDateTime,
+      );
+      const startDate = format(
+        data.firstRoundStartDateTime,
+        "MM.dd (E) HH:mm",
+        {
+          locale: ko,
+        },
+      );
+      const endDate = format(data.lastRoundStartDateTime, "MM.dd(E) HH:mm", {
+        locale: ko,
+      });
+      const eventDate =
+        isSingleRound === 0 ? startDate : `${startDate} ~ ${endDate}`;
+
+      const caution = data.caution.split("\n");
+      return {
+        ...data,
+        eventDate,
+        eventType: data.eventType === "PERFORMANCE" ? "공연" : "축제",
+        caution,
+      };
+    },
+  });
 };
 
 export const prefetchUketEventList = ({ type }: UketEventListRequestParams) => {
