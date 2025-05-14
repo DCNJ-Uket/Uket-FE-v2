@@ -5,13 +5,13 @@ import { prefetchUketEventDetail } from "@uket/api/queries/uket-event";
 import { UketEventDetailResponse } from "@uket/api/types/uket-event";
 import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
-import EventSection from "./_components/event-section";
+import UketEventSection from "./_components/uket-event-section";
 
 type Props = {
   params: Promise<{ event: string; id: string }>;
 };
 
-// TODO: description 및 images 설정
+// TODO: 개편된 API에 맞게 설정
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
@@ -46,7 +46,7 @@ export async function generateMetadata(
 export default async function Page({ params }: Props) {
   const { event, id } = await params;
 
-  if (!event || !id) {
+  if (!event || !id || Number(id) === -1) {
     redirect("/404");
   }
 
@@ -60,11 +60,8 @@ export default async function Page({ params }: Props) {
     <HydrationBoundary state={state}>
       <main className="w-full h-full relative flex flex-col items-center">
         <Separator className="h-3 bg-[#F2F2F2]" />
-        <main className="container mt-2 flex h-full w-full flex-col gap-3 bg-white">
-          <header className="mb-5 pt-3 text-2xl font-bold">
-            {decodeURIComponent(event)}
-          </header>
-          <EventSection />
+        <main className="mt-2 flex h-full w-full flex-col gap-3 bg-white">
+          <UketEventSection eventId={Number(id)} eventName={event} />
         </main>
       </main>
     </HydrationBoundary>
