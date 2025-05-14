@@ -82,7 +82,7 @@ export default function KakaoMap({ location }: KakaoMapProps) {
         <Map
           id="map"
           center={marker?.position}
-          className="h-60 w-full rounded-lg shadow-md sm:h-80 lg:h-96"
+          className="h-60 w-full rounded-lg shadow-md lg:h-96"
           level={3}
         >
           <MapMarker
