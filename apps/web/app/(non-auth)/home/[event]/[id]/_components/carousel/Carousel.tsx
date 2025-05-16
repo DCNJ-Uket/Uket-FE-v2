@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Card, CardContent } from "@ui/components/ui/card";
 import {
   Carousel,
   CarouselApi,
@@ -43,43 +42,38 @@ const CarouselT = ({ slides }: PropType) => {
     emblaApi.on("reInit", updateSlidesInView);
   }, [emblaApi]);
 
-  const slideComponent = !slides ? (
-    <CarouselItem>
-      <div className="p-1">
-        <Card>
-          <CardContent className="flex aspect-square items-center justify-center p-6">
-            <p className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-100 text-gray-500">
-              배너가 존재하지 않아요 😢
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    </CarouselItem>
-  ) : (
-    slides.map(({ title, url, redirectUrl }) => (
-      <CarouselItem key={url} className="basis-full">
-        <Link href={redirectUrl || "/404"} target="_blank">
-          <div className="p-1">
-            <Card className="border-none">
-              <CardContent className="relative h-60 rounded-lg p-0 shadow-md sm:h-80 lg:h-96">
-                <Image
-                  src={url}
-                  alt="축제 배너"
-                  width={100}
-                  height={100}
-                  className="block h-full w-full rounded-lg bg-gray-100 object-cover"
-                />
+  const slideComponent =
+    !slides || slides.length === 0 ? (
+      <CarouselItem className="h-60">
+        <p className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-100 text-gray-500">
+          등록된 배너가 없어요.
+        </p>
+      </CarouselItem>
+    ) : (
+      slides.map(({ id, imagePath, link }) => (
+        <CarouselItem key={id} className="basis-full">
+          <Link href={link || "/404"} target="_blank">
+            <div>
+              <div className="relative">
+                <div className="relative h-60 w-full rounded-lg p-0 sm:h-80 lg:h-96">
+                  <Image
+                    src={imagePath || "/default-event-image.png"}
+                    alt="축제 배너"
+                    width={100}
+                    height={100}
+                    className="block h-full w-full rounded-lg bg-gray-100 object-cover"
+                  />
+                </div>
                 <Indicator
-                  title={title}
+                  title={"행사 정보"}
                   className="text-desc left-3 top-3 text-xs"
                 />
-              </CardContent>
-            </Card>
-          </div>
-        </Link>
-      </CarouselItem>
-    ))
-  );
+              </div>
+            </div>
+          </Link>
+        </CarouselItem>
+      ))
+    );
 
   return (
     <Carousel
@@ -93,7 +87,9 @@ const CarouselT = ({ slides }: PropType) => {
       setApi={setEmblaApi}
     >
       <CarouselContent>{slideComponent}</CarouselContent>
-      <CarouselDotButtonList emblaApi={emblaApi} />
+      {emblaApi && emblaApi.slideNodes().length > 1 && (
+        <CarouselDotButtonList emblaApi={emblaApi} />
+      )}
     </Carousel>
   );
 };

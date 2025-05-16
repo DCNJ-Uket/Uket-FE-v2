@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AuthRequiredModalButton from "../../../../../../components/auth-requried-modal-button";
 import { handleClipboard } from "../../../../../../utils/clipboard";
+import CarouselT from "./carousel/Carousel";
 import KakaoMap from "./kakao-map";
 
 interface UketEventSectionProps {
@@ -100,14 +101,17 @@ export default function UketEventSection({
                   <h2 className="font-medium">공연소개</h2>
                   <h3 className="text-[#8989A1]">{data.information}</h3>
                 </div>
-                <div className="h-[600px] my-3">
-                  <Image
-                    src={"/default-event-image.png"}
-                    alt={eventName}
-                    width={100}
-                    height={100}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="space-y-3">
+                  <div className="h-[600px] my-3">
+                    <Image
+                      src={"/default-event-image.png"}
+                      alt={eventName}
+                      width={100}
+                      height={100}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <CarouselT slides={data.banners} />
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium">주의사항</h2>
