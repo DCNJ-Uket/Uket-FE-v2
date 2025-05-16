@@ -1,3 +1,4 @@
+// TODO: banners 필드 타입 변경 (현재 임시)
 export type UketEventDetail = {
   eventId: number;
   eventName: string;
@@ -7,7 +8,8 @@ export type UketEventDetail = {
   information: string;
   detailImagePath: string;
   banners: {
-    imageId: number;
+    id: number;
+    imagePath: string;
     link: string;
   }[];
   caution: string;

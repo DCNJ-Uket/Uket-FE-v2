@@ -14,7 +14,7 @@ import { DepositResponse, TicketItem } from "../types/ticket";
 import { UketEventDetail } from "../types/uket-event";
 
 export const reservation = createQueryKeys("reservation", {
-  show: (id: UketEventDetail["id"]) => ({
+  show: (id: UketEventDetail["eventId"]) => ({
     queryKey: ["show-info", id],
     queryFn: async () => {
       const { data } = await fetcher.get<ShowInfoResponse>(
@@ -30,7 +30,7 @@ export const reservation = createQueryKeys("reservation", {
       };
     },
   }),
-  survey: (id: UketEventDetail["id"]) => ({
+  survey: (id: UketEventDetail["eventId"]) => ({
     queryKey: ["survey-list", id],
     queryFn: async () => {
       const { data } = await fetcher.get<SurveyResponse>(
@@ -68,7 +68,7 @@ export const reservation = createQueryKeys("reservation", {
   }),
 });
 
-export const useQueryShowList = (id: UketEventDetail["id"]) => {
+export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
   return useSuspenseQuery({
     ...reservation.show(id),
     select: data => {
@@ -83,7 +83,7 @@ export const useQueryShowList = (id: UketEventDetail["id"]) => {
   });
 };
 
-export const useQuerySurveyList = (id: UketEventDetail["id"]) => {
+export const useQuerySurveyList = (id: UketEventDetail["eventId"]) => {
   return useSuspenseQuery(reservation.survey(id));
 };
 
@@ -119,7 +119,7 @@ export const useQueryDepositurl = (
   });
 };
 
-export const prefetchShowList = (id: UketEventDetail["id"]) => {
+export const prefetchShowList = (id: UketEventDetail["eventId"]) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...reservation.show(id),
@@ -128,7 +128,7 @@ export const prefetchShowList = (id: UketEventDetail["id"]) => {
   return dehydrate(queryClient);
 };
 
-export const prefetchSurveyList = (id: UketEventDetail["id"]) => {
+export const prefetchSurveyList = (id: UketEventDetail["eventId"]) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...reservation.survey(id),

@@ -1,6 +1,6 @@
 import { Button } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
-import { UketEventListRequestParams } from "@uket/api/queries/festival";
+import { UketEventListRequestParams } from "@uket/api/queries/uket-event";
 import { useEventTypeParams } from "../../../../hooks/use-event-type-params";
 
 const eventTypeList: {
@@ -25,7 +25,7 @@ export default function UketEventTypeSelector() {
   const { eventType, handleChangeParams } = useEventTypeParams();
 
   return (
-    <header className="flex items-center gap-2">
+    <header className="flex items-center gap-2 px-2">
       {eventTypeList.map(({ type, title }) => (
         <Button
           key={type}

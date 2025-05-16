@@ -31,8 +31,8 @@ export default async function Page({
     <HydrationBoundary state={state}>
       <main className="w-full h-full relative flex flex-col items-center justify-evenly bg-[#F2F2F2]">
         <PrevNavButton />
-        <main className="container mb-10 mt-7 flex h-full w-full flex-col gap-6 overflow-y-scroll px-6">
-          <header className="text-[27px] font-black">
+        <main className="container mb-10 mt-7 flex h-full w-full flex-col gap-6 overflow-y-scroll px-4">
+          <header className="text-[27px] font-black px-2">
             <p>행사 예매하기</p>
           </header>
           <EventListSection />
