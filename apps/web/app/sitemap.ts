@@ -9,8 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     `/uket-events?type=ALL`,
   );
 
-  const events: MetadataRoute.Sitemap = eventList.items.map(event => ({
-    url: `https://uket.co.kr/home/${event.eventName}/${event.id}`,
+  const events: MetadataRoute.Sitemap = eventList.events.map(event => ({
+    url: `https://uket.co.kr/home/${event.eventName}/${event.eventId}`,
     lastModified: new Date(),
     changeFrequency: "hourly",
     priority: 1,

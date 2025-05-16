@@ -22,23 +22,22 @@ export async function generateMetadata(
     `/uket-events/${id}`,
   );
 
-  const images =
-    data.banners.map(banner => banner.url) || (await parent).openGraph?.images;
+  const images = data.detailImagePath || (await parent).openGraph?.images;
 
   return {
-    title: `${data.name} | Uket`,
+    title: `${data.eventName} | Uket`,
     description: ``,
     openGraph: {
-      title: `${data.name} | Uket`,
-      description: ``,
-      images: [...images],
-      siteName: `${data.name} | Uket`,
+      title: `${data.eventName} | Uket`,
+      description: data.information,
+      images,
+      siteName: `${data.eventName} | Uket`,
       url: `https://uket.co.kr/home/${event}/${id}`,
     },
     twitter: {
-      title: `${data.name} | Uket`,
-      description: ``,
-      images: [...images],
+      title: `${data.eventName} | Uket`,
+      description: data.information,
+      images,
     },
   };
 }
