@@ -16,7 +16,7 @@ export default function UketEventList({
   eventType,
 }: UketEventListProps) {
   const { data } = useQueryUketEventList({ type: eventType });
-
+  
   return (
     <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
       {data.length > 0 ? (
@@ -40,7 +40,7 @@ export default function UketEventList({
                 className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
-                <div className="relative h-66 rounded-2xl overflow-hidden">
+                <div className="relative h-66 rounded-xl overflow-hidden">
                   <Image
                     src={"/default-event-image.png"}
                     alt={eventName}
@@ -53,12 +53,14 @@ export default function UketEventList({
                   <h3 className="font-bold font-buttonDisabled">{eventName}</h3>
                   <div className="flex items-center gap-2 text-xs">
                     <span className="shrink-0">{eventDate}</span>
-                    <Badge
-                      variant="outline"
-                      className="bg-transparent border-brand text-brand px-2 py-1 h-5 mt-0.5 shrink-0 text-[10px]"
-                    >
-                      {"오늘"}
-                    </Badge>
+                    {eventDayLabel && (
+                      <Badge
+                        variant="outline"
+                        className="bg-transparent border-brand text-brand px-2 py-1 h-5 mt-0.5 shrink-0 text-[10px]"
+                      >
+                        {eventDayLabel}
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </article>
