@@ -1,8 +1,9 @@
 import { ExternalLink } from "@ui/components/ui/icon";
+import { KAKAO_OPEN_CHAT_URL } from "@uket/api/constants/auth-url";
 import Link from "next/link";
 
 export default function HelpReport() {
-  const openChatUrl = "https://open.kakao.com/me/uket";
+  const openChatUrl = KAKAO_OPEN_CHAT_URL;
   return (
     <main className="flex w-full flex-col gap-2 bg-white px-6 py-4">
       <div className="flex h-8 items-center justify-start gap-3">
