@@ -19,7 +19,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// TODO: Error Boundary 적용
 export default async function Page({
   searchParams,
 }: {
@@ -42,14 +41,9 @@ export default async function Page({
 
   return (
     <HydrationBoundary state={state}>
-      <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
-        <div className="flex items-end justify-between">
-          <p className="text-[34px] font-bold">예매 내역 관리</p>
-        </div>
-        <Suspense fallback={<LoadingFallback />}>
-          <BookingManageSection />
-        </Suspense>
-      </main>
+      <Suspense fallback={<LoadingFallback />}>
+        <BookingManageSection />
+      </Suspense>
     </HydrationBoundary>
   );
 }

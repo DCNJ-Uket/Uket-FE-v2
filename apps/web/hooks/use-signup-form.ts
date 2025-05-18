@@ -31,12 +31,6 @@ export const completeSchema = PhoneSchema.required({
   userPhone: true,
 });
 
-export const FormSchema = z.object({
-  userType: z.enum(["no_univ"]),
-  userName: z.string().regex(EXP.name),
-  userPhone: z.string().regex(EXP.phone),
-});
-
 export const useSignupForm = () => {
   const queryClient = getQueryClient();
   const { mutateAsync } = useMutationSignup();

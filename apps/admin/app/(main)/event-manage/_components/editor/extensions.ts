@@ -18,11 +18,9 @@ import { Markdown } from "tiptap-markdown";
 
 import { cn } from "@ui/lib/utils";
 
-//TODO I am using cn here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
-//You can overwrite the placeholder with your own configuration
 const placeholder = Placeholder.configure({
   placeholder: () => {
-    return "정보를 입력해 주세요.";
+    return "정보를 입력해 주세요. 명령어 사용 시에는 '/'를 누르세요.";
   },
   includeChildren: true,
 });
@@ -42,7 +40,7 @@ const updatedImage = UpdatedImage.configure({
 
 const taskList = TaskList.configure({
   HTMLAttributes: {
-    class: cn("not-prose pl-2 "),
+    class: cn("not-prose pl-2"),
   },
 });
 const taskItem = TaskItem.configure({
