@@ -25,7 +25,7 @@ export default function UketEventList({
             ({
               eventId,
               eventName,
-              eventThumbnailImagePath,
+              eventThumbnailImageId,
               eventStartDate,
               eventEndDate,
               ticketingStartDate,
