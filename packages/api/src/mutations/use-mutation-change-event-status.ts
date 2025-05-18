@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { fetcherAdmin } from "../admin-instance";
+import { onErrorHandler } from "../error/handler";
 import { getQueryClient } from "../get-query-client";
 import { adminEventInfo } from "../queries/admin-event-info";
 import {
@@ -17,9 +18,13 @@ export const useMutationChangeEventStatus = (page: number) => {
     }: ChangeEventStatusParams) => {
       const { data } = await fetcherAdmin.put<ChangeEventStatusResponse>(
         `/uket-event-registrations/${uketEventRegistrationId}/status/${registrationStatus}`,
-        undefined,
+        null,
         {
           mode: "TOAST_UI",
+          errorContent: {
+            title: "행사 상태 변경 에러",
+            description: "변경할 수 없는 상태입니다.",
+          },
         },
       );
 
@@ -58,6 +63,8 @@ export const useMutationChangeEventStatus = (page: number) => {
           context.previousData,
         );
       }
+
+      onErrorHandler(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries({
