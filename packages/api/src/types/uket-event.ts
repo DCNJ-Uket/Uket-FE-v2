@@ -6,7 +6,7 @@ export type UketEventDetail = {
   firstRoundStartDateTime: string;
   lastRoundStartDateTime: string;
   information: string;
-  detailImagePath: string;
+  detailImageId: string;
   banners: {
     id: number;
     imagePath: string;
@@ -29,7 +29,7 @@ export type TicketingStatus = "티켓팅_진행중" | "오픈_예정" | "티켓�
 export type UketEventItem = {
   eventId: number;
   eventName: string;
-  eventThumbnailImagePath: string;
+  eventThumbnailImageId: string;
   eventStartDate: string;
   eventEndDate: string;
   ticketingStartDate: string;

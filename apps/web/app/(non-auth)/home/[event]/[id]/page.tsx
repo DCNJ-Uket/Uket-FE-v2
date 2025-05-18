@@ -22,7 +22,7 @@ export async function generateMetadata(
     `/uket-events/${id}`,
   );
 
-  const images = data.detailImagePath || (await parent).openGraph?.images;
+  const images = (await parent).openGraph?.images;
 
   return {
     title: `${data.eventName} | Uket`,
