@@ -1,5 +1,5 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { dehydrate, useSuspenseQuery } from "@tanstack/react-query";
 import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
@@ -68,4 +68,6 @@ export const prefetchAdminEventInfoList = (
   queryClient.prefetchQuery({
     ...adminEventInfo.list({ page, size }),
   });
+
+  return dehydrate(queryClient);
 };
