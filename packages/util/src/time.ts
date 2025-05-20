@@ -1,7 +1,7 @@
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -37,5 +37,5 @@ export const formatDate = (date: string, type: FormatType) => {
     .format(formatType[type])
     .toString();
 };
-
 export * from "date-fns";
+export { ko } from "date-fns/locale";

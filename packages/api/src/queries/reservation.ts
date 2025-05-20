@@ -11,10 +11,10 @@ import {
 } from "../types/show";
 import { SurveyResponse } from "../types/survey";
 import { DepositResponse, TicketItem } from "../types/ticket";
-import { FestivalInfo } from "../types/univ";
+import { UketEventDetail } from "../types/uket-event";
 
 export const reservation = createQueryKeys("reservation", {
-  show: (id: FestivalInfo["id"]) => ({
+  show: (id: UketEventDetail["eventId"]) => ({
     queryKey: ["show-info", id],
     queryFn: async () => {
       const { data } = await fetcher.get<ShowInfoResponse>(
@@ -30,7 +30,7 @@ export const reservation = createQueryKeys("reservation", {
       };
     },
   }),
-  survey: (id: FestivalInfo["id"]) => ({
+  survey: (id: UketEventDetail["eventId"]) => ({
     queryKey: ["survey-list", id],
     queryFn: async () => {
       const { data } = await fetcher.get<SurveyResponse>(
@@ -68,7 +68,7 @@ export const reservation = createQueryKeys("reservation", {
   }),
 });
 
-export const useQueryShowList = (id: FestivalInfo["id"]) => {
+export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
   return useSuspenseQuery({
     ...reservation.show(id),
     select: data => {
@@ -83,7 +83,7 @@ export const useQueryShowList = (id: FestivalInfo["id"]) => {
   });
 };
 
-export const useQuerySurveyList = (id: FestivalInfo["id"]) => {
+export const useQuerySurveyList = (id: UketEventDetail["eventId"]) => {
   return useSuspenseQuery(reservation.survey(id));
 };
 
@@ -119,7 +119,7 @@ export const useQueryDepositurl = (
   });
 };
 
-export const prefetchShowList = (id: FestivalInfo["id"]) => {
+export const prefetchShowList = (id: UketEventDetail["eventId"]) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...reservation.show(id),
@@ -128,7 +128,7 @@ export const prefetchShowList = (id: FestivalInfo["id"]) => {
   return dehydrate(queryClient);
 };
 
-export const prefetchSurveyList = (id: FestivalInfo["id"]) => {
+export const prefetchSurveyList = (id: UketEventDetail["eventId"]) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({
     ...reservation.survey(id),

@@ -82,7 +82,7 @@ export default function KakaoMap({ location }: KakaoMapProps) {
         <Map
           id="map"
           center={marker?.position}
-          className="h-60 w-full rounded-lg shadow-md sm:h-80 lg:h-96"
+          className="h-60 w-full rounded-lg lg:h-96"
           level={3}
         >
           <MapMarker
@@ -114,11 +114,12 @@ export default function KakaoMap({ location }: KakaoMapProps) {
       ) : (
         <>
           {isLoading ? (
-            <div className="h-60 w-full rounded-lg shadow-md sm:h-80 lg:h-96 flex justify-center items-center">
-              <LoaderCircleIcon className="animate-spin" />
+            <div className="h-60 w-full rounded-lg sm:h-80 lg:h-96 flex justify-center items-center gap-2">
+              <span>지도 불러오는 중</span>
+              <LoaderCircleIcon className="animate-spin size-4" />
             </div>
           ) : (
-            <div className="h-60 w-full rounded-lg shadow-md sm:h-80 lg:h-96 flex justify-center items-center flex-col text-desc text-sm">
+            <div className="h-60 w-full rounded-lg sm:h-80 lg:h-96 flex justify-center items-center flex-col text-desc text-sm">
               <p>지도를 불러오는 중 오류가 발생했어요.</p>
               <p>새로고침 해주세요.</p>
             </div>
