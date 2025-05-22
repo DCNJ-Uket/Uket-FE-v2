@@ -1,4 +1,9 @@
-export type EventStatus = "검수 진행" | "검수 완료" | "행사 완료" | "등록 완료" | "등록 취소";
+export type EventStatus =
+  | "검수 진행"
+  | "검수 완료"
+  | "행사 완료"
+  | "등록 완료"
+  | "등록 취소";
 
 interface EventStatusInfo {
   value: string;
@@ -57,8 +62,51 @@ export interface PaginationMeta {
   empty: boolean;
 }
 
+export interface AdminTicketDetail {
+  eventName: string;
+  location: string;
+  eventRound: {
+    date: Date;
+    startTime: string;
+  }[];
+  ticketingStartDateTime: string;
+  ticketingEndDateTime: string;
+  entryGroup: {
+    ticketCount: number;
+    entryStartTime: string;
+  }[];
+  totalTicketCount: number;
+  details: {
+    information: string;
+    caution: string;
+  };
+  contact: {
+    type: string;
+    content: string;
+    link: string;
+  };
+  uketEventImageId: string;
+  thumbnailImageId: string;
+  banners: {
+    imageId: number;
+    link: string;
+  }[];
+  paymentInfo: {
+    ticketPrice: number;
+    bankCode: string;
+    accountNumber: string;
+    depositorName: string;
+    depositUrl: string;
+  };
+}
 export interface AdminTicketInfoResponse extends PaginationMeta {
   content: Content[];
+}
+
+export interface AdminTicketDetailInfoResponse {
+  eventType: "FESTIVAL" | "PERFORMANCE";
+  festivalData: AdminTicketDetail | null;
+  performanceData: AdminTicketDetail | null;
 }
 
 export interface ChangeEventStatusParams {
