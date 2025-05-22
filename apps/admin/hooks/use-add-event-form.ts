@@ -132,13 +132,22 @@ export const PaymentSchema = EventInfoSchema.required({
   banners: true,
 });
 
-export const useAddEventForm = () => {
-  const { mutateAsync } = useMutationSubmitEvent();
+export const useAddEventForm = ({
+  initialData,
+  eventId,
+}: {
+  initialData?: BaseSchemaType;
+  eventId?: string;
+}) => {
+  const { mutateAsync } = useMutationSubmitEvent({
+    methodType: eventId ? "modify" : "add",
+    eventId,
+  });
 
   const form = useForm<BaseSchemaType>({
     resolver: zodResolver(BaseSchema),
     mode: "onChange",
-    defaultValues: {
+    defaultValues: initialData || {
       eventType: "공연",
       organization: "",
       organizationId: undefined,

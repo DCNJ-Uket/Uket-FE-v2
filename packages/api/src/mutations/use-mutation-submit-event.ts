@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { format } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { AdminUserInfoResponse } from "../types/admin-auth";
-type EventType = "공연" | "축제";
+export type EventType = "공연" | "축제";
 
 type EventRound = {
   date: Date;
@@ -39,7 +39,7 @@ type ImageId = {
   id?: string | null | undefined;
 };
 
-type PaymentInfo = {
+export type PaymentInfo = {
   isFree: "무료" | "유료";
   ticketPrice: number;
   bankCode: string;
@@ -69,7 +69,18 @@ type SubmitEventResponse = {
   eventType: "FESTIVAL" | "PERFORMANCE";
 };
 
-export const useMutationSubmitEvent = () => {
+export const useMutationSubmitEvent = (
+  {
+    methodType,
+    eventId,
+  }: {
+    methodType?: "modify" | "add";
+    eventId?: string;
+  } = {
+    methodType: "add",
+    eventId: undefined,
+  },
+) => {
   const mutation = useMutation({
     mutationFn: async ({ params }: { params: SubmitEventRequestParams }) => {
       const {
@@ -138,15 +149,26 @@ export const useMutationSubmitEvent = () => {
               festivalData: formattedData,
             };
 
-      const { data } = await fetcherAdmin.post<SubmitEventResponse>(
-        `/uket-event-registrations/organizations/${organizationId}/event-type/${type}`,
-        body,
-        {
-          mode: "TOAST_UI",
-        },
-      );
+      let response;
+      if (methodType === "add") {
+        response = await fetcherAdmin.post<SubmitEventResponse>(
+          `/uket-event-registrations/organizations/${organizationId}/event-type/${type}`,
+          body,
+          {
+            mode: "TOAST_UI",
+          },
+        );
+      } else {
+        response = await fetcherAdmin.put<SubmitEventResponse>(
+          `/uket-event-registrations/${eventId}/event-type/${type}`,
+          body,
+          {
+            mode: "TOAST_UI",
+          },
+        );
+      }
 
-      return data;
+      return response.data;
     },
   });
 

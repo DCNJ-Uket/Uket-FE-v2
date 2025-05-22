@@ -2,6 +2,7 @@
 "use client";
 
 import { Form } from "@ui/components/ui/form";
+import { useQueryAdminEventInfoDetail } from "@uket/api/queries/admin-event-info";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
@@ -12,6 +13,10 @@ import {
   PaymentSchema,
   useAddEventForm,
 } from "../../../../hooks/use-add-event-form";
+
+interface EventAddSectionProps {
+  eventId?: string;
+}
 
 const StepBasicInfo = dynamic(() => import("./step/step-basic-info"), {
   ssr: false,
@@ -25,8 +30,12 @@ const StepPaymentInfo = dynamic(() => import("./step/step-payment-info"), {
   ssr: false,
 });
 
-export default function EventAddSection() {
-  const { form, onSubmit } = useAddEventForm();
+export default function EventAddSection({ eventId }: EventAddSectionProps) {
+  const { data } = useQueryAdminEventInfoDetail(eventId);
+  const { form, onSubmit } = useAddEventForm({
+    initialData: data?.data,
+    eventId,
+  });
   const searchParams = useSearchParams();
 
   const funnel = useFunnel({
@@ -56,7 +65,7 @@ export default function EventAddSection() {
       funnel.history.replace("기본정보");
     }
   }, []);
-  
+
   return (
     <section className="w-full h-3/4 rounded-lg flex">
       <Form {...form}>
