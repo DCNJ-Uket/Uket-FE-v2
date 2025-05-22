@@ -1,7 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { format } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
+import { getQueryClient } from "../get-query-client";
+import { adminEventInfo } from "../queries/admin-event-info";
 import { AdminUserInfoResponse } from "../types/admin-auth";
+import { AdminTicketInfoResponse } from "../types/admin-event";
 export type EventType = "공연" | "축제";
 
 type EventRound = {
@@ -81,6 +84,8 @@ export const useMutationSubmitEvent = (
     eventId: undefined,
   },
 ) => {
+  const queryClient = getQueryClient();
+
   const mutation = useMutation({
     mutationFn: async ({ params }: { params: SubmitEventRequestParams }) => {
       const {
@@ -169,6 +174,37 @@ export const useMutationSubmitEvent = (
       }
 
       return response.data;
+    },
+    onMutate: async () => {
+      const previousData = queryClient.getQueryData<AdminTicketInfoResponse>([
+        ...adminEventInfo.list({ page: 1 }).queryKey,
+      ]);
+
+      await queryClient.cancelQueries({
+        queryKey: adminEventInfo.list({ page: 1 }).queryKey,
+      });
+
+      if (previousData) {
+        queryClient.setQueryData<AdminTicketInfoResponse>(
+          [...adminEventInfo.list({ page: 1 }).queryKey],
+          { ...previousData },
+        );
+      }
+
+      return { previousData };
+    },
+    onError: (error, variables, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          [...adminEventInfo.list({ page: 1 }).queryKey],
+          context.previousData,
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: adminEventInfo.list({ page: 1 }).queryKey,
+      });
     },
   });
 
