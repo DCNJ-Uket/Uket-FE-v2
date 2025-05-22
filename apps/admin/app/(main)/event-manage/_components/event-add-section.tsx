@@ -114,6 +114,7 @@ export default function EventAddSection({ eventId }: EventAddSectionProps) {
               uketEventImage={context.uketEventImageId}
               thumbnailImage={context.thumbnailImageId}
               bannerImageList={context.banners}
+              isModify={eventId !== undefined}
             />
           )}
         />
