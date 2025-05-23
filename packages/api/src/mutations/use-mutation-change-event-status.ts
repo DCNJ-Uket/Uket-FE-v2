@@ -11,21 +11,12 @@ export const useMutationChangeEventStatus = (page: number) => {
   const queryClient = getQueryClient();
 
   const mutation = useMutation({
-    mutationKey: ["changeEventStatus"],
     mutationFn: async ({
       uketEventRegistrationId,
       registrationStatus,
     }: ChangeEventStatusParams) => {
       const { data } = await fetcherAdmin.put<ChangeEventStatusResponse>(
         `/uket-event-registrations/${uketEventRegistrationId}/status/${registrationStatus}`,
-        null,
-        {
-          mode: "TOAST_UI",
-          errorContent: {
-            title: "행사 상태 변경 에러",
-            description: "변경할 수 없는 상태입니다.",
-          },
-        },
       );
 
       return data;
@@ -50,7 +41,7 @@ export const useMutationChangeEventStatus = (page: number) => {
         );
       }
 
-      return { previousData, mutationKey: "changeEventStatus" };
+      return { previousData };
     },
 
     onError: (error, variables, context) => {

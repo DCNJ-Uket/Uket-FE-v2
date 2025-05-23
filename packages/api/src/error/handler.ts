@@ -35,17 +35,6 @@ export const TOAST_HANDLER: Record<
       toast.success("삭제가 완료되었습니다.");
     },
   },
-  changeEventStatus: {
-    onSuccess: () => {
-      toast.success("정상적으로 변경되었습니다.");
-    },
-    onError: error => {
-      toast.error(`${error.errorContent?.title || "에러가 발생했어요"}`, {
-        description:
-          error.errorContent?.description || "잠시 후 다시 시도해 주세요.",
-      });
-    },
-  },
 };
 
 /** 실패 시 토스트 */
