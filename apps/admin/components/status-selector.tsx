@@ -1,6 +1,6 @@
 import { useMutationChangeEventStatus } from "@uket/api/mutations/use-mutation-change-event-status";
 import { useMutationChangeTicketStatus } from "@uket/api/mutations/use-mutation-change-ticket-status";
-import { EVENT_STATUS_INFO } from "@uket/api/types/admin-event";
+import { EVENT_STATUS_INFO, EventStatus } from "@uket/api/types/admin-event";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
 import {
   NonSelectTrigger,
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@uket/ui/components/ui/select";
 import { useState } from "react";
+import { getNextEventStatusOptions } from "../hooks/use-next-event-options";
 import StatusChangeDialog from "./status-change-dialog";
 
 interface TicketStatusSelectorProps {
@@ -31,11 +32,16 @@ export default function StatusSelector({
   changeable = false,
 }: TicketStatusSelectorProps) {
   const stateInfo = isTicket ? TICKET_STATUS_INFO : EVENT_STATUS_INFO;
+  const currentItem = stateInfo.find(item => item.text === status)!;
+
+  const getFilteredOptions = () => {
+    return isTicket
+      ? TICKET_STATUS_INFO
+      : getNextEventStatusOptions(currentItem.text as EventStatus);
+  };
 
   const ticketMutation = useMutationChangeTicketStatus(page);
   const eventMutation = useMutationChangeEventStatus(page);
-
-  const currentItem = stateInfo.find(item => item.text === status)!;
 
   const [selectedText, setSelectedText] = useState<string>(currentItem.text);
   const [isOpen, setIsOpen] = useState(false);
@@ -81,19 +87,19 @@ export default function StatusSelector({
               className="h-7 max-w-28 gap-2 rounded-lg px-2 py-px leading-tight text-[#2F2F37]"
               style={{ backgroundColor: currentItem.color }}
             >
-              <SelectValue placeholder={currentItem.text} />
+              <SelectValue>{currentItem.text}</SelectValue>
             </SelectTrigger>
           ) : (
             <NonSelectTrigger
               className="h-7 max-w-28 gap-2 rounded-lg px-2 py-px leading-tight text-[#2F2F37]"
               style={{ backgroundColor: currentItem.color }}
             >
-              <SelectValue placeholder={currentItem.text} />
+              <SelectValue>{currentItem.text}</SelectValue>
             </NonSelectTrigger>
           )}
 
           <SelectContent>
-            {stateInfo.map(item => (
+            {getFilteredOptions().map(item => (
               <SelectItem key={item.value} value={item.text}>
                 {item.text}
               </SelectItem>

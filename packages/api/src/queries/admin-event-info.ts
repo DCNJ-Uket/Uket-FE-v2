@@ -1,7 +1,8 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { dehydrate, useSuspenseQuery } from "@tanstack/react-query";
 import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
+import { getQueryClient } from "../get-query-client";
 import { AdminTicketInfoResponse } from "../types/admin-event";
 
 const DEFAULT_PAGE_NUMBER = 0;
@@ -14,7 +15,7 @@ const getAdminEventInfoList = async ({
   const { data } = await fetcherAdmin.get<AdminTicketInfoResponse>(
     "/uket-event-registrations",
     {
-      mode: "BOUNDARY",
+      mode: "TOAST_UI",
       params: {
         page,
         size,
@@ -57,4 +58,16 @@ export const useQueryAdminEventInfoList = ({
       };
     },
   });
+};
+
+export const prefetchAdminEventInfoList = (
+  page = DEFAULT_PAGE_NUMBER,
+  size = DEFAULT_PAGE_SIZE,
+) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({
+    ...adminEventInfo.list({ page, size }),
+  });
+
+  return dehydrate(queryClient);
 };
