@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { NAV_LINK_LIST, SUPER_ADMIN_NAV_LINK_LIST } from "../constants/link";
 import AdminLogo from "./admin-logo";
 import GreetingHeader from "./greeting-header";
-import LogoutModal from "./logout-modal";
+import HelperMenu from "./HelperMenu";
 
 function NavLink({ href, title }: { href: string; title: string }) {
   const pathname = usePathname();
@@ -47,19 +47,20 @@ export default function SideNav() {
         }}
       />
       <GreetingHeader />
-      <div className="h-[0.5px] w-full bg-[#CCCCCC]" />
+      <hr />
       <div className="py-4 flex flex-col gap-8">
         {NAV_LINK_LIST.map(({ href, title }) => (
           <NavLink key={href} href={href} title={title} />
         ))}
       </div>
-      <div className="h-[0.5px] w-full bg-[#CCCCCC]" />
+      <hr />
       <div className="py-4 flex flex-col gap-8 grow">
         {SUPER_ADMIN_NAV_LINK_LIST.map(({ href, title }) => (
           <NavLink key={href} href={href} title={title} />
         ))}
       </div>
-      <LogoutModal />
+      <hr />
+      <HelperMenu />
     </aside>
   );
 }

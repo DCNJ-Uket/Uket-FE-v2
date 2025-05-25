@@ -5,6 +5,7 @@ import { dehydrate, useSuspenseQuery } from "@tanstack/react-query";
 import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
+
 import { EventType, PaymentInfo } from "../mutations/use-mutation-submit-event";
 import {
   AdminTicketDetailInfoResponse,
@@ -21,7 +22,7 @@ const getAdminEventInfoList = async ({
   const { data } = await fetcherAdmin.get<AdminTicketInfoResponse>(
     "/uket-event-registrations",
     {
-      mode: "BOUNDARY",
+      mode: "TOAST_UI",
       params: {
         page,
         size,
