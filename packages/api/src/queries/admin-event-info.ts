@@ -157,6 +157,13 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
   });
 };
 
+export const prefetchAdminEventInfoList = (page: number) => {
+  const queryClient = getQueryClient();
+  queryClient.prefetchQuery({ ...adminEventInfo.list({ page }) });
+
+  return dehydrate(queryClient);
+};
+
 export const prefetchAdminEventInfoDetail = (id: string) => {
   const queryClient = getQueryClient();
   queryClient.prefetchQuery({ ...adminEventInfo.detail(id) });
