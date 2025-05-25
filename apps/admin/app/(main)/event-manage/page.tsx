@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
 import { checkUserAgent } from "../../../utils/check-user-agent";
 import EventTableSection from "./_components/event-table-section";
+import { prefetchAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
@@ -13,17 +14,26 @@ const LoadingFallback = () => (
   </div>
 );
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string }>;
+}) {
   const isMobileDevice = await checkUserAgent();
 
   if (isMobileDevice) {
     return <NonAvailableSection title="내 행사 관리" />;
   }
 
+    const pageParam = (await searchParams).page;
+    const currentPage = pageParam ? parseInt(pageParam) : 1;
+  
+    const state = prefetchAdminEventInfoList(currentPage);
+
   // TODO: 행사 목록이 없다면, 행사 등록으로 이동한다.
 
   return (
-    <HydrationBoundary>
+    <HydrationBoundary state={state}>
       <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
         <header className="flex items-end justify-between">
           <h1 className="text-[34px] font-bold">내 행사 관리</h1>
