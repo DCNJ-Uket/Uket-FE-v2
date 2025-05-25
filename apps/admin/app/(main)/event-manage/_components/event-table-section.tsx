@@ -10,6 +10,7 @@ import StatusSelector from "../../../../components/status-selector";
 import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
 import EventTypeFilter, { EventType } from "./event-type-filter";
 import EventTable from "./event-table";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export type Entry = Content;
 
@@ -117,6 +118,9 @@ export const columns = (
 ];
 
 export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?: boolean}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const { page, eventType, updateQuery } = useEventManageParams();
 
   const { data: events } = useQueryAdminEventInfoList({
@@ -135,6 +139,13 @@ export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?
     return Math.ceil(filteredEvents.length / itemsPerPage);
   }, [filteredEvents]);
 
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+
   return (
     <section className="flex flex-col gap-3">
       <EventTable
@@ -143,7 +154,7 @@ export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?
         )}
         data={filteredEvents}
         pageIndex={page}
-        setPageIndex={newPage => updateQuery({ page: newPage })}
+        setPageIndex={handlePageChange}
         pageCount={pageCount || 1}
       />
     </section>
