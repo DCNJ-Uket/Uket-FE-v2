@@ -41,7 +41,6 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
         "contact.content",
         "uketEventImageId.file",
         "thumbnailImageId.file",
-        "banners.[0].file",
       ],
       {
         shouldFocus: true,
@@ -62,7 +61,7 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
       },
       uketEventImageId: allFieldValues.uketEventImageId,
       thumbnailImageId: allFieldValues.thumbnailImageId,
-      banners: allFieldValues.banners,
+      banners: allFieldValues.banners || null,
     };
 
     onNext(selectedValues);
