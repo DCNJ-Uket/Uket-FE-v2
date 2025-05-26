@@ -7,9 +7,10 @@ import {
   FormLabel,
 } from "@ui/components/ui/form";
 import { FieldValues, useFormContext } from "react-hook-form";
+import BulletListTextarea from "../editor/bullet-list-text-area";
+import EventEditor from "../editor/event-editor";
 import BannerImageField from "../step-event/banner-image-field";
 import ContactField from "../step-event/contact-field";
-import EventEditor from "../editor/event-editor";
 import PosterImageField from "../step-event/poster-image-field";
 import ThumbnailImageField from "../step-event/thumbnail-image-field";
 import StepController from "./step-controller";
@@ -100,7 +101,7 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
                     주의 사항
                   </FormLabel>
                   <FormControl>
-                    <EventEditor field={field} id={field.name} />
+                    <BulletListTextarea field={field} id={field.name} />
                   </FormControl>
                 </FormItem>
               )}
