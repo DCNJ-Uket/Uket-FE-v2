@@ -3,6 +3,7 @@
 
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
+import { Skeleton } from "@ui/components/ui/skeleton";
 import { useQueryAdminEventInfoDetail } from "@uket/api/queries/admin-event-info";
 import { useFunnel } from "@use-funnel/browser";
 import dynamic from "next/dynamic";
@@ -21,14 +22,23 @@ interface EventAddSectionProps {
 
 const StepBasicInfo = dynamic(() => import("./step/step-basic-info"), {
   ssr: false,
+  loading: () => (
+    <Skeleton className="bg-neutral-200 w-full h-full rounded-xl" />
+  ),
 });
 
 const StepEventInfo = dynamic(() => import("./step/step-event-info"), {
   ssr: false,
+  loading: () => (
+    <Skeleton className="bg-neutral-200 w-full h-full rounded-xl" />
+  ),
 });
 
 const StepPaymentInfo = dynamic(() => import("./step/step-payment-info"), {
   ssr: false,
+  loading: () => (
+    <Skeleton className="bg-neutral-200 w-full h-full rounded-xl" />
+  ),
 });
 
 export default function EventAddSection({ eventId }: EventAddSectionProps) {
