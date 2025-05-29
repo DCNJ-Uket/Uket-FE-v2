@@ -1,12 +1,12 @@
 import { Button } from "@ui/components/ui/button";
 import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary } from "@uket/api";
+import { prefetchAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import Link from "next/link";
 import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
 import { checkUserAgent } from "../../../utils/check-user-agent";
 import EventTableSection from "./_components/event-table-section";
-import { prefetchAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
@@ -25,12 +25,10 @@ export default async function Page({
     return <NonAvailableSection title="내 행사 관리" />;
   }
 
-    const pageParam = (await searchParams).page;
-    const currentPage = pageParam ? parseInt(pageParam) : 1;
-  
-    const state = prefetchAdminEventInfoList(currentPage);
+  const pageParam = (await searchParams).page;
+  const currentPage = pageParam ? parseInt(pageParam) : 1;
 
-  // TODO: 행사 목록이 없다면, 행사 등록으로 이동한다.
+  const state = prefetchAdminEventInfoList(currentPage);
 
   return (
     <HydrationBoundary state={state}>
@@ -44,9 +42,9 @@ export default async function Page({
             <Link href="/event-manage/add">행사 추가</Link>
           </Button>
         </header>
-        
+
         <Suspense fallback={<LoadingFallback />}>
-          <EventTableSection/>
+          <EventTableSection />
         </Suspense>
       </main>
     </HydrationBoundary>
