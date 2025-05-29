@@ -5,12 +5,12 @@ import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
 import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import { Content } from "@uket/api/types/admin-event";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import StatusSelector from "../../../../components/status-selector";
 import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
-import EventTypeFilter, { EventType } from "./event-type-filter";
 import EventTable from "./event-table";
-import { useRouter, useSearchParams } from "next/navigation";
+import EventTypeFilter, { EventType } from "./event-type-filter";
 
 export type Entry = Content;
 
@@ -18,7 +18,7 @@ export const columns = (
   pageIndex: number,
   selectedEventType: EventType,
   isSuperAdmin: boolean,
-  setSelectedEventType: (value: EventType) => void
+  setSelectedEventType: (value: EventType) => void,
 ): ColumnDef<Entry>[] => [
   {
     id: "rowNumber",
@@ -117,7 +117,11 @@ export const columns = (
   },
 ];
 
-export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?: boolean}) {
+export default function EventTableSection({
+  isSuperAdmin = false,
+}: {
+  isSuperAdmin?: boolean;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -130,10 +134,13 @@ export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?
   const itemsPerPage = 10;
 
   const filteredEvents = useMemo(() => {
-    if (!events) return [];
+    if (!events) {
+      router.push(`/event-manage/add`);
+    }
+
     if (eventType === "ALL") return events.timezoneData;
     return events.timezoneData.filter(entry => entry.eventType === eventType);
-  }, [events, eventType]);
+  }, [events, eventType, router]);
 
   const pageCount = useMemo(() => {
     return Math.ceil(filteredEvents.length / itemsPerPage);
@@ -144,7 +151,6 @@ export default function EventTableSection({isSuperAdmin = false}: {isSuperAdmin?
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
   };
-
 
   return (
     <section className="flex flex-col gap-3">
