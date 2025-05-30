@@ -12,7 +12,7 @@ const handleRootRoute: RouteHandler = (request, isMobileDevice) => {
 
   return NextResponse.redirect(
     new URL(
-      isMobileDevice ? "/qr-scan" : "/booking-manage",
+      isMobileDevice ? "/qr-scan" : "/event-manage",
       request.nextUrl.origin,
     ),
   );
@@ -27,7 +27,7 @@ const handleProtectedRoutes: RouteHandler = (request, isMobileDevice) => {
 
   if (!isMobileDevice && request.nextUrl.pathname === "/qr-scan") {
     return NextResponse.redirect(
-      new URL("/booking-manage", request.nextUrl.origin),
+      new URL("/event-manage", request.nextUrl.origin),
     );
   }
 
