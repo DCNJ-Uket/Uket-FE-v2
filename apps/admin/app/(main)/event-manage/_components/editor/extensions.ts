@@ -20,7 +20,7 @@ import { cn } from "@ui/lib/utils";
 
 const placeholder = Placeholder.configure({
   placeholder: () => {
-    return "정보를 입력해 주세요. 명령어 사용 시에는 '/'를 누르세요.";
+    return "상세 정보를 입력해 주세요.";
   },
   includeChildren: true,
 });

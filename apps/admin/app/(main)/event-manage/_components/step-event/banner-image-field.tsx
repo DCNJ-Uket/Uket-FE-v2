@@ -72,7 +72,7 @@ export default function BannerImageField({
   return (
     <div className="flex flex-col gap-2">
       <FormLabel className="text-[#8989A1] text-base font-normal flex items-center gap-1">
-        <span>메인 배너 이미지</span>
+        <span>{"(선택) 메인 배너 이미지"}</span>
         <StepTooltip
           content={
             <div className="flex flex-col">
