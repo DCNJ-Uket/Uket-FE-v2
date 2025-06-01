@@ -1,5 +1,6 @@
 "use client";
 
+import { useOverlay } from "@toss/use-overlay";
 import { Button } from "@uket/ui/components/ui/button";
 import {
   Form,
@@ -11,9 +12,11 @@ import {
 } from "@uket/ui/components/ui/form";
 import { Input } from "@uket/ui/components/ui/input";
 import { useLoginForm } from "../../../hooks/use-login-form";
+import AuthRequestDialog from "./auth-request-dialog";
 
 export default function AuthSection() {
   const { form, onSubmit, error } = useLoginForm();
+  const overlay = useOverlay();
 
   return (
     <main className="flex flex-col gap-10">
@@ -74,6 +77,19 @@ export default function AuthSection() {
           </div>
         </form>
       </Form>
+      <div className="text-center">
+        <span className="text-[#8989A1]">계정이 없으신가요?</span>
+        <Button
+          type="button"
+          variant="link"
+          className="text-brand font-bold text-base underline underline-offset-2"
+          onClick={() =>
+            overlay.open(({ isOpen, close }) => <AuthRequestDialog open={isOpen} onClose={close} />)
+          }
+        >
+          계정 발급 요청하기
+        </Button>
+      </div>
     </main>
   );
 }

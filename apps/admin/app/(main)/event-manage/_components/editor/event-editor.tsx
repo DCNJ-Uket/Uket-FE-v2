@@ -13,12 +13,13 @@ import {
 } from "novel";
 import { useState } from "react";
 import { defaultExtensions } from "./extensions";
-import { slashCommand, suggestionItems } from "./slash-command";
+import { suggestionItems } from "./slash-command";
 
 import "@uket/ui/prosemirror.css";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
+import EditorMenuBar from "./editor-menu-bar";
 
-const extensions = [...defaultExtensions, slashCommand];
+const extensions = [...defaultExtensions];
 
 interface EventEditorProps {
   field: ControllerRenderProps<FieldValues, any>;
@@ -27,7 +28,11 @@ interface EventEditorProps {
 
 export default function EventEditor({ field, id }: EventEditorProps) {
   const [charsCount, setCharsCount] = useState(0);
-  const debouncedUpdates = async (editor: EditorInstance) => {
+  const [editor, setEditor] = useState<EditorInstance | null>(null);
+
+  const debouncedUpdates = async () => {
+    if (!editor) return;
+
     const json = editor.getJSON();
 
     setCharsCount(field.value.length);
@@ -52,6 +57,7 @@ export default function EventEditor({ field, id }: EventEditorProps) {
         </div>
       </div>
       <EditorRoot>
+        {editor && <EditorMenuBar editor={editor} />}
         <EditorContent
           immediatelyRender={false}
           initialContent={field.value}
@@ -66,8 +72,9 @@ export default function EventEditor({ field, id }: EventEditorProps) {
                 "prose prose-sm dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
             },
           }}
-          onUpdate={({ editor }) => {
-            debouncedUpdates(editor);
+          onUpdate={() => debouncedUpdates()}
+          onCreate={({ editor }) => {
+            setEditor(editor);
           }}
         >
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">

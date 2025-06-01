@@ -21,6 +21,7 @@ interface StepPaymentInfoProps {
   uketEventImage: FieldValues["uketEventImageId"];
   thumbnailImage: FieldValues["thumbnailImageId"];
   bannerImageList: FieldValues["banners"];
+  isModify?: boolean;
 }
 
 export default function StepPaymentInfo({
@@ -30,6 +31,7 @@ export default function StepPaymentInfo({
   uketEventImage,
   thumbnailImage,
   bannerImageList,
+  isModify = false,
 }: StepPaymentInfoProps) {
   const { control, setValue, trigger } = useFormContext();
   const isFree = useWatch({
@@ -58,12 +60,20 @@ export default function StepPaymentInfo({
     if (!isValid) return;
 
     const formData = new FormData();
+
     formData.append("eventImage", uketEventImage.file!);
     formData.append("thumbnailImage", thumbnailImage.file!);
 
-    bannerImageList.forEach((banner: FieldValues["banners"]) => {
-      formData.append("bannerImages", banner.file!);
-    });
+    if (bannerImageList.length > 0 && bannerImageList[0]?.file) {
+      bannerImageList.forEach((banner: FieldValues["banners"]) => {
+        if (banner.file) {
+          formData.append("bannerImages", banner.file);
+        }
+      });
+    } else {
+      // Add this line to explicitly set banners to empty array if no banners are uploaded
+      setValue("banners", []);
+    }
 
     await mutateAsync(formData, {
       onSuccess: data => {
@@ -72,9 +82,12 @@ export default function StepPaymentInfo({
 
         setValue("uketEventImageId.id", uketEventImageId);
         setValue("thumbnailImageId.id", thumbnailImageId);
-        bannerImageIdList.forEach((bannerImageId: string, index: number) =>
-          setValue(`banners.${index}.id`, bannerImageId),
-        );
+
+        if (bannerImageIdList[0] !== "") {
+          bannerImageIdList.forEach((bannerImageId: string, index: number) =>
+            setValue(`banners.${index}.id`, bannerImageId),
+          );
+        }
 
         form.handleSubmit(onSubmit)();
       },
@@ -89,6 +102,7 @@ export default function StepPaymentInfo({
       setValue("paymentInfo.depositorName", "");
       setValue("paymentInfo.depositUrl", "");
     } else {
+      if (isModify) return;
       setValue("paymentInfo.ticketPrice", 100);
       setValue("paymentInfo.bankCode", undefined);
       setValue("paymentInfo.accountNumber", undefined);

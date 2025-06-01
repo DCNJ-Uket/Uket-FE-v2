@@ -20,7 +20,8 @@ import {
 
 export default function StepTerm({ onNext, onPrev }: StepControllerProps) {
   const { mutateAsync: agreeTerm } = useMutationAgreeTerm();
-  const { agreements, handleToggleAgreement } = useTermAgreement();
+  const { agreements, handleToggleAgreement, handleAgreementAll, initAgreement } =
+    useTermAgreement();
 
   const handleNextStep = () => {
     agreeTerm(agreements);
@@ -46,7 +47,9 @@ export default function StepTerm({ onNext, onPrev }: StepControllerProps) {
           }
         >
           <TermSection
+            onInit={initAgreement}
             onToggle={handleToggleAgreement}
+            onToggleAll={handleAgreementAll}
             agreements={agreements}
           />
         </Suspense>

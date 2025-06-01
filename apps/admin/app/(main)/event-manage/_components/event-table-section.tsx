@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -95,7 +96,9 @@ export const columns = (
     accessorKey: "eventInfo",
     header: () => <div>행사 정보</div>,
     cell: ({ row }) => {
+      const eventId = row.original.uketEventRegistrationId;
       const isEditable = row.original.isModifiable;
+      const router = useRouter();
 
       const style = isEditable
         ? "bg-[#F0EDFD] text-brand hover:bg-[#F0EDFD]"
@@ -109,6 +112,10 @@ export const columns = (
             "h-8 w-28 justify-center rounded-lg text-base cursor-pointer font-medium",
             style,
           )}
+          onClick={() => {
+            if (!isEditable) return;
+            router.push(`/event-manage/modify/${eventId}`);
+          }}
         >
           {content}
         </Badge>
