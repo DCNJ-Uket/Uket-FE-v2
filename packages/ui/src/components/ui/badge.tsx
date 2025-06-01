@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
 import { cn } from "@uket/ui/lib/utils";
 
@@ -22,6 +22,8 @@ const badgeVariants = cva(
           "border-transparent bg-desc text-[#9981FE] w-22 gap-1 items-center after:content-[''] after:w-2 after:h-2 after:bg-[#9981FE] after:rounded-full",
         deposit:
           "border-transparent bg-desc text-[#FFEF60] w-22 gap-1 items-center after:content-[''] after:w-2 after:h-2 after:bg-[#FFEF60] after:rounded-full",
+        refund:
+          "border-transparent bg-desc text-[#FD9A81] w-22 gap-1 items-center after:content-[''] after:w-2 after:h-2 after:bg-[#FD9A81] after:rounded-full",
       },
     },
     defaultVariants: {

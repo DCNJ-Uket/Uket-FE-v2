@@ -16,12 +16,18 @@ import { useState } from "react";
 
 interface ConfirmModalProps {
   ticketId: number;
+  ticketStatus: string;
 }
 
-export default function ConfirmModal({ ticketId }: ConfirmModalProps) {
+export default function ConfirmModal({
+  ticketId,
+  ticketStatus,
+}: ConfirmModalProps) {
   const queryClient = getQueryClient();
   const [open, setOpen] = useState(false);
   const { mutate } = useMutationCancelTicket();
+
+  const bookingConfirmed = ticketStatus === "예매 완료";
 
   const handleCancelTicket = () => {
     setOpen(false);
@@ -47,7 +53,19 @@ export default function ConfirmModal({ ticketId }: ConfirmModalProps) {
               정말 예매를 취소하시겠어요?
             </DialogTitle>
             <DialogDescription className="flex flex-col text-center">
-              <span>환불 문의는 공연 담당자에게 연락바랍니다.</span>
+              {bookingConfirmed ? (
+                <>
+                  <span>환불 처리를 위해 입금 받으실 계좌 정보를</span>
+                  <span>UKET 공식 채널로 전달해주세요.</span>
+                </>
+              ) : (
+                <>
+                  <span>
+                    입금을 완료하셨는데 <strong>입금 확인중</strong>상태라면,
+                  </span>
+                  <span>UKET 공식 채널에 환불 계좌 정보를 보내주세요.</span>
+                </>
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-row items-center justify-center gap-3">
