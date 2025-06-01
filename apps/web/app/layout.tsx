@@ -1,5 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
-/* eslint-disable no-console */
 import "@uket/ui/globals.css";
 import type { Metadata } from "next";
 
@@ -68,14 +66,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isProduction =
-    process.env.NODE_ENV === "production" &&
-    process.env.VERCEL_ENV === "production";
-  const BASE_URL = isProduction
-    ? `https://api.uket.co.kr`
-    : `https://dev.api.uket.co.kr`;
-  console.log(BASE_URL);
-  console.log(process.env.VERCEL_ENV);
   return (
     <html lang="en">
       <body className={`${notoSans.className}`}>
