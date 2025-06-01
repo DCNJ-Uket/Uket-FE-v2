@@ -2,6 +2,7 @@ import { useMutationChangeEventStatus } from "@uket/api/mutations/use-mutation-c
 import { useMutationChangeTicketStatus } from "@uket/api/mutations/use-mutation-change-ticket-status";
 import { EVENT_STATUS_INFO, EventStatus } from "@uket/api/types/admin-event";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
+import { TicketStatus } from "@uket/api/types/ticket";
 import {
   NonSelectTrigger,
   Select,
@@ -12,6 +13,7 @@ import {
 } from "@uket/ui/components/ui/select";
 import { useState } from "react";
 import { getNextEventStatusOptions } from "../hooks/use-next-event-options";
+import { getNextTicketStatusOptions } from "../hooks/use-next-ticket-options";
 import StatusChangeDialog from "./status-change-dialog";
 
 interface TicketStatusSelectorProps {
@@ -36,7 +38,7 @@ export default function StatusSelector({
 
   const getFilteredOptions = () => {
     return isTicket
-      ? TICKET_STATUS_INFO
+      ? getNextTicketStatusOptions(currentItem.text as TicketStatus)
       : getNextEventStatusOptions(currentItem.text as EventStatus);
   };
 

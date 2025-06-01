@@ -1,4 +1,10 @@
-export type TicketStatus = "입금 확인중" | "예매 완료" | "입장 완료" | "기간 만료";
+export type TicketStatus =
+  | "입금 확인중"
+  | "예매 완료"
+  | "입장 완료"
+  | "기간 만료"
+  | "환불 요청"
+  | "예매 취소";
 
 export type TicketItem = {
   userName: string;
