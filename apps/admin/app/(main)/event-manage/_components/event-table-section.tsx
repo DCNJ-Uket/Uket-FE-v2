@@ -138,7 +138,7 @@ export default function EventTableSection({
   const itemsPerPage = 10;
 
   const filteredEvents = useMemo(() => {
-    if (!events || events.empty) return [];
+    if (!events) return [];
 
     if (eventType === "ALL") return events.timezoneData;
     return events.timezoneData.filter(entry => entry.eventType === eventType);
