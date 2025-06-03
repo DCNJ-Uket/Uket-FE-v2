@@ -7,11 +7,11 @@ import { cn } from "@ui/lib/utils";
 import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import { Content } from "@uket/api/types/admin-event";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import StatusSelector from "../../../../components/status-selector";
 import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
-import EventTypeFilter, { EventType } from "./event-type-filter";
 import EventTable from "./event-table";
+import EventTypeFilter, { EventType } from "./event-type-filter";
 
 export type Entry = Content;
 
@@ -133,21 +133,16 @@ export default function EventTableSection({
   const router = useRouter();
 
   const { page, eventType, updateQuery } = useEventManageParams();
-
-  const { data: events } = useQueryAdminEventInfoList({
-    page,
-  });
+  const { data: events } = useQueryAdminEventInfoList({ page });
 
   const itemsPerPage = 10;
 
   const filteredEvents = useMemo(() => {
-    if (!events) {
-      router.push(`/event-manage/add`);
-    }
+    if (!events) return [];
 
     if (eventType === "ALL") return events.timezoneData;
     return events.timezoneData.filter(entry => entry.eventType === eventType);
-  }, [events, eventType, router]);
+  }, [events, eventType]);
 
   const pageCount = useMemo(() => {
     return Math.ceil(filteredEvents.length / itemsPerPage);
@@ -158,6 +153,10 @@ export default function EventTableSection({
     params.set("page", newPage.toString());
     router.push(`?${params.toString()}`);
   };
+
+  useEffect(() => {
+    if (events.empty) router.push(`/event-manage/add`);
+  }, [events, router]);
 
   return (
     <section className="flex flex-col gap-3">
