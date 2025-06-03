@@ -133,10 +133,7 @@ export default function EventTableSection({
   const router = useRouter();
 
   const { page, eventType, updateQuery } = useEventManageParams();
-
-  const { data: events } = useQueryAdminEventInfoList({
-    page,
-  });
+  const { data: events } = useQueryAdminEventInfoList({ page });
 
   const itemsPerPage = 10;
 
@@ -158,9 +155,7 @@ export default function EventTableSection({
   };
 
   useEffect(() => {
-    if (events.empty) {
-      router.push(`/event-manage/add`);
-    }
+    if (events.empty) router.push(`/event-manage/add`);
   }, [events.empty, router]);
 
   return (
