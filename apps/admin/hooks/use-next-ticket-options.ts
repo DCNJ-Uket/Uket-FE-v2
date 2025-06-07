@@ -7,8 +7,8 @@ import { TicketStatus } from "@uket/api/types/ticket";
 const NEXT_STATUS_MAP: Record<TicketStatus, TicketStatus[]> = {
   "입금 확인중": ["예매 완료"],
   "예매 완료": ["입장 완료"],
-  "입장 완료": ["기간 만료"],
-  "기간 만료": ["환불 요청"],
+  "입장 완료": [],
+  "기간 만료": [],
   "환불 요청": ["예매 취소"],
   "예매 취소": [],
 };
