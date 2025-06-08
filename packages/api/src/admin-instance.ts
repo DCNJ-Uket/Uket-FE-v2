@@ -23,24 +23,21 @@ const instance = axios.create({
 
 instance.interceptors.request.use(async config => {
   const url = config.url;
-  if (typeof window === "undefined") {
+  const headers = config.headers || {};
+
+  if (!headers.Authorization) {
+    const tokenGetter =
+      typeof window === "undefined" ? getTokenServer : getToken;
     if (
       url &&
       (isAdminDynamicUrlMatched(url) || isAdminStaticUrlMatched(url))
     ) {
-      const accessToken = await getTokenServer("admin", "access");
-      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-  } else {
-    if (
-      url &&
-      (isAdminDynamicUrlMatched(url) || isAdminStaticUrlMatched(url))
-    ) {
-      const accessToken = getToken("admin", "access");
-      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+      const accessToken = await tokenGetter("admin", "access");
+      if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
     }
   }
 
+  config.headers = headers;
   return config;
 });
 
