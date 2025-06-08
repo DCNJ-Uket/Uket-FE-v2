@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { Button } from "@ui/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +7,7 @@ import Footer from "../components/footer";
 import LandingBackgroundImage from "../public/landing-bg.png";
 
 export default async function Page() {
-  const vercel = process.env.VERCEL_ENV;
+  const vercel = process.env.NEXT_PUBLIC_VERCEL_ENV;
 
   if (vercel === "production") {
     console.log("it is production", vercel);
