@@ -8,13 +8,12 @@ import LandingBackgroundImage from "../public/landing-bg.png";
 
 export default async function Page() {
   const vercel = process.env.NEXT_PUBLIC_VERCEL_ENV;
+  const url =
+    vercel === "production"
+      ? "https://api.uket.co.kr"
+      : "https://dev.api.uket.co.kr";
+  console.log(vercel, url);
 
-  if (vercel === "production") {
-    console.log("it is production", vercel);
-  } else {
-    console.log("it is not production", vercel);
-  }
-  
   return (
     <main className="relative flex h-full flex-col items-center justify-evenly container">
       <div className="absolute -z-10 flex h-full w-full items-center justify-center bg-[linear-gradient(171.65deg,_#6343E1_5.82%,_#000000_81.67%)]">
