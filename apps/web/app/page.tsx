@@ -1,11 +1,21 @@
+/* eslint-disable no-console */
+/* eslint-disable turbo/no-undeclared-env-vars */
 import { Button } from "@ui/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import AuthRequiredModalButton from "../components/auth-requried-modal-button";
-import LandingBackgroundImage from "../public/landing-bg.png";
 import Footer from "../components/footer";
+import LandingBackgroundImage from "../public/landing-bg.png";
 
 export default async function Page() {
+  const vercel = process.env.VERCEL_ENV;
+
+  if (vercel === "production") {
+    console.log("it is production", vercel);
+  } else {
+    console.log("it is not production", vercel);
+  }
+  
   return (
     <main className="relative flex h-full flex-col items-center justify-evenly container">
       <div className="absolute -z-10 flex h-full w-full items-center justify-center bg-[linear-gradient(171.65deg,_#6343E1_5.82%,_#000000_81.67%)]">
