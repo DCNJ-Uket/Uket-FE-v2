@@ -86,7 +86,10 @@ export default function Ticket({ ticket }: TicketProps) {
                   />
                 </div>
                 {isTicketCancelAvailable ? (
-                  <ConfirmModal ticketId={ticket.ticketId} />
+                  <ConfirmModal
+                    ticketId={ticket.ticketId}
+                    ticketStatus={ticket.ticketStatus}
+                  />
                 ) : (
                   <div className="py-5"></div>
                 )}
