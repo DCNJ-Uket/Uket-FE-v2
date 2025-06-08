@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 "use client";
 
 import { Skeleton } from "@ui/components/ui/skeleton";
@@ -30,14 +29,6 @@ const EventListFallback = () => {
 export default function EventListSection() {
   const router = useRouter();
   const { eventType } = useEventTypeParams();
-
-  const vercel = process.env.NEXT_PUBLIC_VERCEL_ENV;
-  const isPreview = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
-  const url =
-    vercel === "production"
-      ? "https://api.uket.co.kr"
-      : "https://dev.api.uket.co.kr";
-  console.log(vercel, url, isPreview);
 
   const handleSelectEvent = (eventName: string, eventId: number) => {
     router.push(`/home/${eventName}/${eventId}`);
