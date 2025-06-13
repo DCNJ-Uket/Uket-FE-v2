@@ -1,4 +1,8 @@
-export type TicketStatus = "입금 확인중" | "예매 완료" | "입장 완료" | "기간 만료";
+export type TicketStatus =
+  | "입금 확인중"
+  | "예매 완료"
+  | "입장 완료"
+  | "기간 만료";
 
 export type TicketItem = {
   userName: string;
@@ -36,4 +40,12 @@ export type DepositResponse = {
   accountOwner: string;
   depositUrl: string;
   ticketPrice: number;
+};
+
+export type depositType = {
+  totalPrice: number;
+  depositUrl: string;
+  bankCode: string;
+  accountNumber: string;
+  accountOwner: string;
 };

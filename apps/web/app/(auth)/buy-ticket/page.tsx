@@ -1,7 +1,7 @@
 import TicketBuyErrorFallback from "../../../components/error-fallback/ticket-buy-error-fallback";
 
 import RetryApiErrorBoundary from "../../../components/retry-api-error-boundary";
-import BuyTicketSection from "./buy-ticket-section";
+import BuyTicketSection from "./test-buy-ticket-section";
 
 export default function Page() {
   return (
