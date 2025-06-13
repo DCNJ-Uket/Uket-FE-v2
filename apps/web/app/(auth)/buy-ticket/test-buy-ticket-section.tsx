@@ -33,7 +33,7 @@ const SelectSchema = z
 const CompleteSchema = z.object({});
 
 export default function BuyTicketSection() {
-  const { form, onSubmit } = useBuyTicketForm();
+  const { form } = useBuyTicketForm();
   const searchParams = useSearchParams();
   const router = useRouter();
 

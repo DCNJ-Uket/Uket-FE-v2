@@ -32,7 +32,6 @@ export default function StepSelect({
   onNext,
   onPrev,
   eventName,
-  eventId,
 }: StepSelectProps) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
