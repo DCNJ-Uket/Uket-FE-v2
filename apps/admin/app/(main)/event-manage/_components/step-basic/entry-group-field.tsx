@@ -27,25 +27,21 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
     name: "totalTicketCount",
   });
 
-  const calculateRemainingTickets = () => {
-    if (!totalTicketCount) return 0;
-    const total = fields.reduce((sum, field) => {
-      const ticketCount = Number((field as any).ticketCount);
-      return sum + (isNaN(ticketCount) ? 0 : ticketCount);
-    }, 0);
+const calculateRemainingTickets = () => {
+  if (!totalTicketCount) return 0;
+  const total = fields.reduce((sum, field) => {
+    const ticketCount = Number((field as any).ticketCount);
+    return sum + (isNaN(ticketCount) ? 0 : ticketCount);
+  }, 0);
 
-    return totalTicketCount - total;
-  };
+  return totalTicketCount - total;
+};
 
   const handleAddGroup = () => {
-    if (fields.length >= 6) {
-      return;
-    }
+    if (fields.length >= 6) return;
 
     const remainingTickets = calculateRemainingTickets();
-    if (remainingTickets <= 0) {
-      return;
-    }
+    if (remainingTickets <= 0) return;
 
     append({
       ticketCount: undefined,
@@ -53,6 +49,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
       entryEndTime: undefined,
     });
   };
+
   return (
     <div className="grid w-full items-center gap-2">
       <FormLabel className="text-[#8989A1] text-base font-normal flex items-center gap-1">
