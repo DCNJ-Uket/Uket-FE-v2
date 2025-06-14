@@ -7,6 +7,7 @@ import { formatDate } from "@uket/util/time";
 
 import { useState } from "react";
 import SelectDateTimeField from "../select/select-datetime-field";
+import SelectPerformer from "../select/select-performer";
 import {
   StepControllerProps,
   StepNextController,
@@ -31,6 +32,8 @@ const sampleTimesWithTickets = [
   { date: "2025-06-15T03:00:00.000+09:00", remaining: 0 },
 ];
 
+const samplePerformers = ["장원영", "안유진", "리즈", "이서", "가을"];
+
 export default function StepSelect({
   onNext,
   onPrev,
@@ -38,6 +41,7 @@ export default function StepSelect({
 }: StepSelectProps) {
   const [selectedDate, setSelectedDate] = useState<string>(sampleDates[0]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [performer, setPerformer] = useState<string>("");
 
   const filteredTimes = sampleTimesWithTickets.filter(
     ({ date }) =>
@@ -107,6 +111,19 @@ export default function StepSelect({
             </p>
           ) : null;
         })()}
+
+        {/* 초대 지인 */}
+        <div className="flex flex-col gap-3">
+          <div className="flex gap-2 items-center">
+            <h3 className="font-medium">초대 지인</h3>
+            <p className="text-xs font-normal text-[#8989A1]">*선택</p>
+          </div>
+          <SelectPerformer
+            performer={performer}
+            setPerformer={setPerformer}
+            performerList={samplePerformers}
+          />
+        </div>
       </ActivityContent>
 
       <ActivityFooter className="sticky bottom-0 z-50">

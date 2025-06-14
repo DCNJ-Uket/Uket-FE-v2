@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Search } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "@uket/ui/lib/utils";
 
@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {isLeftIcon && (
           <Search
             onClick={iconClick}
-            className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500 hover:cursor-pointer"
+            className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-[#8989A1] hover:cursor-pointer"
           />
         )}
         <input
@@ -34,7 +34,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {isIcon && (
           <Search
             onClick={iconClick}
-            className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500 hover:cursor-pointer"
+            className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-[#8989A1] hover:cursor-pointer"
           />
         )}
       </div>
