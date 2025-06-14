@@ -1,19 +1,19 @@
 import { cn } from "@ui/lib/utils";
 import { formatDate } from "@uket/util/time";
 
-interface SelectDateTimeFieldProps {
+interface DateTimeButtonProps {
   isDate: boolean;
   date: string;
   selected?: boolean;
   disabled?: boolean;
 }
 
-export default function SelectDateTimeField({
+export default function DateTimeButton({
   isDate = true,
   date,
   selected = false,
   disabled = false,
-}: SelectDateTimeFieldProps) {
+}: DateTimeButtonProps) {
   const formatText = isDate
     ? formatDate(date, "userTicketDate")
     : formatDate(date, "time");

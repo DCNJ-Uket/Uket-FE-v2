@@ -3,11 +3,12 @@ import {
   ActivityContent,
   ActivityFooter,
 } from "@ui/components/ui/activity";
-import { formatDate } from "@uket/util/time";
 
 import { useState } from "react";
-import SelectDateTimeField from "../select/select-datetime-field";
-import SelectPerformer from "../select/select-performer";
+
+import DateTimeSelectField from "../select/datetime-select-field";
+import PerformerSelectField from "../select/performer-select-field";
+import TicketCountField from "../select/ticket-count-field";
 import {
   StepControllerProps,
   StepNextController,
@@ -18,6 +19,9 @@ interface StepSelectProps extends StepControllerProps {
   eventName: string;
   eventId: string;
 }
+
+const ticketPrice = 5000;
+
 const sampleDates = [
   "2025-06-13T00:00:00.000Z",
   "2025-06-14T00:00:00.000Z",
@@ -42,6 +46,7 @@ export default function StepSelect({
   const [selectedDate, setSelectedDate] = useState<string>(sampleDates[0]);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [performer, setPerformer] = useState<string>("");
+  const [ticketCount, setTicketCount] = useState<number>(null);
 
   const filteredTimes = sampleTimesWithTickets.filter(
     ({ date }) =>
@@ -51,82 +56,46 @@ export default function StepSelect({
   return (
     <Activity>
       <StepPrevController onPrev={onPrev} />
-      <ActivityContent className="py-3 px-4 justify-start space-y-6">
+      <ActivityContent className="py-3 px-4 justify-start gap-8">
         <h1 className="text-[21px] font-bold">{eventName}</h1>
 
-        {/* 날짜 선택 필드 */}
-        <div className="flex flex-col gap-3">
-          <h3 className="font-medium">날짜 선택</h3>
-          <div className="flex gap-2 flex-wrap">
-            {sampleDates.map(date => (
-              <div key={date} onClick={() => setSelectedDate(date)}>
-                <SelectDateTimeField
-                  isDate
-                  date={date}
-                  selected={selectedDate === date}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <DateTimeSelectField
+          dates={sampleDates}
+          times={filteredTimes}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          setSelectedDate={setSelectedDate}
+          setSelectedTime={setSelectedTime}
+        />
 
-        {/* 시간 선택 필드 */}
-        <div className="flex flex-col gap-3">
-          <h3 className="font-medium">시간 선택</h3>
-          <div className="flex gap-2 flex-wrap">
-            {filteredTimes.map(({ date, remaining }) => {
-              const isDisabled = remaining === 0;
-              return (
-                <div
-                  key={date}
-                  onClick={() => {
-                    if (!isDisabled) {
-                      setSelectedTime(date);
-                    }
-                  }}
-                >
-                  <SelectDateTimeField
-                    isDate={false}
-                    date={date}
-                    selected={selectedTime === date}
-                    disabled={isDisabled}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        <div className="-mx-4 h-[2px] bg-[#f2f2f2]"></div>
 
-        {/* 선택한 시간 필드 하단에 에러 메시지 표시 */}
-        {(() => {
-          const selected = sampleTimesWithTickets.find(
-            t => t.date === selectedTime,
-          );
-          return selected &&
-            formatDate(selectedDate, "compact") ===
-              formatDate(selected.date, "compact") &&
-            selected.remaining <= 10 ? (
-            <p className="mt-2 text-sm text-red-500">
-              현재 잔여 티켓 {selected.remaining}매
-            </p>
-          ) : null;
-        })()}
+        <PerformerSelectField
+          performer={performer}
+          setPerformer={setPerformer}
+          performerList={samplePerformers}
+        />
 
-        {/* 초대 지인 */}
-        <div className="flex flex-col gap-3">
-          <div className="flex gap-2 items-center">
-            <h3 className="font-medium">초대 지인</h3>
-            <p className="text-xs font-normal text-[#8989A1]">*선택</p>
-          </div>
-          <SelectPerformer
-            performer={performer}
-            setPerformer={setPerformer}
-            performerList={samplePerformers}
-          />
-        </div>
+        <div className="-mx-4 h-[2px] bg-[#f2f2f2]"></div>
+
+        <TicketCountField
+          eventName={eventName}
+          selectedTime={selectedTime}
+          remaining={
+            sampleTimesWithTickets.find(t => t.date === selectedTime)?.remaining
+          }
+          price={ticketPrice}
+          onChange={setTicketCount}
+        />
       </ActivityContent>
 
       <ActivityFooter className="sticky bottom-0 z-50">
+        <div className="border-t-2 border-t-[#f2f2f2] flex justify-between p-7 font-bold text-base bg-white">
+          <p>총 결제금액</p>
+          <p className="text-brand">
+            {(ticketPrice * ticketCount).toLocaleString()} 원
+          </p>
+        </div>
         <StepNextController
           onNext={() => onNext()}
           disabled={!(selectedDate && selectedTime)}
