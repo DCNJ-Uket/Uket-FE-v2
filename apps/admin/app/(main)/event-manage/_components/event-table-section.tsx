@@ -6,8 +6,8 @@ import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
 import { useQueryAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import { Content } from "@uket/api/types/admin-event";
-import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import StatusSelector from "../../../../components/status-selector";
 import { useEventManageParams } from "../../../../hooks/use-event-manage-params";
 import EventTable from "./event-table";
@@ -129,16 +129,17 @@ export default function EventTableSection({
 }: {
   isSuperAdmin?: boolean;
 }) {
-  const { page, eventType, updateQuery } = useEventManageParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const { data: events } = useQueryAdminEventInfoList({
-    page,
-  });
+  const { page, eventType, updateQuery } = useEventManageParams();
+  const { data: events } = useQueryAdminEventInfoList({ page });
 
   const itemsPerPage = 10;
 
   const filteredEvents = useMemo(() => {
     if (!events) return [];
+
     if (eventType === "ALL") return events.timezoneData;
     return events.timezoneData.filter(entry => entry.eventType === eventType);
   }, [events, eventType]);
@@ -146,6 +147,16 @@ export default function EventTableSection({
   const pageCount = useMemo(() => {
     return Math.ceil(filteredEvents.length / itemsPerPage);
   }, [filteredEvents]);
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    if (events.empty) router.push(`/event-manage/add`);
+  }, [events.empty, router]);
 
   return (
     <section className="flex flex-col gap-3">
@@ -155,7 +166,7 @@ export default function EventTableSection({
         )}
         data={filteredEvents}
         pageIndex={page}
-        setPageIndex={newPage => updateQuery({ page: newPage })}
+        setPageIndex={handlePageChange}
         pageCount={pageCount || 1}
       />
     </section>

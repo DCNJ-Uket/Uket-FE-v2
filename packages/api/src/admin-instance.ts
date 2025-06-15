@@ -10,7 +10,12 @@ import {
 } from "@uket/util/path";
 import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = `https://api.uket.co.kr`;
+const isProduction =
+  process.env.NODE_ENV === "production" &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+const BASE_URL = isProduction
+  ? `https://api.uket.co.kr`
+  : `https://dev.api.uket.co.kr`;
 const API_TYPE = "/admin";
 
 const instance = axios.create({
