@@ -33,6 +33,10 @@ export const columns: ColumnDef<Entry>[] = [
     header: "아이디",
   },
   {
+    accessorKey: "phoneNumber",
+    header: "전화번호",
+  },
+  {
     accessorKey: "organizationName",
     header: "소속",
   },

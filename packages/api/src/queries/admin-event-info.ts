@@ -157,11 +157,11 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
   });
 };
 
-export const prefetchAdminEventInfoList = (page: number) => {
+export const prefetchAdminEventInfoList = async (page: number) => {
   const queryClient = getQueryClient();
-  queryClient.prefetchQuery({ ...adminEventInfo.list({ page }) });
+  const data = await queryClient.fetchQuery({ ...adminEventInfo.list({ page }) });
 
-  return dehydrate(queryClient);
+  return {data, prefetchState: dehydrate(queryClient)};
 };
 
 export const prefetchAdminEventInfoDetail = (id: string) => {
