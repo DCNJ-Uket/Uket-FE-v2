@@ -12,8 +12,8 @@ import dynamic from "next/dynamic";
 import QrcodeDepositErrorFallback from "../../../../components/error-fallback/qrcode-deposit-error-fallback";
 import Indicator from "../../../../components/indicator";
 import RetryApiErrorBoundary from "../../../../components/retry-api-error-boundary";
-import GridItem from "./grid-item";
 import Deposit from "./deposit";
+import GridItem from "./grid-item";
 import Qrcode from "./qr-code";
 
 const ConfirmModal = dynamic(() => import("./confirm-modal"));
@@ -75,6 +75,16 @@ export default function TicketModal({
                 </h2>
               </div>
             )}
+            {ticketStatus === "환불 요청" && (
+              <div className="flex flex-col items-center text-desc h-40 justify-center gap-2">
+                <h1 className="font-black text-xl">
+                  관리자에게 환불 요청을 보냈습니다!
+                </h1>
+                <h2 className="font-medium text-sm">
+                  추가 문의는 UKET 공식 채널을 이용해주세요.
+                </h2>
+              </div>
+            )}
           </RetryApiErrorBoundary>
         </CardDescription>
       </CardHeader>
@@ -103,7 +113,9 @@ export default function TicketModal({
           </section>
           <Separator className="bg-[#5E5E6E]" />
           <footer>
-            {isTicketCancelAvailable && <ConfirmModal ticketId={ticketId} />}
+            {isTicketCancelAvailable && (
+              <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
+            )}
           </footer>
         </section>
       </CardContent>

@@ -15,7 +15,7 @@ export const USER_TYPE: TicketUserOption[] = [
   { text: "재학생", value: TicketUserType.STUDENT },
 ];
 
-interface TicketStatusInfo {
+export interface TicketStatusInfo {
   value: string;
   text: TicketStatus | "예매 취소";
   color: string;
@@ -38,6 +38,11 @@ export const TICKET_STATUS_INFO: TicketStatusInfo[] = [
     color: "rgba(153, 129, 254, 0.9)",
   },
   { value: "EXPIRED", text: "기간 만료", color: "rgba(204, 204, 204, 0.9)" },
+  {
+    value: "REFUND_REQUESTED",
+    text: "환불 요청",
+    color: "rgba(253, 154, 129, 0.9)",
+  },
   {
     value: "RESERVATION_CANCEL",
     text: "예매 취소",

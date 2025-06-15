@@ -11,7 +11,7 @@ import {
   EditorRoot,
   handleCommandNavigation,
 } from "novel";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { defaultExtensions } from "./extensions";
 import { suggestionItems } from "./slash-command";
 
@@ -24,11 +24,17 @@ const extensions = [...defaultExtensions];
 interface EventEditorProps {
   field: ControllerRenderProps<FieldValues, any>;
   id: string;
+  enableAutoBulletList?: boolean; // bullet list 자동 변환 옵션
 }
 
-export default function EventEditor({ field, id }: EventEditorProps) {
-  const [charsCount, setCharsCount] = useState(0);
+export default function EventEditor({
+  field,
+  id,
+  enableAutoBulletList = false,
+}: EventEditorProps) {
+  const [charsCount, setCharsCount] = useState(field.value.length || 0);
   const [editor, setEditor] = useState<EditorInstance | null>(null);
+  const editorRef = useRef<EditorInstance | null>(null);
 
   const debouncedUpdates = async () => {
     if (!editor) return;
@@ -43,6 +49,12 @@ export default function EventEditor({ field, id }: EventEditorProps) {
       `markdown-${id}`,
       editor.storage.markdown.getMarkdown(),
     );
+  };
+
+  const ensureBulletList = (editor: EditorInstance) => {
+    if (!editor.isActive("bulletList")) {
+      editor.chain().focus().toggleList("bulletList", "listItem").run();
+    }
   };
 
   return (
@@ -71,10 +83,108 @@ export default function EventEditor({ field, id }: EventEditorProps) {
               class:
                 "prose prose-sm dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
             },
+            handleKeyDown: (view, event) => {
+              // enableAutoBulletList가 false면 기본 동작만 수행
+              if (!enableAutoBulletList) return false;
+
+              const { state } = view;
+              const { selection } = state;
+              const { $from } = selection;
+              const editor = editorRef.current;
+
+              if (!editor) return false;
+
+              // Enter 키 처리 - 새로운 리스트 아이템 생성
+              if (event.key === "Enter") {
+                if (editor.isActive("bulletList")) {
+                  // 이미 bulletList 안에 있으면 새 리스트 아이템 생성
+                  editor.chain().focus().splitListItem("listItem").run();
+                } else {
+                  // bulletList가 아니면 변환
+                  ensureBulletList(editor);
+                }
+                return true; // 기본 동작 방지
+              }
+
+              // 일반 문자 입력 시 bulletList 확인
+              if (
+                event.key.length === 1 &&
+                !event.ctrlKey &&
+                !event.metaKey &&
+                !event.altKey
+              ) {
+                // 현재 노드가 paragraph이거나 bulletList가 아닌 경우에만 변환
+                if (
+                  $from.node().type.name === "paragraph" ||
+                  !editor.isActive("bulletList")
+                ) {
+                  setTimeout(() => {
+                    ensureBulletList(editor);
+                  }, 0);
+                }
+              }
+
+              return false;
+            },
           }}
           onUpdate={() => debouncedUpdates()}
           onCreate={({ editor }) => {
             setEditor(editor);
+            editorRef.current = editor;
+
+            // enableAutoBulletList가 true이고 초기 상태가 비어있으면 bulletList로 시작
+            if (enableAutoBulletList && editor.isEmpty) {
+              setTimeout(() => {
+                ensureBulletList(editor);
+              }, 100);
+            }
+          }}
+          onFocus={({ editor }) => {
+            // enableAutoBulletList가 false면 자동 변환하지 않음
+            if (!enableAutoBulletList) return;
+
+            // 포커스 시 bulletList가 아니면 변환 (단, 이미 포커스가 있는 경우 제외)
+            if (!editor.isFocused) return;
+
+            if (!editor.isActive("bulletList")) {
+              if (editor.isEmpty) {
+                ensureBulletList(editor);
+              } else {
+                // 기존 내용을 bulletList로 변환하되, 각 줄을 개별 리스트 아이템으로
+                const content = editor.getText();
+                const lines = content.split("\n").filter(line => line.trim());
+
+                if (lines.length > 0) {
+                  editor.chain().focus().clearContent().run();
+
+                  // 첫 번째 줄로 bulletList 시작
+                  editor
+                    .chain()
+                    .focus()
+                    .toggleList("bulletList", "listItem")
+                    .insertContent(lines[0]!)
+                    .run();
+
+                  // 나머지 줄들을 새로운 리스트 아이템으로 추가
+                  lines.slice(1).forEach(line => {
+                    editor
+                      .chain()
+                      .focus()
+                      .splitListItem("listItem")
+                      .insertContent(line)
+                      .run();
+                  });
+                }
+              }
+            }
+          }}
+          onBlur={({ editor }) => {
+            // enableAutoBulletList가 true이고 완전히 비어있으면 bulletList로 초기화
+            if (enableAutoBulletList && editor.isEmpty) {
+              setTimeout(() => {
+                ensureBulletList(editor);
+              }, 50);
+            }
           }}
         >
           <EditorCommand className="z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">

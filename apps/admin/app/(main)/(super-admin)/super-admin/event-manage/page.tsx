@@ -9,8 +9,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// TODO: 행사 목록이 없다면, 행사 등록으로 이동한다.
-
 export default async function Page({
   searchParams,
 }: {

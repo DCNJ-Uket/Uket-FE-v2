@@ -38,7 +38,12 @@ interface RequestConfigWithBoundary extends RequestConfigBase {
 // 사용자가 설정한 mode에 따라 config의 타입이 바뀝니다.
 export type RequestConfig = RequestConfigWithToast | RequestConfigWithBoundary;
 
-const BASE_URL = `https://api.uket.co.kr`;
+const isProduction =
+  process.env.NODE_ENV === "production" &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
+const BASE_URL = isProduction
+  ? `https://api.uket.co.kr`
+  : `https://dev.api.uket.co.kr`;
 
 const instance = axios.create({
   baseURL: `${BASE_URL}`,
