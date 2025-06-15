@@ -43,3 +43,11 @@ export type DepositResponse = {
   depositUrl: string;
   ticketPrice: number;
 };
+
+export type depositType = {
+  totalPrice: number;
+  depositUrl: string;
+  bankCode: string;
+  accountNumber: string;
+  accountOwner: string;
+};
