@@ -22,7 +22,7 @@ export default function Footer() {
         <p>사업자 등록번호: 530-72-00551</p>
         <p>주소: 경기도 수원시 팔달구 경수대로553번길 18-20</p>
       </div>
-      <div>@2025 UKET ALL Rights Reserved.</div>
+      <div className="font-bold">© 2025 UKET All Rights Reserved.</div>
     </footer>
   );
 }

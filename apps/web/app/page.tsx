@@ -19,7 +19,7 @@ export default async function Page() {
       <main className="flex h-screen w-full flex-col justify-evenly">
         <section className="mt-10 flex w-full grow flex-col items-center gap-5 pt-10">
           <h1 className="text-center text-3xl font-bold text-white">
-            <p>당신을 위한 공연 감상,</p>
+            <p>축제 공연 감상,</p>
             <p>기다림 없이 UKET</p>
           </h1>
         </section>
@@ -29,7 +29,7 @@ export default async function Page() {
               variant="secondary"
               className="w-full rounded-xl bg-white p-7 text-base font-bold text-black hover:bg-slate-200 sm:w-80"
             >
-              공연 예매하기
+              티켓 예매하기
             </Button>
           </Link>
           <AuthRequiredModalButton
