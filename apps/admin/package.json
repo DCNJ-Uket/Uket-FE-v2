@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@tanstack/react-table": "^8.21.2",
+    "@tiptap/core": "^2.14.0",
     "@toss/use-overlay": "^1.4.2",
     "@uket/api": "workspace:*",
     "@uket/ui": "workspace:*",
