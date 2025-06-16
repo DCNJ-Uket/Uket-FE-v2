@@ -3,7 +3,7 @@ import CounterButton from "./counter-button";
 
 interface TicketCountFieldProps {
   eventName: string;
-  selectedTime: string | undefined;
+  selectedTime: string | null;
   remaining: number | undefined;
   price: number;
   onChange: (val: number) => void;
