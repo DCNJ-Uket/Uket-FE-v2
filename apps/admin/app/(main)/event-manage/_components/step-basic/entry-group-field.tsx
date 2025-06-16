@@ -27,15 +27,15 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
     name: "totalTicketCount",
   });
 
-const calculateRemainingTickets = () => {
-  if (!totalTicketCount) return 0;
-  const total = fields.reduce((sum, field) => {
-    const ticketCount = Number((field as any).ticketCount);
-    return sum + (isNaN(ticketCount) ? 0 : ticketCount);
-  }, 0);
+  const calculateRemainingTickets = () => {
+    if (!totalTicketCount) return 0;
+    const total = fields.reduce((sum, field) => {
+      const ticketCount = Number((field as any).ticketCount);
+      return sum + (isNaN(ticketCount) ? 0 : ticketCount);
+    }, 0);
 
-  return totalTicketCount - total;
-};
+    return totalTicketCount - total;
+  };
 
   const handleAddGroup = () => {
     if (fields.length >= 6) return;
@@ -83,13 +83,14 @@ const calculateRemainingTickets = () => {
               <FormItem>
                 <TimeField
                   className="*:not-first:mt-2"
+                  aria-label="Entry group time"
                   {...field}
+                  value={field.value ?? { hour: 0, minute: 0 }}
+                  defaultValue={{ hour: 0, minute: 0 }}
                   onChange={e => {
                     field.onChange({
                       hour: e?.hour,
                       minute: e?.minute,
-                      second: 0,
-                      nano: 0,
                     });
                   }}
                 >
