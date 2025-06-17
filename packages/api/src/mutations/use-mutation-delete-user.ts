@@ -6,9 +6,8 @@ import { DeleteUserResponse } from "../types/user";
 export const useMutationDeleteUser = () => {
   const mutation = useMutation({
     mutationFn: async () => {
-      const { data } = await fetcher.post<DeleteUserResponse>(
-        "/users/delete",
-        null,
+      const { data } = await fetcher.delete<DeleteUserResponse>(
+        "/users",
         {
           mode: "TOAST_UI",
           errorContent: {
