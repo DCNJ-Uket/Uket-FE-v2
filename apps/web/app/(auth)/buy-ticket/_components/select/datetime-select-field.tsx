@@ -1,5 +1,6 @@
 import { formatDate } from "@uket/util/time";
 
+import { useEffect } from "react";
 import DateTimeButton from "./datetime-button";
 
 interface DateTimeSelectFieldProps {
@@ -26,6 +27,15 @@ export default function DateTimeSelectField({
       formatDate(selected.date, "compact") &&
     selected.remaining <= 10;
 
+  const isOnlyOneDate = dates.length === 1;
+  const isOnlyOneTime = times.length === 1;
+
+  useEffect(() => {
+    if (isOnlyOneTime) {
+      setSelectedTime(times[0]!.date);
+    }
+  }, [isOnlyOneTime, selectedTime, times, setSelectedTime]);
+
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
@@ -37,6 +47,7 @@ export default function DateTimeSelectField({
                 isDate
                 date={date}
                 selected={selectedDate === date}
+                isOnlyOne={isOnlyOneDate}
               />
             </div>
           ))}
@@ -59,6 +70,7 @@ export default function DateTimeSelectField({
                     date={date}
                     selected={selectedTime === date}
                     disabled={isDisabled}
+                    isOnlyOne={isOnlyOneTime}
                   />
                 </div>
               );
