@@ -17,7 +17,7 @@ export default function UserProfile({ userInfo }: UserProfileProps) {
       <div className="flex items-center gap-6">
         <div className="relative h-14 w-14">
           <Image
-            src={userInfo.profileImage}
+            src={userInfo.profileImagePath}
             alt="프로필 이미지"
             width={100}
             height={100}
