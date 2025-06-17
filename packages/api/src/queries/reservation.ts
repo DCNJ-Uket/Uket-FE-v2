@@ -4,6 +4,7 @@ import { formatDate } from "@uket/util/time";
 
 import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
+import { ReservationResponse } from "../types/reservation";
 import {
   ReservationInfoResponse,
   ShowInfo,
@@ -66,6 +67,19 @@ export const reservation = createQueryKeys("reservation", {
       return data;
     },
   }),
+  select: (id: UketEventDetail["eventId"]) => ({
+    queryKey: ["reservation-info", id],
+    queryFn: async () => {
+      const { data } = await fetcher.get<ReservationResponse>(
+        `/uket-events/${id}/reservation`,
+        {
+          mode: "BOUNDARY",
+        },
+      );
+
+      return data;
+    },
+  }),
 });
 
 export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
@@ -79,6 +93,28 @@ export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
         showDate: formatDate(show.startDate, "compact"),
         ticketingDate: formatDate(show.ticketingDate, "fullCompact"),
       }));
+    },
+  });
+};
+
+export const useQueryReservationInfoList = (id: UketEventDetail["eventId"]) => {
+  return useSuspenseQuery({
+    ...reservation.select(id),
+    select: data => {
+      return {
+        ticketPrice: data.ticketPrice,
+        dates: data.eventRounds.map(round => ({
+          id: round.eventRoundId,
+          date: round.eventRoundDateTime,
+        })),
+        times: data.eventRounds.flatMap(round =>
+          round.entryGroups.map(group => ({
+            id: group.entryGroupId,
+            time: group.startDateTime,
+            remaining: group.totalTicketCount - group.ticketCount,
+          })),
+        ),
+      };
     },
   });
 };
