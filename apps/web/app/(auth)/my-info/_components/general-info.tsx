@@ -79,7 +79,7 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
     <main className="flex flex-col gap-2 mt-1">
       <main className="flex w-full flex-col gap-2 bg-white px-6 pb-6 pt-4">
         <div className="flex h-8 items-center justify-between">
-          <div className="text-lg font-bold text-[#17171B]">일반</div>
+          <div className="text-lg font-bold text-[#17171B]">프로필</div>
           {isEdit ? (
             <div className="flex gap-6">
               <Button
