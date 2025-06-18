@@ -128,7 +128,6 @@ export const EventInfoSchema = BaseSchema.required({
   ticketingDate: true,
   location: true,
   totalTicketCount: true,
-  entryGroup: true,
 });
 
 // 입금 정보 스키마
