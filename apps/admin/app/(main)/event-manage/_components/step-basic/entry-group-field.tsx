@@ -38,7 +38,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
   };
 
   const handleAddGroup = () => {
-    if (fields.length >= 6) return;
+    if (fields.length >= 20) return;
 
     const remainingTickets = calculateRemainingTickets();
     if (remainingTickets <= 0) return;
@@ -114,6 +114,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
                     {...field}
                     onChange={e => {
                       const number = Number(e.target.value);
+                      field.onChange(number);
                       const remaining = calculateRemainingTickets();
 
                       if (number > remaining) {
@@ -150,7 +151,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
           variant="ghost"
           className="rounded-full hover:bg-[#f2f2f2]"
           onClick={handleAddGroup}
-          disabled={fields.length >= 6 || calculateRemainingTickets() <= 0}
+          disabled={fields.length >= 20 || calculateRemainingTickets() <= 0}
         >
           <PlusCircleIcon className="text-[#d9d9d9]" />
         </Button>
