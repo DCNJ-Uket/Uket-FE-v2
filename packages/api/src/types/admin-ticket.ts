@@ -41,7 +41,7 @@ export const TICKET_STATUS_INFO: TicketStatusInfo[] = [
   {
     value: "REFUND_REQUESTED",
     text: "환불 요청",
-    color: "rgba(253, 154, 129, 0.9)",
+    color: "rgba(153, 153, 153, 0.9)",
   },
   {
     value: "RESERVATION_CANCEL",
