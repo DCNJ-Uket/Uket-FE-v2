@@ -17,7 +17,7 @@ export default function StepComplete() {
         <ActivityHeader className="relative grow items-center justify-center overflow-hidden">
           <h1 className="text-lg text-[#5E5E6E]">회원가입이 완료되었습니다.</h1>
           <h2 className="text-center text-2xl font-black">
-            <p>이제 공연 티켓을</p>
+            <p>이제 행사 티켓을</p>
             <p>예매하러 가볼까요?</p>
           </h2>
           <Image

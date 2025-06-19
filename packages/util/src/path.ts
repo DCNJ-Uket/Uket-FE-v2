@@ -1,7 +1,7 @@
 const AUTH_REQUIRED_PATH = [
   "/users/register",
   "/users/info",
-  "/users/delete",
+  "/users",
   "/tickets",
   "/users/tickets",
   "/tickets/:id/cancel",

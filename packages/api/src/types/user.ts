@@ -1,13 +1,10 @@
 export type UserInfoResponse = {
   name: string;
+  email: string;
   depositorName: string;
-  profileImage: string;
+  profileImagePath: string;
   isRegistered: boolean;
   phoneNumber: string;
-  universityName: string;
-  studentMajor: string;
-  studentCode: string;
-  universityEmail: string;
 };
 
 export type UserInfoUpdateRequest = {
@@ -17,5 +14,5 @@ export type UserInfoUpdateRequest = {
 
 export type DeleteUserResponse = {
   userId: number;
-  name: string;
+  isSuccess: boolean;
 };

@@ -33,7 +33,7 @@ export default function TicketCountField({
               <span>가격</span>
               <span>{price.toLocaleString()}</span>
             </div>
-            <CounterButton remaining={remaining} onChange={onChange} />
+            <CounterButton remaining={remaining!} onChange={onChange} />
           </div>
         </div>
       )}

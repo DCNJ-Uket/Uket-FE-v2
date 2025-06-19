@@ -33,7 +33,7 @@ export default function StepTerm({ onNext, onPrev }: StepControllerProps) {
       <StepPrevController onPrev={onPrev} />
       <ActivityHeader className="mb-6">
         <h1 className="text-2xl font-black">
-          <p>티켓팅 경험 개선을 위해</p>
+          <p>서비스 사용을 위해</p>
           <p>아래 약관의 동의가 필요합니다.</p>
         </h1>
       </ActivityHeader>

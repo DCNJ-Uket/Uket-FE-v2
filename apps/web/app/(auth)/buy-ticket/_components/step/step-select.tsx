@@ -82,6 +82,7 @@ export default function StepSelect({
           <p>총 결제금액</p>
           <p className="text-brand">
             {(ticketPrice * (ticketCount ?? 0)).toLocaleString()} 원
+            {(ticketPrice * ticketCount!).toLocaleString()} 원
           </p>
         </div>
         <StepNextController
