@@ -65,6 +65,8 @@ type SubmitEventRequestParams = {
   thumbnailImageId: ImageId;
   banners: Banner[];
   paymentInfo: PaymentInfo;
+  buyTicketLimit: number;
+  //paymentInfo: PaymentInfo;
 };
 
 type SubmitEventResponse = {

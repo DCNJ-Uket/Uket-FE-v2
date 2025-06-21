@@ -111,6 +111,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           startTime: item.startTime,
         };
       });
+      const buyTicketLimit = eventInfo?.buyTicketLimit || 0;
+      const noLimit = (buyTicketLimit === 0 ? "제한 없음" : "제한");
       const paymentInfo = {
         isFree: (eventInfo?.paymentInfo.ticketPrice === 0
           ? "무료"
@@ -151,6 +153,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           banners,
           location,
           eventRound,
+          noLimit,
+          buyTicketLimit
         },
       };
     },

@@ -42,4 +42,6 @@ export {
   UploadIcon,
   XIcon,
   ListIcon,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
