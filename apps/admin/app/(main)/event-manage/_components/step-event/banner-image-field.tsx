@@ -109,13 +109,11 @@ export default function BannerImageField({
                       </div>
                       <div className="rounded-e-lg text-center items-center justify-center border border-formInput bg-white h-full basis-1/2 flex flex-col text-black relative">
                         <div className="w-full flex justify-end pt-1 pr-1 absolute top-0 right-0">
-                          {index > 0 && (
-                            <RemoveImageButton
-                              index={index}
-                              remove={remove}
-                              field={field}
-                            />
-                          )}
+                          <RemoveImageButton
+                            index={index}
+                            remove={remove}
+                            field={field}
+                          />
                         </div>
                         <div className="flex flex-col gap-4 items-center justify-center px-2">
                           <FormLabel className="text-[#8989A1] text-sm font-normal">
@@ -135,13 +133,11 @@ export default function BannerImageField({
                       </div>
                       <div className="rounded-lg text-center flex flex-col items-center justify-center border border-formInput bg-white text-formInput h-full basis-1/2 relative">
                         <div className="w-full flex justify-end pt-1 pr-1 absolute top-0 right-0">
-                          {index > 0 && (
-                            <RemoveImageButton
-                              index={index}
-                              remove={remove}
-                              field={field}
-                            />
-                          )}
+                          <RemoveImageButton
+                            index={index}
+                            remove={remove}
+                            field={field}
+                          />
                         </div>
                         <div>
                           <p>업로드된</p>
