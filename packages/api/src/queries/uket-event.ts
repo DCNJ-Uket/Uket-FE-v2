@@ -138,7 +138,7 @@ export const uketEvent = createQueryKeys("uket-event", {
       return data;
     },
   }),
-  image: (id: string | number) => ({
+  image: (id: string | number | undefined) => ({
     queryKey: ["event-thumbnail-image", id],
     queryFn: async () => {
       const response = await fetcher.get(`/image/${id}`, {
@@ -212,7 +212,7 @@ export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
   });
 };
 
-export const useQueryUketEventImage = (id: string | number) => {
+export const useQueryUketEventImage = (id: string | number | undefined) => {
   return useQuery({
     ...uketEvent.image(id),
     enabled: !!id,
@@ -224,6 +224,7 @@ export const useQueryUketEventImageList = (idList: string[] | number[]) => {
     queries: idList.map(id => {
       return {
         ...uketEvent.image(id),
+        enabled: !!id,
       };
     }),
     combine: results => {
