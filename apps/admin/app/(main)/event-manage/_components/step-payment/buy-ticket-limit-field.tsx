@@ -31,21 +31,23 @@ export default function BuyTicketLimitField({
   });
 
   return (
-    <div className="flex items-end gap-4">
+    <div className="flex items-end w-full gap-4">
       <FormField
         control={control}
         name="noLimit"
-        render={({field}) => (
-          <FormItem className="flex flex-col gap-2 shrink-0">
+        render={({ field: radioField }) => (
+          <FormItem className="flex flex-col gap-2 shrink-0  w-full ">
+            <FormLabel className="text-[#8989A1] text-base font-normal">
+              1인 구매 가능 수량
+            </FormLabel>
             <FormControl>
               <RadioGroup
                 onValueChange={value => {
-                  field.onChange(value);
-                  if (value === "제한 없음")
-                    onSetValue("buyTicketLimit", 0);
+                  radioField.onChange(value);
+                  if (value === "제한 없음") onSetValue("buyTicketLimit", 0);
                 }}
-                defaultValue={field.value}
-                className="flex h-12"
+                defaultValue={radioField.value}
+                className="flex "
               >
                 <FormItem className="flex items-center gap-2">
                   <FormControl>
@@ -68,21 +70,18 @@ export default function BuyTicketLimitField({
                   control={control}
                   name="buyTicketLimit"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col gap-2 w-full">
-                      <FormLabel className="text-[#8989A1] text-base font-normal">
-                        1인 구매 가능 수량
-                      </FormLabel>
+                    <FormItem className="flex flex-col">
                       <FormControl>
-                        <div className="w-full relative inline-flex items-center overflow-hidden border border-formInput rounded-md">
+                        <div className="relative inline-flex items-center overflow-hidden border border-formInput rounded-md">
                           <div className="relative grow">
                             <Input
                               type="number"
-                              className="disabled:bg-[#f2f2f2] w-full peer pr-12 rounded-none border-t-0 border-b-0 border-formInput focus-visible:ring-offset-0 focus-visible:ring-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:margin-0"
+                              className="disabled:bg-[#f2f2f2] peer rounded-none border-t-0 border-b-0 border-formInput focus-visible:ring-offset-0 focus-visible:ring-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:margin-0"
                               {...field}
                               min={1}
                               max={1000000}
                               step={1}
-                              disabled={noLimitOption}
+                              disabled={noLimitOption !== "제한"}
                               value={field.value || 1}
                               onChange={e => {
                                 const number = Number(e.target.value);
@@ -97,30 +96,35 @@ export default function BuyTicketLimitField({
                               }}
                             />
                           </div>
-                          <div>
+                          <div className="flex flex-col">
                             <Button
                               type="button"
                               size={"icon"}
                               variant={"outline"}
-                              className="hover:bg-gray-100 rounded-none border-none disabled:bg-[#f2f2f2]"
+                              className="hover:bg-gray-100 h-[20px] rounded-none border-none border-l border-formInput disabled:bg-[#f2f2f2]"
                               onClick={() => {
-                                field.onChange(Number(field.value) - 1 || 1);
+                                field.onChange(Number(field.value) + 1 || 1);
                               }}
-                              disabled={field.value <= 1 || noLimitOption}
+                              disabled={
+                                field.value >= 1000000 ||
+                                noLimitOption !== "제한"
+                              }
                             >
-                              <ChevronDown size={12} aria-hidden="true" />
+                              <ChevronUp size={12} aria-hidden="true" />
                             </Button>
                             <Button
                               type="button"
                               size={"icon"}
                               variant={"outline"}
-                              className="hover:bg-gray-100 rounded-none border-none border-l border-formInput disabled:bg-[#f2f2f2]"
+                              className="hover:bg-gray-100 h-[20px] rounded-none border-none disabled:bg-[#f2f2f2]"
                               onClick={() => {
-                                field.onChange(Number(field.value) + 1 || 1);
+                                field.onChange(Number(field.value) - 1 || 1);
                               }}
-                              disabled={field.value >= 1000000 || noLimitOption}
+                              disabled={
+                                field.value <= 1 || noLimitOption !== "제한"
+                              }
                             >
-                              <ChevronUp size={12} aria-hidden="true" />
+                              <ChevronDown size={12} aria-hidden="true" />
                             </Button>
                           </div>
                         </div>
