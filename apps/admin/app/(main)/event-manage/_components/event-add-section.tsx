@@ -89,7 +89,7 @@ export default function EventAddSection({ eventId }: EventAddSectionProps) {
   }, []);
 
   return (
-    <section className="w-full h-3/4 rounded-lg flex relative">
+    <section className="w-full h-full rounded-lg flex relative pb-20">
       <Form {...form}>
         <aside className="absolute -top-16 right-0">
           <Button

@@ -20,12 +20,14 @@ interface ThumbnailImageFieldProps {
   control: Control<FieldValues, any>;
   onSetValue: UseFormSetValue<FieldValues>;
   onGetValue: UseFormGetValues<FieldValues>;
+  labelTitle: string;
 }
 
 export default function ThumbnailImageField({
   control,
   onSetValue,
   onGetValue,
+  labelTitle,
 }: ThumbnailImageFieldProps) {
   const handleFileChange = (file: File) => {
     const previewUrl = URL.createObjectURL(file);
@@ -44,7 +46,7 @@ export default function ThumbnailImageField({
             className="text-[#8989A1] text-base font-normal flex flex-col gap-4"
           >
             <div className="flex items-center gap-1">
-              <span>공연 썸네일 이미지</span>
+              <span>{labelTitle}</span>
               <StepTooltip
                 content={
                   <div className="flex flex-col">
@@ -67,7 +69,7 @@ export default function ThumbnailImageField({
                     />
                   </div>
                   <div className="rounded-e-lg text-center items-center justify-center border border-formInput bg-white h-full basis-1/2 flex flex-col text-black gap-2">
-                    <div>{field.value?.name}</div>
+                    <div className="truncate w-24">{field.value?.name}</div>
                     <div className="text-error underline underline-offset-4 font-medium">
                       수정하기
                     </div>
