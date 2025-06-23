@@ -46,7 +46,7 @@ export default function BuyTicketLimitField({
                   radioField.onChange(value);
                   if (value === "제한 없음") onSetValue("buyTicketLimit", 0);
                 }}
-                defaultValue={radioField.value}
+                defaultValue={radioField.value ?? "제한 없음"}
                 className="flex "
               >
                 <FormItem className="flex items-center gap-2">
@@ -82,7 +82,8 @@ export default function BuyTicketLimitField({
                               max={1000000}
                               step={1}
                               disabled={noLimitOption !== "제한"}
-                              value={field.value || 1}
+                              value={field.value ?? 0}
+                              defaultValue={field.value ?? 0}
                               onChange={e => {
                                 const number = Number(e.target.value);
 

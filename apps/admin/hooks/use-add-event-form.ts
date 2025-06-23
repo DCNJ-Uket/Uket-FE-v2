@@ -108,8 +108,8 @@ export const BaseSchema = z
       })
       .or(z.literal("")),
     }),
-    noLimit: z.string().default("제한 없음"),
-    buyTicketLimit: z.number().default(1),
+    noLimit: z.enum(["제한 없음", "제한"]).default("제한 없음"),
+    buyTicketLimit: z.number().default(0),
   })
   .partial();
 
@@ -195,7 +195,7 @@ export const useAddEventForm = ({
         depositUrl: undefined,
       },
       noLimit: "제한 없음",
-      buyTicketLimit: 1,
+      buyTicketLimit: 0,
     },
     reValidateMode: "onChange",
   });
@@ -217,6 +217,7 @@ export const useAddEventForm = ({
           thumbnailImageId: data.thumbnailImageId!,
           banners: data.banners!,
           paymentInfo: data.paymentInfo!,
+          noLimit: data.noLimit!,
           buyTicketLimit: data.buyTicketLimit!
         },
       },

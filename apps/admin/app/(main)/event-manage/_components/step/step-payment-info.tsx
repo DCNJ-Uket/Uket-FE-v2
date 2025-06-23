@@ -52,6 +52,7 @@ export default function StepPaymentInfo({
         "paymentInfo.accountNumber",
         "paymentInfo.depositorName",
         "paymentInfo.depositUrl",
+        "buyTicketLimit",
       ],
       {
         shouldFocus: true,
