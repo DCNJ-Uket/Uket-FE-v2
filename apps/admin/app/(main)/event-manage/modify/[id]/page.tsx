@@ -14,7 +14,7 @@ export default async function Page({
 
   return (
     <HydrationBoundary state={state}>
-      <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
+      <main className="flex h-dvh flex-col grow gap-5 pl-16 pr-20 pt-20">
         <div className="flex items-end justify-between">
           <h1 className="text-[34px] font-bold">행사 정보 수정</h1>
         </div>
