@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/components/ui/form";
+import { LoaderCircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import {
   Select,
@@ -43,7 +44,7 @@ export default function AdminFormDialog({
   open,
   onClose,
 }: AdminFormDialogProps) {
-  const { form, onSubmit } = useNewAdminForm({
+  const { form, onSubmit, isLoading } = useNewAdminForm({
     page,
     onClose,
   });
@@ -186,9 +187,13 @@ export default function AdminFormDialog({
               <Button
                 type="submit"
                 className="basis-1/2 bg-brand hover:bg-brandHover"
-                disabled={!form.formState.isValid}
+                disabled={!form.formState.isValid || isLoading}
               >
-                확인
+                {isLoading ? (
+                  <LoaderCircleIcon className="animate-spin" />
+                ) : (
+                  "확인"
+                )}
               </Button>
             </DialogFooter>
           </form>

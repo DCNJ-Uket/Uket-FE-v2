@@ -54,8 +54,8 @@ export const useNewAdminForm = ({
   page: number;
   onClose: () => void;
 }) => {
-  const { mutate } = useMutationAddAdmin(page);
-  
+  const { mutate, isPending } = useMutationAddAdmin(page);
+
   const form = useForm<NewAdminFormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -80,5 +80,5 @@ export const useNewAdminForm = ({
     );
   }
 
-  return { form, onSubmit };
+  return { form, onSubmit, isLoading: isPending };
 };
