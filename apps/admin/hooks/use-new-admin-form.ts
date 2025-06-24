@@ -65,6 +65,7 @@ export const useNewAdminForm = ({
       organization: undefined,
       authority: undefined,
     },
+    mode: "onChange",
   });
 
   function onSubmit(data: NewAdminFormSchemaType) {

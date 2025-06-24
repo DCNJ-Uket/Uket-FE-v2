@@ -47,7 +47,6 @@ export default function AdminFormDialog({
     page,
     onClose,
   });
-
   const formatPhoneNumber = useMemo(
     () => (value: string) => {
       const cleaned = value.replace(/\D/g, "");
@@ -187,6 +186,7 @@ export default function AdminFormDialog({
               <Button
                 type="submit"
                 className="basis-1/2 bg-brand hover:bg-brandHover"
+                disabled={!form.formState.isValid}
               >
                 확인
               </Button>
