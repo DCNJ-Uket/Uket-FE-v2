@@ -42,8 +42,8 @@ export const BaseSchema = z
         message: "티켓은 최소 1장 이상이어야 합니다.",
       }),
     details: z.object({
-      information: z.string(),
-      caution: z.string(),
+      information: z.string().min(1),
+      caution: z.string().min(3),
     }),
     contact: z.object({
       type: z.string(),
