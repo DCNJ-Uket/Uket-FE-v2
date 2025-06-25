@@ -2,6 +2,7 @@
 import { Badge } from "@ui/components/ui/badge";
 import {
   UketEventListRequestParams,
+  useQueryUketEventImageList,
   useQueryUketEventList,
 } from "@uket/api/queries/uket-event";
 import Image from "next/image";
@@ -16,38 +17,48 @@ export default function UketEventList({
   eventType,
 }: UketEventListProps) {
   const { data } = useQueryUketEventList({ type: eventType });
+  const imageList = useQueryUketEventImageList(
+    data.map(item => item.eventThumbnailImageId),
+  );
   
   return (
     <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
       {data.length > 0 ? (
         <>
           {data.map(
-            ({
-              eventId,
-              eventName,
-              eventThumbnailImageId,
-              eventStartDate,
-              eventEndDate,
-              ticketingStartDate,
-              ticketingEndDate,
-              ticketingStatus,
-              leftDate,
-              eventDayLabel,
-              eventDate,
-            }) => (
+            (
+              {
+                eventId,
+                eventName,
+                eventThumbnailImageId,
+                eventStartDate,
+                eventEndDate,
+                ticketingStartDate,
+                ticketingEndDate,
+                ticketingStatus,
+                leftDate,
+                eventDayLabel,
+                eventDate,
+              },
+              index,
+            ) => (
               <article
                 key={eventId}
                 className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
                 <div className="relative h-66 rounded-xl overflow-hidden">
-                  <Image
-                    src={"/default-event-image.png"}
-                    alt={eventName}
-                    width={250}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
+                  {imageList.data[index] ? (
+                    <Image
+                      src={URL.createObjectURL(imageList.data[index])}
+                      alt={eventName}
+                      width={250}
+                      height={400}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-[250px] h-full bg-[#e7e7e7]"></div>
+                  )}
                 </div>
                 <div className="text-sm px-2">
                   <h3 className="font-bold font-buttonDisabled">{eventName}</h3>

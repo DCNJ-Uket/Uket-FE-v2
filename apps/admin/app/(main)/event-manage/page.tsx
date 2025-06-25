@@ -3,11 +3,11 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 import { HydrationBoundary } from "@uket/api";
 import { prefetchAdminEventInfoList } from "@uket/api/queries/admin-event-info";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
 import { checkUserAgent } from "../../../utils/check-user-agent";
 import EventTableSection from "./_components/event-table-section";
-import { redirect } from "next/navigation";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
@@ -29,8 +29,8 @@ export default async function Page({
   const pageParam = (await searchParams).page;
   const currentPage = pageParam ? parseInt(pageParam) : 1;
 
-  const {data, prefetchState} = await prefetchAdminEventInfoList(currentPage);
-  if(!data.content) redirect('/event-manage/add');
+  const { data, prefetchState } = await prefetchAdminEventInfoList(currentPage);
+  if (!data.content) redirect("/event-manage/add");
 
   return (
     <HydrationBoundary state={prefetchState}>
@@ -44,7 +44,6 @@ export default async function Page({
             <Link href="/event-manage/add">행사 추가</Link>
           </Button>
         </header>
-
         <Suspense fallback={<LoadingFallback />}>
           <EventTableSection />
         </Suspense>

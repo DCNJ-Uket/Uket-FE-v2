@@ -10,6 +10,7 @@ import {
   type EditorInstance,
   EditorRoot,
   handleCommandNavigation,
+  Placeholder,
 } from "novel";
 import { useRef, useState } from "react";
 import { defaultExtensions } from "./extensions";
@@ -32,8 +33,10 @@ export default function EventEditor({
   id,
   enableAutoBulletList = false,
 }: EventEditorProps) {
-  const [charsCount, setCharsCount] = useState(field.value.length || 0);
   const [editor, setEditor] = useState<EditorInstance | null>(null);
+  const [charsCount, setCharsCount] = useState(
+    editor?.storage.characterCount.characters() || 0,
+  );
   const editorRef = useRef<EditorInstance | null>(null);
 
   const debouncedUpdates = async () => {
@@ -73,7 +76,14 @@ export default function EventEditor({
         <EditorContent
           immediatelyRender={false}
           initialContent={field.value}
-          extensions={extensions}
+          extensions={[
+            ...extensions,
+            Placeholder.configure({
+              placeholder: enableAutoBulletList
+                ? "취소 및 환불 안내사항을 필수로 입력해 주세요."
+                : "상세 정보를 입력해 주세요.",
+            }),
+          ]}
           className="relative h-60 w-full border border-formInput bg-background sm:rounded-lg overflow-y-scroll"
           editorProps={{
             handleDOMEvents: {
