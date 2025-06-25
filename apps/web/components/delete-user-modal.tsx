@@ -37,8 +37,8 @@ export default function DeleteUserModal() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
-          className="basis-1/2 px-0 text-xs border-[#8989A1] text-[#8989A1]"
+          variant="ghost"
+          className="basis-1/2 px-0 text-xs border border-[#8989A1] text-[#8989A1]"
         >
           회원탈퇴
         </Button>
