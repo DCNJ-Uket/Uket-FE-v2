@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/components/ui/form";
+import { LoaderCircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import {
   Select,
@@ -43,8 +44,10 @@ export default function AdminFormDialog({
   open,
   onClose,
 }: AdminFormDialogProps) {
-  const { form, onSubmit } = useNewAdminForm({ page });
-
+  const { form, onSubmit, isLoading } = useNewAdminForm({
+    page,
+    onClose,
+  });
   const formatPhoneNumber = useMemo(
     () => (value: string) => {
       const cleaned = value.replace(/\D/g, "");
@@ -72,7 +75,7 @@ export default function AdminFormDialog({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>이름</FormLabel>
+                    <FormLabel isErrorBlack>이름</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
@@ -94,7 +97,7 @@ export default function AdminFormDialog({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>아이디</FormLabel>
+                    <FormLabel isErrorBlack>아이디</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -116,7 +119,7 @@ export default function AdminFormDialog({
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>전화번호</FormLabel>
+                    <FormLabel isErrorBlack>전화번호</FormLabel>
                     <FormControl>
                       <Input
                         type="tel"
@@ -139,7 +142,7 @@ export default function AdminFormDialog({
                 name="organization"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>소속</FormLabel>
+                    <FormLabel isErrorBlack>소속</FormLabel>
                     <SelectorOrganization field={field} />
                     <FormMessage />
                   </FormItem>
@@ -152,7 +155,7 @@ export default function AdminFormDialog({
                 name="authority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>권한</FormLabel>
+                    <FormLabel isErrorBlack>권한</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -184,8 +187,13 @@ export default function AdminFormDialog({
               <Button
                 type="submit"
                 className="basis-1/2 bg-brand hover:bg-brandHover"
+                disabled={!form.formState.isValid || isLoading}
               >
-                확인
+                {isLoading ? (
+                  <LoaderCircleIcon className="animate-spin" />
+                ) : (
+                  "확인"
+                )}
               </Button>
             </DialogFooter>
           </form>

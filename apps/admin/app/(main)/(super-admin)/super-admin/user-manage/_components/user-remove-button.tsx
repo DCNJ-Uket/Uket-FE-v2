@@ -32,11 +32,12 @@ export default function UserRemoveButton({
 }: UserRemoveButtonProps) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get("page") as string;
+  const currentPage = pageParam ? parseInt(pageParam) : 1;
   const [open, setOpen] = useState(false);
 
   const { data } = useQueryAdminInfo();
 
-  const { mutate } = useMutationRemoveAdmin(Number(pageParam));
+  const { mutate } = useMutationRemoveAdmin(currentPage);
 
   const handleRemove = () => {
     if (!data) return;
