@@ -135,7 +135,6 @@ export default function GeneralInfo({ userInfo }: GeneralInfoProps) {
             }
             error={errors.phoneNumber}
           />
-          {/* <InfoItem title="사용자구분" content={userInfo.universityName} /> */}
         </div>
       </main>
     </main>
