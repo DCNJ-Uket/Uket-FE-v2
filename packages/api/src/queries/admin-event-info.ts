@@ -6,7 +6,7 @@ import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 
-import { EventType, PaymentInfo } from "../mutations/use-mutation-submit-event";
+import { EventType, PaymentInfo, SubmitEventRequestParams } from "../mutations/use-mutation-submit-event";
 import {
   AdminTicketDetailInfoResponse,
   AdminTicketInfoResponse,
@@ -111,6 +111,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           startTime: item.startTime,
         };
       });
+      const buyTicketLimit = eventInfo?.buyTicketLimit || 0;
+      const noLimit = (buyTicketLimit === 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
       const paymentInfo = {
         isFree: (eventInfo?.paymentInfo.ticketPrice === 0
           ? "무료"
@@ -160,6 +162,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           banners,
           location,
           eventRound,
+          noLimit,
+          buyTicketLimit,
         },
       };
     },
