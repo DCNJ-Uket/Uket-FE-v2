@@ -8,8 +8,7 @@ export type UketEventDetail = {
   information: string;
   detailImageId: string;
   banners: {
-    id: number;
-    imagePath: string;
+    imageId: number;
     link: string;
   }[];
   caution: string;
