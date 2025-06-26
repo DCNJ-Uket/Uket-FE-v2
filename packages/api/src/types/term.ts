@@ -9,6 +9,10 @@ export type Term = {
   isAgreed: boolean;
 };
 
+export type TermMarketing = {
+  items: Pick<Term, "termsId" | "name" | "documentId" | "isAgreed">[];
+};
+
 export type TermListResponse = {
   items: Term[];
 };

@@ -1,7 +1,9 @@
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://uket.co.kr";
+    : process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? "https://uket.co.kr"
+      : "https://dev.uket.co.kr";
 
 export const KAKAO_OPEN_CHAT_ID = "_cQLwn";
 export const KAKAO_OPEN_CHAT_URL = `https://pf.kakao.com/${KAKAO_OPEN_CHAT_ID}`;

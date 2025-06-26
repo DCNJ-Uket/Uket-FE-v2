@@ -43,10 +43,10 @@ export default function StepSelect({
   onPrev,
   eventName,
 }: StepSelectProps) {
-  const [selectedDate, setSelectedDate] = useState<string>(sampleDates[0]);
+  const [selectedDate, setSelectedDate] = useState<string>(sampleDates[0]!);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [performer, setPerformer] = useState<string>("");
-  const [ticketCount, setTicketCount] = useState<number>(null);
+  const [ticketCount, setTicketCount] = useState<number | null>(null);
 
   const filteredTimes = sampleTimesWithTickets.filter(
     ({ date }) =>
@@ -80,7 +80,7 @@ export default function StepSelect({
 
         <TicketCountField
           eventName={eventName}
-          selectedTime={selectedTime}
+          selectedTime={selectedTime!}
           remaining={
             sampleTimesWithTickets.find(t => t.date === selectedTime)?.remaining
           }
@@ -93,7 +93,7 @@ export default function StepSelect({
         <div className="border-t-2 border-t-[#f2f2f2] flex justify-between p-7 font-bold text-base bg-white">
           <p>총 결제금액</p>
           <p className="text-brand">
-            {(ticketPrice * ticketCount).toLocaleString()} 원
+            {(ticketPrice * ticketCount!).toLocaleString()} 원
           </p>
         </div>
         <StepNextController

@@ -17,14 +17,17 @@ export default function UserProfile({ userInfo }: UserProfileProps) {
       <div className="flex items-center gap-6">
         <div className="relative h-14 w-14">
           <Image
-            src={userInfo.profileImage}
+            src={userInfo.profileImagePath}
             alt="프로필 이미지"
             width={100}
             height={100}
             className="h-full w-full rounded-full object-cover"
           />
         </div>
-        <p className="text-xl font-bold">{userInfo.depositorName}</p>
+        <div>
+          <p className="text-xl font-bold">{userInfo.depositorName}</p>
+          <p className="text-sm text-[#5E5E6E]">{userInfo.email}</p>
+        </div>
       </div>
       <Button
         variant="outline"

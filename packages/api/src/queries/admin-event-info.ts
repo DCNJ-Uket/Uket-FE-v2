@@ -6,7 +6,7 @@ import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 
-import { EventType, PaymentInfo } from "../mutations/use-mutation-submit-event";
+import { EventType, PaymentInfo, SubmitEventRequestParams } from "../mutations/use-mutation-submit-event";
 import {
   AdminTicketDetailInfoResponse,
   AdminTicketInfoResponse,
@@ -118,6 +118,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           startTime: item.startTime,
         };
       });
+      const buyTicketLimit = eventInfo?.buyTicketLimit || 0;
+      const noLimit = (buyTicketLimit === 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
       const paymentInfo = {
         isFree: (eventInfo?.paymentInfo.ticketPrice === 0
           ? "무료"
@@ -125,18 +127,27 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         ...eventInfo?.paymentInfo!,
       };
       const uketEventImageId = {
-        file: undefined,
+        file:
+          typeof window !== "undefined"
+            ? new File([""], "file.png", { type: "image/png" })
+            : undefined,
         previewImage: undefined,
         id: eventInfo?.uketEventImageId,
       };
       const thumbnailImageId = {
-        file: undefined,
+        file:
+          typeof window !== "undefined"
+            ? new File([""], "file.png", { type: "image/png" })
+            : undefined,
         previewImage: undefined,
         id: eventInfo?.thumbnailImageId,
       };
       const banners = eventInfo?.banners.map(item => {
         return {
-          file: undefined,
+          file:
+            typeof window !== "undefined"
+              ? new File([""], "file.png", { type: "image/png" })
+              : undefined,
           previewImage: undefined,
           link: item.link,
           id: item.imageId.toString(),
@@ -160,6 +171,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           banners,
           location,
           eventRound,
+          noLimit,
+          buyTicketLimit,
         },
       };
     },
