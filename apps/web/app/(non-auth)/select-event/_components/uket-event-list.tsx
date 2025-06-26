@@ -20,7 +20,7 @@ export default function UketEventList({
   const imageList = useQueryUketEventImageList(
     data.map(item => item.eventThumbnailImageId),
   );
-  
+
   return (
     <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
       {data.length > 0 ? (
@@ -47,7 +47,7 @@ export default function UketEventList({
                 className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
-                <div className="relative h-66 rounded-xl overflow-hidden">
+                <div className="relative h-64 rounded-xl overflow-hidden">
                   {imageList.data[index] ? (
                     <Image
                       src={URL.createObjectURL(imageList.data[index])}
@@ -58,6 +58,11 @@ export default function UketEventList({
                     />
                   ) : (
                     <div className="w-[250px] h-full bg-[#e7e7e7]"></div>
+                  )}
+                  {ticketingStatus === "티켓팅_종료" && (
+                    <div className="flex justify-center items-center absolute top-0 left-0 w-full h-full text-white bg-[#979797e2] text-xs font-bold">
+                      구매 불가
+                    </div>
                   )}
                 </div>
                 <div className="text-sm px-2">
@@ -80,7 +85,7 @@ export default function UketEventList({
         </>
       ) : (
         <div className="text-desc col-span-full text-center text-lg">
-          조회된 공연이 없습니다.
+          현재 예매 가능한 행사가 없습니다!
         </div>
       )}
     </main>
