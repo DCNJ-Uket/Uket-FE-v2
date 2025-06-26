@@ -2,6 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 import { adminEventInfo } from "../queries/admin-event-info";
+import { adminUser } from "../queries/admin-user";
+import { AdminUserInfoResponse } from "../types/admin-auth";
 import {
   ChangeEventStatusParams,
   ChangeEventStatusResponse,
@@ -15,8 +17,12 @@ export const useMutationChangeEventStatus = (page: number) => {
       uketEventRegistrationId,
       registrationStatus,
     }: ChangeEventStatusParams) => {
+      const adminUserInfo = queryClient.getQueryData<AdminUserInfoResponse>([
+        ...adminUser.info().queryKey,
+      ]);
+      
       const { data } = await fetcherAdmin.put<ChangeEventStatusResponse>(
-        `/uket-event-registrations/${uketEventRegistrationId}/status/${registrationStatus}`,
+        `/uket-event-registrations/${uketEventRegistrationId}/status/${registrationStatus}?adminId=${adminUserInfo?.adminId}`,
       );
 
       return data;
