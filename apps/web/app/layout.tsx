@@ -10,7 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notoSans } from "../config/fonts";
 import { Base_Site_Config } from "../config/site";
 
-import GoogleAnalytics from "../config/google-analytics";
+import GoogleAnalytics from "@uket/util/google-analytics";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
