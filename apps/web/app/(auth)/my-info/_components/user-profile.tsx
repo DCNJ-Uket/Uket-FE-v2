@@ -24,7 +24,10 @@ export default function UserProfile({ userInfo }: UserProfileProps) {
             className="h-full w-full rounded-full object-cover"
           />
         </div>
-        <p className="text-xl font-bold">{userInfo.depositorName}</p>
+        <div>
+          <p className="text-xl font-bold">{userInfo.depositorName}</p>
+          <p className="text-sm text-[#5E5E6E]">{userInfo.email}</p>
+        </div>
       </div>
       <Button
         variant="outline"

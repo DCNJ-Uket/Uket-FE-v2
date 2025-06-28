@@ -6,7 +6,7 @@ import { formatDate } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 
-import { EventType, PaymentInfo } from "../mutations/use-mutation-submit-event";
+import { EventType, PaymentInfo, SubmitEventRequestParams } from "../mutations/use-mutation-submit-event";
 import {
   AdminTicketDetailInfoResponse,
   AdminTicketInfoResponse,
@@ -101,6 +101,13 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         ticketingStartDateTime: new Date(eventInfo?.ticketingStartDateTime!),
         ticketingEndDateTime: new Date(eventInfo?.ticketingEndDateTime!),
       };
+      const entryGroup = eventInfo?.entryGroup.map(item => {
+        const [hour, minute] = item.entryStartTime.split(":").map(Number);
+        return {
+          ticketCount: item.ticketCount,
+          entryStartTime: { hour: hour!, minute: minute! },
+        };
+      });
       const eventRound = eventInfo?.eventRound.map(item => {
         const [hours, minutes] = item.startTime.split(":").map(Number);
         const date = new Date(item.date);
@@ -111,6 +118,8 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
           startTime: item.startTime,
         };
       });
+      const buyTicketLimit = eventInfo?.buyTicketLimit || 0;
+      const noLimit = (buyTicketLimit === 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
       const paymentInfo = {
         isFree: (eventInfo?.paymentInfo.ticketPrice === 0
           ? "무료"
@@ -118,18 +127,27 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         ...eventInfo?.paymentInfo!,
       };
       const uketEventImageId = {
-        file: undefined,
+        file:
+          typeof window !== "undefined"
+            ? new File([""], "file.png", { type: "image/png" })
+            : undefined,
         previewImage: undefined,
         id: eventInfo?.uketEventImageId,
       };
       const thumbnailImageId = {
-        file: undefined,
+        file:
+          typeof window !== "undefined"
+            ? new File([""], "file.png", { type: "image/png" })
+            : undefined,
         previewImage: undefined,
         id: eventInfo?.thumbnailImageId,
       };
       const banners = eventInfo?.banners.map(item => {
         return {
-          file: undefined,
+          file:
+            typeof window !== "undefined"
+              ? new File([""], "file.png", { type: "image/png" })
+              : undefined,
           previewImage: undefined,
           link: item.link,
           id: item.imageId.toString(),
@@ -139,18 +157,22 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         base: eventInfo?.location!,
         detail: "",
       };
+
       return {
         eventType: data.eventType,
         data: {
           ...eventInfo,
           eventType,
           ticketingDate,
+          entryGroup,
           paymentInfo,
           uketEventImageId,
           thumbnailImageId,
           banners,
           location,
           eventRound,
+          noLimit,
+          buyTicketLimit,
         },
       };
     },
@@ -159,9 +181,11 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
 
 export const prefetchAdminEventInfoList = async (page: number) => {
   const queryClient = getQueryClient();
-  const data = await queryClient.fetchQuery({ ...adminEventInfo.list({ page }) });
+  const data = await queryClient.fetchQuery({
+    ...adminEventInfo.list({ page }),
+  });
 
-  return {data, prefetchState: dehydrate(queryClient)};
+  return { data, prefetchState: dehydrate(queryClient) };
 };
 
 export const prefetchAdminEventInfoDetail = (id: string) => {

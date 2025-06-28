@@ -12,6 +12,14 @@ type EventRound = {
   startTime: string;
 };
 
+type EntryGroup = {
+  ticketCount: number;
+  entryStartTime: {
+    hour: number;
+    minute: number;
+  };
+};
+
 type TicketingDate = {
   ticketingStartDateTime: Date;
   ticketingEndDateTime: Date;
@@ -51,11 +59,12 @@ export type PaymentInfo = {
   depositUrl: string;
 };
 
-type SubmitEventRequestParams = {
+export type SubmitEventRequestParams = {
   eventType: EventType;
   organizationId: AdminUserInfoResponse["organizationId"];
   eventName: string;
   location: Location;
+  entryGroup: EntryGroup[];
   eventRound: EventRound[];
   ticketingDate: TicketingDate;
   totalTicketCount: number;
@@ -65,6 +74,8 @@ type SubmitEventRequestParams = {
   thumbnailImageId: ImageId;
   banners: Banner[];
   paymentInfo: PaymentInfo;
+  noLimit: "제한 없음" | "제한";
+  buyTicketLimit: number;
 };
 
 type SubmitEventResponse = {
@@ -95,6 +106,7 @@ export const useMutationSubmitEvent = (
         totalTicketCount,
         details,
         contact,
+        buyTicketLimit,
       } = params;
       const location = params.location.base + " " + params.location.detail;
       const eventRound = params.eventRound.map(round => {
@@ -109,10 +121,10 @@ export const useMutationSubmitEvent = (
         ticketingEndDateTime:
           params.ticketingDate.ticketingEndDateTime.toISOString(),
       };
-      const entryGroup = eventRound.map((_, index) => {
+      const entryGroup = params.entryGroup.map((entry) => {
         return {
-          ticketCount: params.totalTicketCount,
-          entryStartTime: eventRound[index]?.startTime,
+          ticketCount: entry.ticketCount,
+          entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute}:00`,
         };
       });
       const imageIds = {
@@ -134,6 +146,8 @@ export const useMutationSubmitEvent = (
         depositUrl: params.paymentInfo.depositUrl,
       };
 
+      const noLimit = (buyTicketLimit <= 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
+
       const formattedData = {
         eventName,
         location,
@@ -145,6 +159,8 @@ export const useMutationSubmitEvent = (
         contact,
         ...imageIds,
         paymentInfo,
+        noLimit,
+        buyTicketLimit,
       };
       const type = eventType === "공연" ? "PERFORMANCE" : "FESTIVAL";
       const body =

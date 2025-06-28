@@ -5,7 +5,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@ui/components/ui/carousel";
-import { UketEventDetail } from "@uket/api/types/uket-event";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,10 +12,14 @@ import { useEffect, useState } from "react";
 import Indicator from "../../../../../../../components/indicator";
 import CarouselDotButtonList from "./CarouselDotButtonList";
 
-interface PropType {
-  slides: UketEventDetail["banners"] | undefined;
+interface CarouselSlide {
+  image: Blob;
+  link?: string;
 }
 
+interface PropType {
+  slides: CarouselSlide[];
+}
 const CarouselT = ({ slides }: PropType) => {
   const [emblaApi, setEmblaApi] = useState<CarouselApi>();
   const [slidesInView, setSlidesInView] = useState<number[]>([]);
@@ -50,14 +53,17 @@ const CarouselT = ({ slides }: PropType) => {
         </p>
       </CarouselItem>
     ) : (
-      slides.map(({ id, imagePath, link }) => (
-        <CarouselItem key={id} className="basis-full">
+      slides.map(({ image, link }) => (
+        <CarouselItem key={link || ""} className="basis-full">
           <Link href={link || "/404"} target="_blank">
             <div>
               <div className="relative">
                 <div className="relative h-60 w-full rounded-lg p-0 sm:h-80 lg:h-96">
                   <Image
-                    src={imagePath || "/default-event-image.png"}
+                    src={
+                      (image && URL.createObjectURL(image)) ||
+                      "/default-event-image.png"
+                    }
                     alt="축제 배너"
                     width={100}
                     height={100}
