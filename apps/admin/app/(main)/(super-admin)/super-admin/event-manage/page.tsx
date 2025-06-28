@@ -17,10 +17,10 @@ export default async function Page({
   const pageParam = (await searchParams).page;
   const currentPage = pageParam ? parseInt(pageParam) : 1;
 
-  const state = prefetchAdminEventInfoList(currentPage);
+  const { prefetchState } = await prefetchAdminEventInfoList(currentPage);
 
   return (
-    <HydrationBoundary state={state}>
+    <HydrationBoundary state={prefetchState}>
       <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
         <header className="flex items-center justify-between">
           <h1 className="text-[34px] font-bold">전체 행사 관리</h1>

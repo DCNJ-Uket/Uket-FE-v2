@@ -116,12 +116,16 @@ export const useMutationSubmitEvent = (
         };
       });
       const ticketingDate = {
-        ticketingStartDateTime:
-          params.ticketingDate.ticketingStartDateTime.toISOString(),
-        ticketingEndDateTime:
+        ticketingStartDateTime: format(
+          params.ticketingDate.ticketingStartDateTime,
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        ),
+        ticketingEndDateTime: format(
           params.ticketingDate.ticketingEndDateTime.toISOString(),
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        ),
       };
-      const entryGroup = params.entryGroup.map((entry) => {
+      const entryGroup = params.entryGroup.map(entry => {
         return {
           ticketCount: entry.ticketCount,
           entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute}:00`,
@@ -146,7 +150,9 @@ export const useMutationSubmitEvent = (
         depositUrl: params.paymentInfo.depositUrl,
       };
 
-      const noLimit = (buyTicketLimit <= 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
+      const noLimit = (
+        buyTicketLimit <= 0 ? "제한 없음" : "제한"
+      ) as SubmitEventRequestParams["noLimit"];
 
       const formattedData = {
         eventName,
