@@ -12,6 +12,14 @@ type EventRound = {
   startTime: string;
 };
 
+type EntryGroup = {
+  ticketCount: number;
+  entryStartTime: {
+    hour: number;
+    minute: number;
+  };
+};
+
 type TicketingDate = {
   ticketingStartDateTime: Date;
   ticketingEndDateTime: Date;
@@ -56,6 +64,7 @@ export type SubmitEventRequestParams = {
   organizationId: AdminUserInfoResponse["organizationId"];
   eventName: string;
   location: Location;
+  entryGroup: EntryGroup[];
   eventRound: EventRound[];
   ticketingDate: TicketingDate;
   totalTicketCount: number;
@@ -112,10 +121,10 @@ export const useMutationSubmitEvent = (
         ticketingEndDateTime:
           params.ticketingDate.ticketingEndDateTime.toISOString(),
       };
-      const entryGroup = eventRound.map((_, index) => {
+      const entryGroup = params.entryGroup.map((entry) => {
         return {
-          ticketCount: params.totalTicketCount,
-          entryStartTime: eventRound[index]?.startTime,
+          ticketCount: entry.ticketCount,
+          entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute}:00`,
         };
       });
       const imageIds = {
