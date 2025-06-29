@@ -20,6 +20,14 @@ type EntryGroup = {
   };
 };
 
+type EntryGroup = {
+  ticketCount: number;
+  entryStartTime: {
+    hour: number;
+    minute: number;
+  };
+};
+
 type TicketingDate = {
   ticketingStartDateTime: Date;
   ticketingEndDateTime: Date;
@@ -64,6 +72,7 @@ export type SubmitEventRequestParams = {
   organizationId: AdminUserInfoResponse["organizationId"];
   eventName: string;
   location: Location;
+  entryGroup: EntryGroup[];
   entryGroup: EntryGroup[];
   eventRound: EventRound[];
   ticketingDate: TicketingDate;
