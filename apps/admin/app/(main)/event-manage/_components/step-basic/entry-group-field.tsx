@@ -26,7 +26,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
     control,
   });
 
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(fields.length !== 0);
 
   const totalTicketCount = useWatch({
     control,
