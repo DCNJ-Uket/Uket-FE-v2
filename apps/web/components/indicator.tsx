@@ -14,7 +14,7 @@ interface IndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
 const VARIANT_MAPPING: Record<string, BadgeVariant> = {
   "입금 확인중": "deposit",
   "예매 완료": "reservation",
-  "": "enter",
+  "입장 완료": "enter",
   "환불 요청": "refund",
 };
 
