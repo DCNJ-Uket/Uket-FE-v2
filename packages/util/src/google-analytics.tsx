@@ -1,29 +1,10 @@
-import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
-export default function GoogleAnalytics() {
-  const gtag = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-
+export default function GoogleAnalyticsScript() {
   return (
     <>
-      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ? (
-        <>
-          <Script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${gtag}`}
-          />
-          <Script
-            id="google-analytics"
-            dangerouslySetInnerHTML={{
-              __html: `window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', '${gtag}');`,
-            }}
-          />
-        </>
-      ) : (
-        <></>
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
       )}
     </>
   );

@@ -6,8 +6,8 @@ import "@uket/ui/globals.css";
 import { notoSans } from "../config/fonts";
 import Providers from "./providers";
 
-import GoogleAnalytics from "@uket/util/google-analytics";
 import KakaoScript from "../utils/kakao";
+import GoogleAnalyticsScript from "@uket/util/google-analytics";
 
 export const metadata: Metadata = {
   title: "Uket for admin",
@@ -25,8 +25,8 @@ export default async function RootLayout({
         <Providers>{children}</Providers>
         <Sonner richColors position="bottom-center" />
       </body>
+      <GoogleAnalyticsScript />
       <KakaoScript />
-      <GoogleAnalytics/>
     </html>
   );
 }
