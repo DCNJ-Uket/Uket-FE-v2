@@ -51,8 +51,10 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
 
     append({
       ticketCount: undefined,
-      entryStartTime: undefined,
-      entryEndTime: undefined,
+      entryStartTime: {
+        hour: 0,
+        minute: 0,
+      },
     });
   };
 
@@ -61,8 +63,10 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
     else
       append({
         ticketCount: undefined,
-        entryStartTime: undefined,
-        entryEndTime: undefined,
+        entryStartTime: {
+          hour: 0,
+          minute: 0,
+        },
       });
 
     setChecked(checked => !checked);
