@@ -121,12 +121,23 @@ export const useMutationSubmitEvent = (
         ticketingEndDateTime:
           params.ticketingDate.ticketingEndDateTime.toISOString(),
       };
-      const entryGroup = params.entryGroup.map((entry) => {
-        return {
-          ticketCount: entry.ticketCount,
-          entryStartTime: formatTime(entry.entryStartTime.hour, entry.entryStartTime.minute)
-        };
-      });
+      const entryGroup =
+        params.entryGroup.length === 0
+          ? params.eventRound.map(round => {
+              return {
+                ticketCount: params.totalTicketCount,
+                entryStartTime: round.startTime,
+              };
+            })
+          : params.entryGroup.map(entry => {
+              return {
+                ticketCount: entry.ticketCount,
+                entryStartTime: formatTime(
+                  entry.entryStartTime.hour,
+                  entry.entryStartTime.minute,
+                ),
+              };
+            });
       const imageIds = {
         uketEventImageId: params.uketEventImageId.id,
         thumbnailImageId: params.thumbnailImageId.id,
@@ -146,7 +157,9 @@ export const useMutationSubmitEvent = (
         depositUrl: params.paymentInfo.depositUrl,
       };
 
-      const noLimit = (buyTicketLimit <= 0 ? "제한 없음" : "제한") as SubmitEventRequestParams["noLimit"];
+      const noLimit = (
+        buyTicketLimit <= 0 ? "제한 없음" : "제한"
+      ) as SubmitEventRequestParams["noLimit"];
 
       const formattedData = {
         eventName,
