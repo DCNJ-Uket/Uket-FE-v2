@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { format } from "@uket/util/time";
+import { format, formatTime } from "@uket/util/time";
 import { fetcherAdmin } from "../admin-instance";
 import { getQueryClient } from "../get-query-client";
 import { adminEventInfo } from "../queries/admin-event-info";
@@ -124,7 +124,7 @@ export const useMutationSubmitEvent = (
       const entryGroup = params.entryGroup.map((entry) => {
         return {
           ticketCount: entry.ticketCount,
-          entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute}:00`,
+          entryStartTime: formatTime(entry.entryStartTime.hour, entry.entryStartTime.minute)
         };
       });
       const imageIds = {
