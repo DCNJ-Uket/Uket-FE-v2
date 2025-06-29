@@ -1,10 +1,13 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { formatDate } from "@uket/util/time";
+import { format, formatDate, ko, parseISO } from "@uket/util/time";
 
 import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
-import { ReservationResponse } from "../types/reservation";
+import {
+  PerformerListResponse,
+  ReservationResponse,
+} from "../types/reservation";
 import {
   ReservationInfoResponse,
   ShowInfo,
@@ -80,6 +83,18 @@ export const reservation = createQueryKeys("reservation", {
       return data;
     },
   }),
+  performer: (id: UketEventDetail["eventId"]) => ({
+    queryKey: ["performer-list", id],
+    queryFn: async () => {
+      const { data } = await fetcher.get<PerformerListResponse>(
+        `/rounds/${id}/performers`,
+        {
+          mode: "BOUNDARY",
+        },
+      );
+      return data.items;
+    },
+  }),
 });
 
 export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
@@ -93,6 +108,38 @@ export const useQueryShowList = (id: UketEventDetail["eventId"]) => {
         showDate: formatDate(show.startDate, "compact"),
         ticketingDate: formatDate(show.ticketingDate, "fullCompact"),
       }));
+    },
+  });
+};
+
+export const useQueryReservationInfoList2 = (
+  id: UketEventDetail["eventId"],
+) => {
+  return useSuspenseQuery({
+    ...reservation.select(id),
+    select: data => {
+      return data.eventRounds.map(round => {
+        const date = parseISO(round.eventRoundDateTime);
+        const dateLabel = format(date, "MM.dd(E)", { locale: ko }); // 예: 06.30(월)
+
+        const times = round.entryGroups.map(group => {
+          const time = parseISO(group.startDateTime);
+          const timeLabel = format(time, "HH:mm"); // 예: 10:00
+
+          return {
+            timeLabel,
+            entryGroupId: group.entryGroupId,
+            remaining: group.totalTicketCount - group.ticketCount,
+          };
+        });
+
+        return {
+          price: data.ticketPrice,
+          dateLabel,
+          eventRoundId: round.eventRoundId,
+          times,
+        };
+      });
     },
   });
 };
@@ -116,6 +163,13 @@ export const useQueryReservationInfoList = (id: UketEventDetail["eventId"]) => {
         ),
       };
     },
+  });
+};
+
+export const useQueryPerformerList = (id: UketEventDetail["eventId"]) => {
+  return useSuspenseQuery({
+    ...reservation.performer(id),
+    select: data => data.map(item => item.name),
   });
 };
 

@@ -36,7 +36,6 @@ const formatType: Record<FormatType, string> = {
 
 export const formatDate = (date: string, type: FormatType) => {
   return dayjs(date)
-    .utcOffset(0, true)
     .tz(tz)
     .format(formatType[type])
     .toString();

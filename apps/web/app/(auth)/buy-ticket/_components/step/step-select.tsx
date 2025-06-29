@@ -4,9 +4,12 @@ import {
   ActivityFooter,
 } from "@ui/components/ui/activity";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useQueryReservationInfoList } from "@uket/api/queries/reservation";
+import {
+  useQueryPerformerList,
+  useQueryReservationInfoList,
+} from "@uket/api/queries/reservation";
 import DateTimeSelectField from "../select/datetime-select-field";
 import PerformerSelectField from "../select/performer-select-field";
 import TicketCountField from "../select/ticket-count-field";
@@ -21,8 +24,6 @@ interface StepSelectProps extends StepControllerProps {
   eventId: string;
 }
 
-const samplePerformers = ["장원영", "안유진", "리즈", "이서", "가을"];
-
 export default function StepSelect({
   onNext,
   onPrev,
@@ -32,6 +33,7 @@ export default function StepSelect({
   const { ticketPrice, dates, times } = useQueryReservationInfoList(
     Number(eventId),
   ).data;
+  const { data: performerList } = useQueryPerformerList(Number(eventId));
 
   const [selectedDate, setSelectedDate] = useState<string>(dates[0]!.date);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -42,6 +44,20 @@ export default function StepSelect({
     ({ time }) =>
       new Date(time).toDateString() === new Date(selectedDate).toDateString(),
   );
+
+  useEffect(() => {
+    if (selectedTime) {
+      setTicketCount(1);
+    } else {
+      setTicketCount(null);
+    }
+  }, [selectedTime]);
+
+  useEffect(() => {
+    if (selectedTime && !filteredTimes.some(t => t.time === selectedTime)) {
+      setSelectedTime(null);
+    }
+  }, [filteredTimes, selectedTime]);
 
   return (
     <Activity>
@@ -62,8 +78,8 @@ export default function StepSelect({
 
         <PerformerSelectField
           performer={performer}
-          setPerformer={setPerformer}
-          performerList={samplePerformers}
+          onSelect={setPerformer}
+          performerList={performerList}
         />
 
         <div className="-mx-4 h-[2px] bg-[#f2f2f2]"></div>
@@ -82,7 +98,6 @@ export default function StepSelect({
           <p>총 결제금액</p>
           <p className="text-brand">
             {(ticketPrice * (ticketCount ?? 0)).toLocaleString()} 원
-            {(ticketPrice * ticketCount!).toLocaleString()} 원
           </p>
         </div>
         <StepNextController

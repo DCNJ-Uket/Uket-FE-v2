@@ -128,7 +128,7 @@ export const useMutationSubmitEvent = (
       const entryGroup = params.entryGroup.map(entry => {
         return {
           ticketCount: entry.ticketCount,
-          entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute}:00`,
+          entryStartTime: `${entry.entryStartTime.hour}:${entry.entryStartTime.minute.toString().padStart(2, '0')}:00`,
         };
       });
       const imageIds = {
