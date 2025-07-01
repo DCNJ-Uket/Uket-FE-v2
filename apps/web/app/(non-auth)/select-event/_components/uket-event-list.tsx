@@ -20,11 +20,11 @@ export default function UketEventList({
   const imageList = useQueryUketEventImageList(
     data.map(item => item.eventThumbnailImageId),
   );
-  
+
   return (
-    <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
+    <main className="h-full">
       {data.length > 0 ? (
-        <>
+        <main className="grid grow auto-rows-min grid-cols-2 items-start gap-3 md:grid-cols-2">
           {data.map(
             (
               {
@@ -77,10 +77,21 @@ export default function UketEventList({
               </article>
             ),
           )}
-        </>
+        </main>
       ) : (
-        <div className="text-desc col-span-full text-center text-lg">
-          조회된 공연이 없습니다.
+        <div className="flex flex-col gap-4 h-full items-center justify-center">
+          <div className="relative">
+            <Image
+              src="/no-event.png"
+              alt="행사 없음"
+              width={60}
+              height={150}
+              className="h-full object-contain"
+            />
+          </div>
+          <div className="text-[#8989A1] col-span-full text-center text-sm font-medium">
+            현재 예매 가능한 행사가 없습니다!
+          </div>
         </div>
       )}
     </main>
