@@ -84,7 +84,7 @@ export default function BuyTicketLimitField({
                               step={1}
                               disabled={noLimitOption !== "제한"}
                               value={field.value || 0}
-                              defaultValue={field.value || 0}
+                              // defaultValue={field.value || 0}
                               onChange={e => {
                                 const number = Number(e.target.value);
 
