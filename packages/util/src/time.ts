@@ -34,6 +34,18 @@ const formatType: Record<FormatType, string> = {
   userTicketFullDate: "MM.DD.(ddd) HH:mm",
 };
 
+export const formatTime = (hour: number, minute: number, second?: number) => {
+  const hh = hour < 10 ? "0" + hour.toString() : hour.toString();
+  const mm = minute < 10 ? "0" + minute.toString() : minute.toString();
+  const ss = second
+    ? second < 10
+      ? "0" + second.toString()
+      : second.toString()
+    : "00";
+
+  return hh + ":" + mm + ":" + ss;
+};
+
 export const formatDate = (date: string, type: FormatType) => {
   return dayjs(date)
     .utcOffset(0, true)

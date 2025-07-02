@@ -1,3 +1,5 @@
+'use client';
+
 import { useQueryAdminInfo } from "@uket/api/queries/admin-user";
 
 interface GreetingHeaderProps {
@@ -9,7 +11,7 @@ export default function GreetingHeader({
 }: GreetingHeaderProps) {
   const { data } = useQueryAdminInfo();
   const organizationName = data && data.organization;
-
+  
   return (
     <>
       {isMobileDevice ? (

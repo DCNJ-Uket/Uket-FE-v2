@@ -60,6 +60,15 @@ export const BaseSchema = z
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
+    entryGroup: z.array(
+      z.object({
+        ticketCount: z.number(),
+        entryStartTime: z.object({
+          hour: z.number(),
+          minute: z.number(),
+        }),
+      }),
+    ),
     thumbnailImageId: z.object({
       file:
         typeof window === "undefined"
@@ -85,29 +94,31 @@ export const BaseSchema = z
       isFree: z.enum(["무료", "유료"]).default("무료"),
       ticketPrice: z.number().default(100),
       bankCode: z
-        .string({
-          message: "입금 은행을 선택해 주세요.",
-        })
-        .or(z.literal("")),
+      .string({
+        message: "입금 은행을 선택해 주세요.",
+      })
+      .or(z.literal("")),
       accountNumber: z
-        .string({
-          message: "입금 계좌를 입력해 주세요",
-        })
-        .or(z.literal("")),
+      .string({
+        message: "입금 계좌를 입력해 주세요",
+      })
+      .or(z.literal("")),
       depositorName: z
-        .string({
-          message: "예금주를 입력해 주세요",
-        })
-        .or(z.literal("")),
+      .string({
+        message: "예금주를 입력해 주세요",
+      })
+      .or(z.literal("")),
       depositUrl: z
-        .string({
-          message: "송금 코드 링크를 입력해 주세요",
-        })
-        .url({
-          message: "형식에 맞지 않습니다.",
-        })
-        .or(z.literal("")),
+      .string({
+        message: "송금 코드 링크를 입력해 주세요",
+      })
+      .url({
+        message: "형식에 맞지 않습니다.",
+      })
+      .or(z.literal("")),
     }),
+    noLimit: z.enum(["제한 없음", "제한"]).default("제한 없음"),
+    buyTicketLimit: z.number().default(0),
   })
   .partial();
 
@@ -192,6 +203,8 @@ export const useAddEventForm = ({
         depositorName: undefined,
         depositUrl: undefined,
       },
+      noLimit: "제한 없음",
+      buyTicketLimit: 0,
     },
     reValidateMode: "onChange",
   });
@@ -204,6 +217,7 @@ export const useAddEventForm = ({
           organizationId: data.organizationId!,
           eventName: data.eventName!,
           location: data.location!,
+          entryGroup: data.entryGroup!,
           eventRound: data.eventRound!,
           ticketingDate: data.ticketingDate!,
           totalTicketCount: data.totalTicketCount!,
@@ -213,6 +227,8 @@ export const useAddEventForm = ({
           thumbnailImageId: data.thumbnailImageId!,
           banners: data.banners!,
           paymentInfo: data.paymentInfo!,
+          noLimit: data.noLimit!,
+          buyTicketLimit: data.buyTicketLimit!
         },
       },
       {

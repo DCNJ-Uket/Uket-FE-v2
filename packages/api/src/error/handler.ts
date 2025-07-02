@@ -29,6 +29,9 @@ export const TOAST_HANDLER: Record<
     onSuccess: () => {
       toast.success("등록이 완료되었습니다.");
     },
+    onError: () => {
+      toast.error("등록이 실패했습니다.");
+    },
   },
   removeAdmin: {
     onSuccess: () => {

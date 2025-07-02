@@ -111,6 +111,7 @@ export default function EventAddSection({ eventId }: EventAddSectionProps) {
                   ticketingDate: values.ticketingDate,
                   location: values.location,
                   totalTicketCount: values.totalTicketCount,
+                  entryGroup: values.entryGroup,
                 });
               }}
             />
