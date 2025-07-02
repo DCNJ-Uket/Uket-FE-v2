@@ -19,7 +19,7 @@ export const useEventTypeParams = () => {
   const handleChangeParams = (type: UketEventListRequestParams["type"]) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("type", type);
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`);
   };
 
   return {

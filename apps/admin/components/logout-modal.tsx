@@ -36,7 +36,7 @@ export default function LogoutModal({
         <Button
           variant={isMobileDevice ? "link" : "outline"}
           className={cn(
-            "m-auto block",
+            "block",
             isMobileDevice
               ? "px-0 text-xs text-desc"
               : "border-none text-[#8989A1]",
