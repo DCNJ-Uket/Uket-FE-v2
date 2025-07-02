@@ -33,20 +33,6 @@ const TAB = [
   { value: "환불규정", title: "환불 규정" },
 ];
 
-const anotherInfo = [
-  { label: "주최", value: "소리터" },
-  {
-    label: "문의",
-    value: "@soritor_official",
-    href: "https://www.instagram.com/official.uket/",
-  },
-  { label: "환불규정", value: "환불규정 바로가기", style: "link" },
-  {
-    label: "환불방법",
-    value: "내 티켓 확인 > 예매 취소에서 직접 취소",
-  },
-];
-
 export default function UketEventSection({
   eventId,
   eventName,
@@ -65,8 +51,26 @@ export default function UketEventSection({
         : [],
     [bannerImageList.data, data.banners],
   );
-  const { data: detailImage } = useQueryUketEventImage(data.detailImageId);
 
+  const salesInformation = useMemo(
+    () => [
+      { label: "주최", value: data.organizationName },
+      {
+        label: "문의",
+        value: data.contact.content,
+        href: data.contact.link || "#",
+      },
+      { label: "환불규정", value: "환불규정 바로가기", style: "link" },
+      {
+        label: "환불방법",
+        value: "내 티켓 확인 > 예매 취소에서 직접 취소",
+      },
+    ],
+    [data],
+  );
+
+  const { data: detailImage } = useQueryUketEventImage(data.detailImageId);
+  
   const router = useRouter();
   const [tab, setTab] = useState<"행사정보" | "장소" | "환불규정">("행사정보");
 
@@ -136,7 +140,7 @@ export default function UketEventSection({
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium">주의사항</h2>
-                  <ol className="text-[#8989A1] list-disc [&>li]:ml-5">
+                  <ol className="text-[#8989A1] [&>li]:ml-2">
                     {data.caution.map((item, index) => (
                       <li key={index}>{item}</li>
                     ))}
@@ -145,7 +149,7 @@ export default function UketEventSection({
                 <div className="space-y-2">
                   <div className="font-medium">판매정보</div>
                   <section className="flex flex-col gap-2 text-[#8989A1]">
-                    {anotherInfo.map(({ label, value, href, style }, index) => (
+                    {salesInformation.map(({ label, value, href, style }, index) => (
                       <div key={index} className="flex gap-2">
                         <div className="min-w-[4rem]">{label}</div>
                         {href ? (
@@ -205,7 +209,7 @@ export default function UketEventSection({
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium text-black">주의 사항</h2>
-                  <ol className="text-[#8989A1] list-disc [&>li]:ml-5">
+                  <ol className="text-[#8989A1] list-none [&>li]:ml-2">
                     {data.caution.map((item, index) => (
                       <li key={index}>{item}</li>
                     ))}
