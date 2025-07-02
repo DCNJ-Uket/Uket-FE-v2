@@ -58,7 +58,7 @@ export default function StepPaymentInfo({
         shouldFocus: true,
       },
     );
-
+    
     if (!isValid) return;
 
     const formData = new FormData();
@@ -100,7 +100,7 @@ export default function StepPaymentInfo({
     if (isFree === "무료") {
       setValue("paymentInfo.ticketPrice", 0);
       setValue("paymentInfo.buyTicketLimit", "");
-      setValue("paymentInfo.bankCode", "");
+      setValue("paymentInfo.bankCode", "무료");
       setValue("paymentInfo.accountNumber", "");
       setValue("paymentInfo.depositorName", "");
       setValue("paymentInfo.depositUrl", "");
