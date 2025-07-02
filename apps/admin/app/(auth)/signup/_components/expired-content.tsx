@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function ExpiredContent() {
   return (
-    <>
+    <div className="flex flex-col gap-20 max-w-sm">
       <div className="flex flex-col gap-5 justify-center items-center text-center">
         <h1 className="text-[#17171B] font-black text-[28px]">
           회원가입 링크가 만료됐어요!
@@ -28,6 +28,6 @@ export default function ExpiredContent() {
           <Link href="/">메인 페이지로</Link>
         </Button>
       </footer>
-    </>
+    </div>
   );
 }
