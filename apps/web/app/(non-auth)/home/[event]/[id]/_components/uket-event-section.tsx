@@ -70,8 +70,6 @@ export default function UketEventSection({
   const router = useRouter();
   const [tab, setTab] = useState<"행사정보" | "장소" | "환불규정">("행사정보");
 
-  // TODO: 기존에 쿼리 스트링으로 넘기던 hostId에 해당하는 id값이 API가 개편되면서 사라졌습니다.
-  // TODO: eventId로 사용해야 합니다.
   const handleNavigateToTicketBuyRoute = () => {
     router.push(`/buy-ticket?eventName=${eventName}&eventId=${eventId}`);
   };
@@ -240,9 +238,10 @@ export default function UketEventSection({
           variant="brandsub"
         />
         <AuthRequiredModalButton
-          title="예매하기"
+          title={data.reservationTitle}
           variant="brand"
           onClick={handleNavigateToTicketBuyRoute}
+          disabled={!data.isTicketOpen}
         />
       </footer>
     </div>

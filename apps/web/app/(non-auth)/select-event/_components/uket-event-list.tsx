@@ -59,6 +59,11 @@ export default function UketEventList({
                   ) : (
                     <div className="w-[250px] h-full bg-[#e7e7e7]"></div>
                   )}
+                  {ticketingStatus === "티켓팅_종료" && (
+                    <div className="flex justify-center items-center absolute top-0 left-0 w-full h-full text-white bg-[#979797e2] text-xs font-bold">
+                      구매 불가
+                    </div>
+                  )}
                 </div>
                 <div className="text-sm px-2">
                   <h3 className="font-bold font-buttonDisabled">{eventName}</h3>
