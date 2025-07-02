@@ -60,6 +60,15 @@ export const BaseSchema = z
       previewImage: z.string().nullish(),
       id: z.string().nullish(),
     }),
+    entryGroup: z.array(
+      z.object({
+        ticketCount: z.number(),
+        entryStartTime: z.object({
+          hour: z.number(),
+          minute: z.number(),
+        }),
+      }),
+    ),
     thumbnailImageId: z.object({
       file:
         typeof window === "undefined"
@@ -208,6 +217,7 @@ export const useAddEventForm = ({
           organizationId: data.organizationId!,
           eventName: data.eventName!,
           location: data.location!,
+          entryGroup: data.entryGroup!,
           eventRound: data.eventRound!,
           ticketingDate: data.ticketingDate!,
           totalTicketCount: data.totalTicketCount!,
