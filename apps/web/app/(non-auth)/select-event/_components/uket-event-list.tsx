@@ -47,7 +47,7 @@ export default function UketEventList({
                 className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
-                <div className="relative h-66 rounded-xl overflow-hidden">
+                <div className="relative h-64 rounded-xl overflow-hidden">
                   {imageList.data[index] ? (
                     <Image
                       src={URL.createObjectURL(imageList.data[index])}
@@ -58,6 +58,11 @@ export default function UketEventList({
                     />
                   ) : (
                     <div className="w-[250px] h-full bg-[#e7e7e7]"></div>
+                  )}
+                  {ticketingStatus === "티켓팅_종료" && (
+                    <div className="flex justify-center items-center absolute top-0 left-0 w-full h-full text-white bg-[#979797e2] text-xs font-bold">
+                      구매 불가
+                    </div>
                   )}
                 </div>
                 <div className="text-sm px-2">

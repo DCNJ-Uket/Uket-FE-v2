@@ -19,6 +19,7 @@ export type UketEventDetail = {
     link: string;
   };
   location: string;
+  ticketingStatus: TicketingStatus;
 };
 
 export type UketEventDetailResponse = UketEventDetail;

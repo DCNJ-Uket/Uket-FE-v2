@@ -18,7 +18,7 @@ export const useMutationChangeEventStatus = (page: number) => {
       const { data } = await fetcherAdmin.put<ChangeEventStatusResponse>(
         `/uket-event-registrations/${uketEventRegistrationId}/status/${registrationStatus}`,
       );
-
+      
       return data;
     },
     onMutate: async ({
