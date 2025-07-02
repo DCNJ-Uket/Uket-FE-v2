@@ -47,7 +47,7 @@ export default function UketEventList({
                 className="flex flex-col gap-3 cursor-pointer hover:bg-[#e7e7e7] p-1.5 rounded-2xl transition-colors duration-150"
                 onClick={() => onSelect(eventName, eventId)}
               >
-                <div className="relative h-66 rounded-xl overflow-hidden">
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
                   {imageList.data[index] ? (
                     <Image
                       src={URL.createObjectURL(imageList.data[index])}
