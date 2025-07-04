@@ -71,6 +71,7 @@ export default function PaymentInfoField({
                     placeholder="입금 계좌정보 입력"
                     disabled={isDisabled}
                     {...field}
+                    value={field.value || ""}
                   />
                 </FormControl>
                 <FormMessage />

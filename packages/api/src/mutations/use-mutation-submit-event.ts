@@ -116,10 +116,14 @@ export const useMutationSubmitEvent = (
         };
       });
       const ticketingDate = {
-        ticketingStartDateTime:
-          params.ticketingDate.ticketingStartDateTime.toISOString(),
-        ticketingEndDateTime:
+        ticketingStartDateTime: format(
+          params.ticketingDate.ticketingStartDateTime,
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        ),
+        ticketingEndDateTime: format(
           params.ticketingDate.ticketingEndDateTime.toISOString(),
+          "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        ),
       };
       const entryGroup =
         params.entryGroup.length === 0

@@ -15,7 +15,7 @@ export default function TicketBuyErrorFallback() {
   };
 
   return (
-    <section className="flex h-full w-full items-center justify-center flex-col gap-10">
+    <section className="flex h-full w-full items-center justify-center flex-col gap-10 mx-auto container">
       <header className="text-center">
         <h1 className="flex flex-col items-center justify-center gap-9 text-lg font-bold">
           <LogoIcon />

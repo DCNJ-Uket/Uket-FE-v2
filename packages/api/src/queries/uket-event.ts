@@ -37,7 +37,9 @@ const formateEventDate = (start: string, end: string) => {
     case "내일":
       switch (eventDuration) {
         case 0: // 행사 날짜가 단 하루
-          return `${format(start, "MM.dd(E) HH:mm")}`;
+          return `${format(start, "MM.dd(E) HH:mm", {
+            locale: ko,
+          })}`;
         default: // 행사 날짜가 2일 이상
           return `${format(start, "MM.dd(E)", {
             locale: ko,

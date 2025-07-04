@@ -48,7 +48,6 @@ export const formatTime = (hour: number, minute: number, second?: number) => {
 
 export const formatDate = (date: string, type: FormatType) => {
   return dayjs(date)
-    .utcOffset(0, true)
     .tz(tz)
     .format(formatType[type])
     .toString();
