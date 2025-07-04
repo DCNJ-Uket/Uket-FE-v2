@@ -45,12 +45,12 @@ export default function EventEditor({
     const json = editor.getJSON();
 
     setCharsCount(field.value.length);
-    field.onChange(editor.storage.markdown.getMarkdown());
-
+    field.onChange(editor.getHTML());
+    
     window.localStorage.setItem(`novel-content-${id}`, JSON.stringify(json));
     window.localStorage.setItem(
       `markdown-${id}`,
-      editor.storage.markdown.getMarkdown(),
+      editor.getHTML(),
     );
   };
 
