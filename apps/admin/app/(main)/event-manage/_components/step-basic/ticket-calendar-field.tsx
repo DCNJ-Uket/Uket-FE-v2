@@ -115,7 +115,7 @@ export default function TicketCalendarField({
                       day_selected: `bg-brand text-white`,
                       day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-brand hover:text-white rounded-full",
                     }}
-                    disabled={date => date > new Date()}
+                    // disabled={date => date > new Date()}
                   />
                   <footer className="flex flex-col gap-1 px-5">
                     <aside className="flex gap-5 items-center">
