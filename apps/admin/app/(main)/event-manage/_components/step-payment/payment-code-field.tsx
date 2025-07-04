@@ -22,7 +22,7 @@ export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFie
         control={control}
         name="paymentInfo.depositUrl"
         render={({ field }) => (
-          <FormItem className="flex flex-col gap-2">
+          <FormItem className="flex flex-col gap-2 shrink">
             <FormLabel className="text-[#8989A1] text-base font-normal">
               송금 코드 링크
             </FormLabel>
@@ -52,7 +52,7 @@ export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFie
           </ol>
         </div>
         <div className="relative flex gap-2 overflow-hidden">
-          <div className="w-60">
+          <div className="max-w-60">
             <Image
               src={"/account-link-1.png"}
               alt="송금 링크 만들기-1"
@@ -62,7 +62,7 @@ export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFie
               unoptimized
             />
           </div>
-          <div className="w-60">
+          <div className="max-w-60">
             <Image
               src={"/account-link-2.png"}
               alt="송금 링크 만들기-1"
@@ -72,7 +72,7 @@ export default function PaymentCodeField({ control, isDisabled }: PaymentCodeFie
               unoptimized
             />
           </div>
-          <div className="w-60">
+          <div className="max-w-60">
             <Image
               src={"/account-link-3.png"}
               alt="송금 링크 만들기-1"
