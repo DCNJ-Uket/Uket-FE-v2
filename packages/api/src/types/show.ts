@@ -29,10 +29,8 @@ export type ReservationInfoResponse = {
 };
 
 export type TicketResponse = {
-  success: true;
-  ticket: {
-    userId: number;
-    ticketId: number;
-    eventId: number;
-  };
+  ticketIds: number[];
+  totalPrice: number;
+  depositUrl: string;
+  bankCode: string;
 };

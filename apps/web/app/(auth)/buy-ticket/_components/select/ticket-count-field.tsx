@@ -3,7 +3,7 @@ import CounterButton from "./counter-button";
 
 interface TicketCountFieldProps {
   eventName: string;
-  selectedTime: string | undefined;
+  selectedTime: string | null;
   remaining: number | undefined;
   price: number;
   onChange: (val: number) => void;
@@ -19,7 +19,7 @@ export default function TicketCountField({
   return (
     <div className="flex flex-col gap-3">
       <h3 className="font-medium">수량 선택</h3>
-      {selectedTime && (
+      {selectedTime && remaining && remaining > 0 && (
         <div className="rounded-lg flex flex-col gap-2 p-3.5 bg-[#fafafa] border-[0.5px] border-[#f2f2f2]">
           <h3 className="font-medium">{eventName}</h3>
           <div className="flex flex-col gap-1 text-xs">

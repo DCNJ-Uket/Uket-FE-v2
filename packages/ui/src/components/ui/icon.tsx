@@ -44,4 +44,5 @@ export {
   XIcon,
   ChevronUp,
   ChevronDown,
+  SquareArrowOutUpRightIcon
 } from "lucide-react";

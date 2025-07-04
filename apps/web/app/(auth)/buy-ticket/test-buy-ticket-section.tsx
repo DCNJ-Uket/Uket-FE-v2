@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
@@ -8,14 +9,21 @@ import { useFunnel } from "@use-funnel/browser";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { z } from "zod";
-import { useBuyTicketForm } from "../../../hooks/use-buy-ticket-form";
+import { useEventBookingForm } from "../../../hooks/use-event-booking-form";
 
-const StepSelect = dynamic(() => import("./_components/step/step-select"), {
+const StepTest = dynamic(() => import("./_components/step/step-test"), {
   ssr: false,
 });
 
 const StepComplete = dynamic(
   () => import("./_components/step/test-step-complete"),
+  {
+    ssr: false,
+  },
+);
+
+const StepCompleteFree = dynamic(
+  () => import("./_components/step/step-complete-free"),
   {
     ssr: false,
   },
@@ -30,36 +38,40 @@ const SelectSchema = z
   })
   .partial();
 
+const TestSchema = z.object({});
+
 const CompleteSchema = z.object({});
 
 export default function BuyTicketSection() {
-  const { form } = useBuyTicketForm();
+  const { form, onSubmit } = useEventBookingForm();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const eventName = searchParams.get("eventName");
   const eventId = searchParams.get("eventId");
+  const organization = searchParams.get("organization");
   const routeUrl = `/home/${eventName}/${eventId}`;
-  const testData = {
-    totalPrice: 15000,
-    depositUrl: routeUrl,
-    bankCode: "한국은행",
-    accountNumber: "123456-78-9101112",
-    accountOwner: "UKET",
-  };
 
   const funnel = useFunnel({
     id: "buy-ticket",
     steps: {
-      Select: {
-        parse: SelectSchema.parse,
+      Test: {
+        parse: TestSchema.parse,
       },
       Complete: {
+        parse: z.object({
+          ticketPrice: z.number(),
+          bankCode: z.string(),
+          depositUrl: z.string(),
+          organization: z.string().nullable(),
+        }).parse,
+      },
+      CompleteFree: {
         parse: CompleteSchema.parse,
       },
     },
     initial: {
-      step: "Select",
+      step: "Test",
       context: {},
     },
   });
@@ -70,29 +82,87 @@ export default function BuyTicketSection() {
     const buyTicketStep = params.get("buy-ticket.step");
 
     if (buyTicketStep) {
-      funnel.history.replace("Select");
+      funnel.history.replace("Test");
     }
   }, []);
 
   return (
     <Form {...form}>
       <funnel.Render
-        Select={({ history }) => (
-          <StepSelect
-            eventName={eventName!}
-            eventId={eventId!}
-            onPrev={() => {
-              router.replace(routeUrl);
-            }}
-            onNext={(showId: string, showDate: string) =>
+        Test={funnel.Render.with({
+          events: {
+            무료티켓: (_, { history }) => {
+              history.push("CompleteFree");
+            },
+            유료티켓: (
+              {
+                ticketPrice,
+                bankCode,
+                depositUrl,
+                organization,
+              }: {
+                ticketPrice: number;
+                bankCode: string;
+                depositUrl: string;
+                organization: string | null;
+              },
+              { history },
+            ) => {
               history.push("Complete", {
-                showId: showId,
-                showDate: showDate,
-              })
-            }
+                ticketPrice,
+                bankCode,
+                depositUrl,
+                organization,
+              });
+            },
+          },
+          render({ context, dispatch }) {
+            return (
+              <StepTest
+                eventName={eventName!}
+                eventId={eventId!}
+                form={form}
+                onSubmit={onSubmit}
+                onPrev={() => {
+                  router.replace(routeUrl);
+                }}
+                onNext={(
+                  isFree: boolean,
+                  {
+                    ticketPrice,
+                    bankCode,
+                    depositUrl,
+                  }: {
+                    ticketPrice: number;
+                    bankCode: string;
+                    depositUrl: string;
+                  },
+                ) => {
+                  if (!isFree) {
+                    dispatch("무료티켓");
+                  } else {
+                    dispatch("유료티켓", {
+                      ticketPrice,
+                      bankCode,
+                      depositUrl,
+                      organization,
+                    });
+                  }
+                }}
+              />
+            );
+          },
+        })}
+        Complete={({ context }) => (
+          <StepComplete
+            routeUrl={routeUrl}
+            ticketPrice={context.ticketPrice}
+            bankCode={context.bankCode}
+            depositUrl={context.depositUrl}
+            organization={context.organization}
           />
         )}
-        Complete={() => <StepComplete routeUrl={routeUrl} deposit={testData} />}
+        CompleteFree={() => <StepCompleteFree />}
       />
     </Form>
   );

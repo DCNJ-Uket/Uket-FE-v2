@@ -12,13 +12,14 @@ export type UketEventDetail = {
     link: string;
   }[];
   caution: string;
-  organization: string;
+  organizationName: string;
   contact: {
     type: string;
     content: string;
     link: string;
   };
   location: string;
+  ticketingStatus: TicketingStatus;
 };
 
 export type UketEventDetailResponse = UketEventDetail;
