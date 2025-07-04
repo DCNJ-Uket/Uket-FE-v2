@@ -11,16 +11,19 @@ import { useEffect } from "react";
 import { z } from "zod";
 import { useEventBookingForm } from "../../../hooks/use-event-booking-form";
 
-const StepSelect = dynamic(() => import("./_components/step/step-select"), {
-  ssr: false,
-});
-
 const StepTest = dynamic(() => import("./_components/step/step-test"), {
   ssr: false,
 });
 
 const StepComplete = dynamic(
   () => import("./_components/step/test-step-complete"),
+  {
+    ssr: false,
+  },
+);
+
+const StepCompleteFree = dynamic(
+  () => import("./_components/step/step-complete-free"),
   {
     ssr: false,
   },
@@ -46,25 +49,24 @@ export default function BuyTicketSection() {
 
   const eventName = searchParams.get("eventName");
   const eventId = searchParams.get("eventId");
+  const organization = searchParams.get("organization");
   const routeUrl = `/home/${eventName}/${eventId}`;
-  const testData = {
-    totalPrice: 15000,
-    depositUrl: routeUrl,
-    bankCode: "한국은행",
-    accountNumber: "123456-78-9101112",
-    accountOwner: "UKET",
-  };
 
   const funnel = useFunnel({
     id: "buy-ticket",
     steps: {
-      // Select: {
-      //   parse: SelectSchema.parse,
-      // },
       Test: {
         parse: TestSchema.parse,
       },
       Complete: {
+        parse: z.object({
+          ticketPrice: z.number(),
+          bankCode: z.string(),
+          depositUrl: z.string(),
+          organization: z.string().nullable(),
+        }).parse,
+      },
+      CompleteFree: {
         parse: CompleteSchema.parse,
       },
     },
@@ -87,21 +89,80 @@ export default function BuyTicketSection() {
   return (
     <Form {...form}>
       <funnel.Render
-        Test={({ history }) => (
-          <StepTest
-            eventName={eventName!}
-            eventId={eventId!}
-            form={form}
-            onSubmit={onSubmit}
-            onPrev={() => {
-              router.replace(routeUrl);
-            }}
-            onNext={() => {
-              history.push("Complete");
-            }}
+        Test={funnel.Render.with({
+          events: {
+            무료티켓: (_, { history }) => {
+              history.push("CompleteFree");
+            },
+            유료티켓: (
+              {
+                ticketPrice,
+                bankCode,
+                depositUrl,
+                organization,
+              }: {
+                ticketPrice: number;
+                bankCode: string;
+                depositUrl: string;
+                organization: string | null;
+              },
+              { history },
+            ) => {
+              history.push("Complete", {
+                ticketPrice,
+                bankCode,
+                depositUrl,
+                organization,
+              });
+            },
+          },
+          render({ context, dispatch }) {
+            return (
+              <StepTest
+                eventName={eventName!}
+                eventId={eventId!}
+                form={form}
+                onSubmit={onSubmit}
+                onPrev={() => {
+                  router.replace(routeUrl);
+                }}
+                onNext={(
+                  isFree: boolean,
+                  {
+                    ticketPrice,
+                    bankCode,
+                    depositUrl,
+                  }: {
+                    ticketPrice: number;
+                    bankCode: string;
+                    depositUrl: string;
+                  },
+                ) => {
+                  if (!isFree) {
+                    dispatch("무료티켓");
+                  } else {
+                    dispatch("유료티켓", {
+                      ticketPrice,
+                      bankCode,
+                      depositUrl,
+                      organization,
+                    });
+                  }
+                }}
+              />
+            );
+          },
+        })}
+        Complete={({ context }) => (
+          <StepComplete
+            routeUrl={routeUrl}
+            ticketPrice={context.ticketPrice}
+            bankCode={context.bankCode}
+            depositUrl={context.depositUrl}
+            organization={context.organization}
           />
         )}
-        Complete={() => <StepComplete routeUrl={routeUrl} deposit={testData} />}
+        CompleteFree={() => <StepCompleteFree />}
       />
     </Form>
   );

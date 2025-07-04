@@ -13,15 +13,23 @@ import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 
-import { depositType } from "@uket/api/types/ticket";
 import { handleClipboard } from "../../../../../utils/clipboard";
 
 interface StepCompleteProps {
-  deposit: depositType;
+  ticketPrice: number;
+  bankCode: string;
+  depositUrl: string;
   routeUrl: string;
+  organization: string | null;
 }
 
-export default function StepComplete({ routeUrl }: StepCompleteProps) {
+export default function StepComplete({
+  routeUrl,
+  ticketPrice,
+  bankCode,
+  depositUrl,
+  organization,
+}: StepCompleteProps) {
   const router = useRouter();
 
   return (
@@ -41,16 +49,16 @@ export default function StepComplete({ routeUrl }: StepCompleteProps) {
               <p>입금 후 예매가 확정됩니다.</p>
             </h1>
             <h6 className="text-desc text-base font-medium">
-              티켓가 {"15,000"}원
+              티켓가 {ticketPrice.toLocaleString()}원
             </h6>
             <div className="flex items-center justify-center gap-2">
               <div className="text-base font-normal text-[#8989A1]">
-                <span>{"국민 123456-78-9101112"} </span>
-                <span>{"UKET"}</span>
+                <span>{bankCode + " " + depositUrl} </span>
+                <span>{organization}</span>
               </div>
               <p
                 className="text-brand decoration-brand cursor-pointer font-bold underline decoration-solid decoration-1 underline-offset-2"
-                onClick={() => handleClipboard("국민 123456-78-9101112 UKET")}
+                onClick={() => handleClipboard(depositUrl)}
               >
                 복사
               </p>

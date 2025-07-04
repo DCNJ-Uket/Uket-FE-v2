@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getQueryClient } from "@uket/api/get-query-client";
 import { useMutationBuyTicket } from "@uket/api/mutations/use-mutation-buy-ticket";
 import { user } from "@uket/api/queries/user";
+import { TicketResponse } from "@uket/api/types/show";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
@@ -38,10 +39,10 @@ export const useEventBookingForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: FormSchemaType) => {
+  const onSubmit = async (data: FormSchemaType): Promise<TicketResponse> => {
     const { entryGroupId, buyCount, performer } = data;
-
-    await mutateAsync(
+    
+    const response = await mutateAsync(
       {
         entryGroupId: Number(entryGroupId),
         buyCount,
@@ -54,6 +55,8 @@ export const useEventBookingForm = () => {
         },
       },
     );
+
+    return response;
   };
 
   return { form, onSubmit, isPending };

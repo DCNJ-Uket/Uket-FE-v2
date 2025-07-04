@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   useQueryPerformerList,
   useQueryReservationInfoList2,
 } from "@uket/api/queries/reservation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Activity } from "@ui/components/ui/activity";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@ui/components/ui/form";
 import { Input } from "@ui/components/ui/input";
 import { Separator } from "@ui/components/ui/separator";
+import { TicketResponse } from "@uket/api/types/show";
 import { useWatch } from "react-hook-form";
 import {
   FormSchemaType,
@@ -31,7 +33,7 @@ interface Props extends StepControllerProps {
   eventName: string;
   eventId: string;
   form: FormType;
-  onSubmit: (data: FormSchemaType) => void;
+  onSubmit: (data: FormSchemaType) => Promise<TicketResponse>;
 }
 
 export default function StepTest({
@@ -45,6 +47,7 @@ export default function StepTest({
   const { data: reservationInfo } = useQueryReservationInfoList2(
     Number(eventId),
   );
+
   const { data: performerList } = useQueryPerformerList(Number(eventId));
   const [open, setOpen] = useState(false);
 
@@ -69,10 +72,43 @@ export default function StepTest({
     t => t.entryGroupId.toString() === entryGroupId,
   );
 
+  const isOnlyOneDate = reservationInfo.length === 1;
+  const isOnlyOneTime = reservationInfo[0]?.times.length === 1;
+
+  useEffect(() => {
+    if (isOnlyOneDate) {
+      form.setValue(
+        "eventRoundId",
+        reservationInfo[0]!.eventRoundId.toString(),
+        {
+          shouldValidate: true,
+        },
+      );
+    }
+    if (isOnlyOneDate && isOnlyOneTime) {
+      form.setValue(
+        "entryGroupId",
+        reservationInfo[0]!.times[0]!.entryGroupId.toString(),
+        {
+          shouldValidate: true,
+        },
+      );
+      form.setValue("remaining", reservationInfo[0]!.times[0]!.remaining, {
+        shouldValidate: true,
+      });
+    }
+  }, []);
+
   // 예매하기 버튼에 할당
-  const handleNext = () => {
-    onNext();
-    form.handleSubmit(onSubmit)();
+  const handleNext = async () => {
+    const data = await onSubmit(form.getValues());
+    const isFree = data.totalPrice === 0;
+
+    onNext(isFree, {
+      ticketPrice: data.totalPrice,
+      bankCode: data.bankCode,
+      depositUrl: data.depositUrl,
+    });
   };
 
   return (
@@ -90,6 +126,8 @@ export default function StepTest({
           data={reservationInfo}
           selectedRound={selectedRound}
           selectedTime={selectedTime}
+          isOnlyOneDate={isOnlyOneDate}
+          isOnlyOneTime={isOnlyOneTime}
         />
         <Separator className="-mx-4 h-[2px] bg-[#f2f2f2]" />
         <FormField

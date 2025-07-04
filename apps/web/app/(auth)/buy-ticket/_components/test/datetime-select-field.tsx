@@ -5,7 +5,6 @@ import {
   FormLabel,
 } from "@ui/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@uket/ui/components/ui/radio-group";
-import { useEffect } from "react";
 import { FormType } from "../../../../../hooks/use-event-booking-form";
 import RadioItem from "./radio-item";
 
@@ -38,6 +37,8 @@ type Props = {
       remaining: number;
     }[];
   }[];
+  isOnlyOneDate: boolean;
+  isOnlyOneTime: boolean;
 };
 
 export default function DateTimeSelectField({
@@ -45,20 +46,10 @@ export default function DateTimeSelectField({
   selectedRound,
   selectedTime,
   data,
+  isOnlyOneDate,
+  isOnlyOneTime,
 }: Props) {
   const isUnderTenTickets = selectedTime && selectedTime.remaining <= 10;
-
-  const isOnlyOneDate = data.length === 1;
-  const isOnlyOneTime = data[0]?.times.length === 1;
-
-  useEffect(() => {
-    if (isOnlyOneDate) {
-      form.setValue("eventRoundId", data[0]!.eventRoundId.toString());
-    }
-    if (isOnlyOneDate && isOnlyOneTime) {
-      form.setValue("entryGroupId", data[0]!.times[0]!.entryGroupId.toString());
-    }
-  }, [isOnlyOneDate, isOnlyOneTime, data, form]);
 
   return (
     <section className="flex flex-col gap-6">

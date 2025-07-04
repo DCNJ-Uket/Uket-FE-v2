@@ -75,7 +75,7 @@ export default function UketEventSection({
   const [tab, setTab] = useState<"행사정보" | "장소" | "환불규정">("행사정보");
 
   const handleNavigateToTicketBuyRoute = () => {
-    router.push(`/buy-ticket?eventName=${eventName}&eventId=${eventId}`);
+    router.push(`/buy-ticket?eventName=${eventName}&eventId=${eventId}&organization=${data.organizationName}`);
   };
 
   return (
