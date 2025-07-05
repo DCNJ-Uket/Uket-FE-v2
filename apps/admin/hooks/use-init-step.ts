@@ -32,12 +32,20 @@ export const useInitStep = ({
         "uketEventImageId.previewImage",
         URL.createObjectURL(uketEventImage),
       );
+      const file = new File([uketEventImage], `poster.png`, {
+        type: uketEventImage.type,
+      });
+      onSetValue("uketEventImageId.file", file);
     }
     if (thumbnailImage && thumbnailImage instanceof Blob) {
       onSetValue(
         "thumbnailImageId.previewImage",
         URL.createObjectURL(thumbnailImage),
       );
+      const file = new File([thumbnailImage], `thumbnail.png`, {
+        type: thumbnailImage.type,
+      });
+      onSetValue("thumbnailImageId.file", file);
     }
     if (bannerImageList && bannerImageList.length > 0) {
       if (initialBannerList.length > 0) {
@@ -49,7 +57,7 @@ export const useInitStep = ({
             id: initialBannerList[idx]?.id,
             link: initialBannerList[idx]!.link,
           })),
-        );
+        ); 
       }
     }
   }, [uketEventImage, thumbnailImage, bannerImageList]);
