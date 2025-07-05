@@ -43,7 +43,9 @@ export default function UketEventSection({
   );
   const slides = useMemo(
     () =>
-      bannerImageList.data && Array.isArray(bannerImageList.data) && bannerImageList.data.length > 0
+      bannerImageList.data &&
+      Array.isArray(bannerImageList.data) &&
+      bannerImageList.data.length > 0
         ? bannerImageList.data.map((blob, idx) => ({
             image: blob,
             link: data.banners[idx]?.link,
@@ -70,7 +72,7 @@ export default function UketEventSection({
   );
 
   const { data: detailImage } = useQueryUketEventImage(data.detailImageId);
-  
+
   const router = useRouter();
   const [tab, setTab] = useState<"행사정보" | "장소" | "환불규정">("행사정보");
 
@@ -123,7 +125,7 @@ export default function UketEventSection({
                 <div className="space-y-2">
                   <h2 className="font-medium">공연소개</h2>
                   <h3
-                    className="text-[#8989A1]"
+                    className="text-[#8989A1] [&>p:empty]:h-4"
                     dangerouslySetInnerHTML={{ __html: data.information }}
                   ></h3>
                 </div>
