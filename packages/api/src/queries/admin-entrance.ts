@@ -82,5 +82,5 @@ export const prefetchEntranceList = (
     }),
   });
 
-  return dehydrate(queryClient);
+  return { state: dehydrate(queryClient) };
 };
