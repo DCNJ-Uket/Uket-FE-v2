@@ -138,7 +138,7 @@ export default function BuyTicketSection() {
                     depositUrl: string;
                   },
                 ) => {
-                  if (!isFree) {
+                  if (isFree) {
                     dispatch("무료티켓");
                   } else {
                     dispatch("유료티켓", {
