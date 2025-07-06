@@ -10,6 +10,11 @@ import AdminFilterEventList from "../../../../components/admin-filter-event-list
 import { useEntranceParams } from "../../../../hooks/use-entrance-params";
 import EntranceDataTable from "./entrance-data-table";
 
+function maskPhone(phone: string) {
+  // 010-1234-5678 또는 01012345678 모두 지원
+  return phone.replace(/(\d{3})-?(\d{4})-?(\d{4})/, "$1-****-$3");
+}
+
 export type Entry = Content;
 
 export const columns: ColumnDef<Entry>[] = [
@@ -28,6 +33,10 @@ export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "phoneNumber",
     header: "전화번호",
+    cell: ({ row }) => {
+      const phone = row.original.phoneNumber;
+      return <span>{maskPhone(phone)}</span>;
+    },
   },
   {
     accessorKey: "ticketStatus",
