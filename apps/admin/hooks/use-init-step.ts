@@ -51,13 +51,26 @@ export const useInitStep = ({
       if (initialBannerList.length > 0) {
         onSetValue(
           "banners",
-          bannerImageList.map((banner, idx) => ({
-            file: initialBannerList[idx]?.file,
-            previewImage: URL.createObjectURL(banner),
-            id: initialBannerList[idx]?.id,
-            link: initialBannerList[idx]!.link,
-          })),
-        ); 
+          bannerImageList.map((banner, idx) => {
+            let previewImage;
+            let file;
+        
+            if (banner instanceof Blob) {
+              previewImage = URL.createObjectURL(banner);
+              file = new File([banner], `banner.png`, { type: banner.type });
+            } else if (typeof banner === "string") {
+              previewImage = banner;
+              file = undefined; // 혹은 필요에 따라 처리
+            }
+        
+            return {
+              file,
+              previewImage,
+              id: initialBannerList[idx]?.id,
+              link: initialBannerList[idx]?.link,
+            };
+          })
+        );
       }
     }
   }, [uketEventImage, thumbnailImage, bannerImageList]);
