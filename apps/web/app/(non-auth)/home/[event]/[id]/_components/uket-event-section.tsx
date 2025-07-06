@@ -130,7 +130,7 @@ export default function UketEventSection({
                   ></h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="h-[600px] my-3">
+                  <div className="my-3">
                     {detailImage ? (
                       <Image
                         src={URL.createObjectURL(detailImage)}
