@@ -29,10 +29,7 @@ export default function StepComplete({
 }: StepCompleteProps) {
   const router = useRouter();
 
-  const { data: deposit } = useQueryDepositurl(
-    Number(ticketId),
-    Number(eventId),
-  );
+  const { data: deposit } = useQueryDepositurl(Number(eventId));
 
   return (
     <Activity>
@@ -56,12 +53,12 @@ export default function StepComplete({
               </h6>
               <div className="flex items-center justify-center gap-2">
                 <div className="text-base font-normal text-[#8989A1]">
-                  <span>{deposit.accountNumber} </span>
-                  <span>{deposit.accountOwner}</span>
+                  <span>{deposit.account.accountNumber} </span>
+                  <span>{deposit.account.depositorName}</span>
                 </div>
                 <p
                   className="text-brand decoration-brand cursor-pointer font-bold underline decoration-solid decoration-1 underline-offset-2"
-                  onClick={() => handleClipboard(deposit.accountNumber ?? "")}
+                  onClick={() => handleClipboard(deposit.account.accountNumber ?? "")}
                 >
                   복사
                 </p>
