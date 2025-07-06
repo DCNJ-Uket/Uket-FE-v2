@@ -20,6 +20,8 @@ export type UketEventDetail = {
   };
   location: string;
   ticketingStatus: TicketingStatus;
+  ticketingStartDateTime: string;
+  ticketingEndDateTime: string;
 };
 
 export type UketEventDetailResponse = UketEventDetail;
