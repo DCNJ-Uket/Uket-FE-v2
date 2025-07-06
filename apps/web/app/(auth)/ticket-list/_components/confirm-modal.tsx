@@ -47,7 +47,7 @@ export default function ConfirmModal({
             예매 취소
           </div>
         </DialogTrigger>
-        <DialogContent className="max-w-72 rounded-2xl sm:max-w-xs" isXHidden>
+        <DialogContent className="max-w-80 rounded-2xl sm:max-w-xs" isXHidden>
           <DialogHeader className="space-y-3 py-5 sm:py-12 sm:pb-8">
             <DialogTitle className="text-center font-semibold">
               정말 예매를 취소하시겠어요?
