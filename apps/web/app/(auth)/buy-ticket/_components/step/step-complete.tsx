@@ -77,26 +77,6 @@ export default function StepComplete({
           />
         </ActivityHeader>
         <ActivityFooter>
-          {/* <div className="mb-5 flex w-full flex-row justify-center gap-3 px-4 sm:flex-row">
-            <Button
-              className="border-brand text-brand grow basis-1/2 border bg-white hover:bg-slate-100"
-              onClick={() => router.replace(routeUrl)}
-            >
-              나중에 하기
-            </Button>
-            <Button
-              asChild
-              className="bg-brand border-brand hover:bg-brandHover grow basis-1/2 border"
-            >
-              <Link
-                href={deposit?.depositUrl ?? ""}
-                target="_blank"
-                className="text-white"
-              >
-                카카오로 입금하기
-              </Link>
-            </Button>
-          </div> */}
           <div className="mb-5 flex w-full flex-row justify-center gap-3 px-4 sm:flex-row">
             <Button
               className="bg-brand text-white grow basis-1/2 hover:bg-brand"
