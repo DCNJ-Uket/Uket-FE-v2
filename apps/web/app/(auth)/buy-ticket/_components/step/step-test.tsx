@@ -108,6 +108,8 @@ export default function StepTest({
       ticketPrice: data.totalPrice,
       bankCode: data.bankCode,
       depositUrl: data.depositUrl,
+      accountNumber: data.account.accountNumber,
+      depositorName: data.account.depositorName,
     });
   };
 
