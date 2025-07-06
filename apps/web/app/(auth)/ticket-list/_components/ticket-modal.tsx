@@ -28,17 +28,18 @@ export default function TicketModal({
     showDate,
     enterStartTime,
     enterEndTime,
-    showLocation,
-    universityName,
+    location,
+    organizationName,
     ticketStatus,
-    eventId,
+    uketEventId,
     eventName,
     ticketId,
+    isCancelable,
     createdAt,
   },
 }: TicketModalProps) {
-  const isTicketCancelAvailable =
-    ticketStatus === "입금 확인중" || ticketStatus === "예매 완료";
+  // const isTicketCancelAvailable =
+  //   ticketStatus === "입금 확인중" || ticketStatus === "예매 완료";
 
   return (
     <Card className="border-none shadow-none">
@@ -57,9 +58,8 @@ export default function TicketModal({
           <RetryApiErrorBoundary fallback={<QrcodeDepositErrorFallback />}>
             {ticketStatus === "입금 확인중" && (
               <Deposit
-                ticketId={ticketId}
                 ticketStatus={ticketStatus}
-                eventId={eventId}
+                uketEventId={uketEventId}
               />
             )}
             {ticketStatus === "예매 완료" && (
@@ -91,7 +91,7 @@ export default function TicketModal({
       <CardContent>
         <section className="flex flex-col gap-3">
           <header className="space-y-1">
-            <p className="text-xs text-[#5E5E6E]">{universityName}</p>
+            <p className="text-xs text-[#5E5E6E]">{organizationName}</p>
             <h1 className="flex items-center gap-3 font-black">
               <p className="text-[22px]">{eventName}</p>
             </h1>
@@ -100,7 +100,7 @@ export default function TicketModal({
           <section className="grid auto-rows-auto grid-cols-2 gap-4">
             <GridItem title={"예매자"} content={userName} />
             <GridItem title={"입장 날짜"} content={showDate} />
-            <GridItem title={"위치(공연장)"} content={showLocation} isPlace />
+            <GridItem title={"위치(공연장)"} content={location} isPlace />
             <GridItem
               title={"입장 시간"}
               content={`${enterStartTime} ~ ${enterEndTime}`}
@@ -113,7 +113,7 @@ export default function TicketModal({
           </section>
           <Separator className="bg-[#5E5E6E]" />
           <footer>
-            {isTicketCancelAvailable && (
+            {isCancelable && (
               <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
             )}
           </footer>

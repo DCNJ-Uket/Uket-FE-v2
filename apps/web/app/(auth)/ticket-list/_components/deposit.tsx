@@ -6,14 +6,13 @@ import Link from "next/link";
 import { handleClipboard } from "../../../../utils/clipboard";
 
 interface DepositProps
-  extends Pick<TicketItem, "ticketId" | "eventId" | "ticketStatus"> {}
+  extends Pick<TicketItem, "uketEventId" | "ticketStatus"> {}
 
 export default function Deposit({
-  ticketId,
-  eventId,
+  uketEventId,
   ticketStatus: isDepositActive,
 }: DepositProps) {
-  const { data } = useQueryDepositurl(ticketId, eventId, isDepositActive);
+  const { data } = useQueryDepositurl(uketEventId, isDepositActive);
 
   return (
     <>
@@ -37,7 +36,7 @@ export default function Deposit({
               className="bg-brand hover:bg-brandHover rounded-lg text-xs"
             >
               <Link
-                href={data.depositUrl}
+                href={data.depositLink}
                 target="_blank"
                 className="font-bold"
               >
@@ -46,13 +45,13 @@ export default function Deposit({
             </Button>
             <footer className="flex items-center justify-center gap-1 text-sm">
               <div>
-                <span>{data.accountNumber} </span>
-                <span>{data.accountOwner}</span>
+                <span>{data.account.accountNumber} </span>
+                <span>{data.account.depositorName}</span>
               </div>
               <Button
                 variant="link"
                 className="text-brand cursor-pointer px-1 font-bold"
-                onClick={() => handleClipboard(data?.accountNumber ?? "")}
+                onClick={() => handleClipboard(data?.account.accountNumber ?? "")}
               >
                 복사
               </Button>

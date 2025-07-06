@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ui/components/ui/dialog";
+import { useQueryUketEventImage } from "@uket/api/queries/uket-event";
 import { TicketItem } from "@uket/api/types/ticket";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -19,23 +20,24 @@ interface TicketProps {
   ticket: TicketItem;
 }
 
-// TODO: 효율적인 모달 관리 방식 찾고 적용하기
 export default function Ticket({ ticket }: TicketProps) {
-  const isTicketCancelAvailable =
-    ticket.ticketStatus === "입금 확인중" ||
-    ticket.ticketStatus === "예매 완료";
-
+  // const isTicketCancelAvailable =
+  //   ticket.ticketStatus === "입금 확인중" ||
+  //   ticket.ticketStatus === "예매 완료";
+  const { data: backgroundImage } = useQueryUketEventImage(
+    ticket.backgroundImageId,
+  );
   return (
     <Dialog>
-      <DialogTrigger className="text-start">
+      <DialogTrigger className="text-start w-11/12">
         <Card className="border-none bg-transparent shadow-none">
           <CardContent className="flex flex-col divide-y divide-dashed p-0">
-            <section className="flex basis-3/4 flex-col overflow-hidden rounded-b-3xl rounded-t-xl bg-white shadow-xl">
+            <section className="flex flex-col overflow-hidden rounded-b-3xl rounded-t-xl bg-white shadow-xl">
               <header className="relative">
                 <AspectRatio ratio={16 / 9}>
-                  {ticket.backgroundImageUrl ? (
+                  {backgroundImage ? (
                     <Image
-                      src={ticket.backgroundImageUrl}
+                      src={backgroundImage}
                       alt={ticket.eventName}
                       width={100}
                       height={100}
@@ -55,7 +57,7 @@ export default function Ticket({ ticket }: TicketProps) {
               <main className="container flex grow flex-col justify-around gap-3 py-5">
                 <header className="space-y-1">
                   <p className="text-xs text-[#5E5E6E]">
-                    {ticket.universityName}
+                    {ticket.organizationName}
                   </p>
                   <h1 className="flex items-center gap-3 font-black">
                     <p className="text-[22px]">{ticket.eventName}</p>
@@ -66,7 +68,7 @@ export default function Ticket({ ticket }: TicketProps) {
                   <GridItem title={"입장 날짜"} content={ticket.showDate} />
                   <GridItem
                     title={"위치(공연장)"}
-                    content={ticket.showLocation}
+                    content={ticket.location}
                     isPlace
                   />
                   <GridItem
@@ -85,7 +87,7 @@ export default function Ticket({ ticket }: TicketProps) {
                     isTicketNo
                   />
                 </div>
-                {isTicketCancelAvailable ? (
+                {ticket.isCancelable ? (
                   <ConfirmModal
                     ticketId={ticket.ticketId}
                     ticketStatus={ticket.ticketStatus}
