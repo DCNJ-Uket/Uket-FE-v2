@@ -13,6 +13,7 @@ export type EventRoundItem = {
 };
 
 export type ReservationResponse = {
+  buyTicketLimit: number;
   eventRounds: EventRoundItem[];
   ticketPrice: number;
   friend: string;

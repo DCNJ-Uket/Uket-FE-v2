@@ -13,6 +13,7 @@ interface TicketCountFieldProps {
   label: string | undefined;
   remaining: number | undefined;
   price: number | undefined;
+  maxLimit: number | undefined;
 }
 
 export default function TicketCountField({
@@ -22,6 +23,7 @@ export default function TicketCountField({
   label,
   remaining,
   price,
+  maxLimit,
 }: TicketCountFieldProps) {
   return (
     <FormField
@@ -60,7 +62,9 @@ export default function TicketCountField({
                       onClick={() => field.onChange(field.value + 1)}
                       className="w-6 h-6 flex items-center justify-center disabled:opacity-50 text-base"
                       disabled={
-                        remaining === undefined || field.value >= remaining
+                        remaining === undefined ||
+                        field.value >= remaining ||
+                        (maxLimit !== undefined && field.value >= maxLimit)
                       }
                     >
                       +
