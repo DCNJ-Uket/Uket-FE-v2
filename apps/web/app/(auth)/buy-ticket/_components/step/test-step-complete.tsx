@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -8,7 +9,6 @@ import {
 } from "@ui/components/ui/activity";
 
 import { Button } from "@ui/components/ui/button";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
@@ -75,22 +75,10 @@ export default function StepComplete({
         <ActivityFooter>
           <div className="mb-5 flex w-full flex-row justify-center gap-3 px-4 sm:flex-row">
             <Button
-              className="border-brand text-brand grow basis-1/2 border bg-white hover:bg-slate-100"
-              onClick={() => router.replace(routeUrl)}
+              className="bg-brand text-white grow basis-1/2 hover:bg-brand"
+              onClick={() => router.replace("/")}
             >
-              나중에 하기
-            </Button>
-            <Button
-              asChild
-              className="bg-brand border-brand hover:bg-brandHover grow basis-1/2 border"
-            >
-              <Link
-                href={routeUrl ?? ""}
-                target="_blank"
-                className="text-white"
-              >
-                카카오로 입금하기
-              </Link>
+              UKET 홈으로
             </Button>
           </div>
         </ActivityFooter>
