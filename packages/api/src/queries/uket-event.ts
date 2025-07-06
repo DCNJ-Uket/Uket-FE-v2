@@ -192,7 +192,7 @@ export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
       );
       const startDate = format(
         data.firstRoundStartDateTime,
-        "MM.dd (E) HH:mm",
+        "MM.dd(E) HH:mm",
         {
           locale: ko,
         },
@@ -201,14 +201,16 @@ export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
         locale: ko,
       });
       const eventDate =
-        isSingleRound === 0 ? startDate : `${startDate} ~ ${endDate}`;
+        isSingleRound === 0
+          ? startDate
+          : `${startDate.split(" ")[0]} ~ ${endDate.split(" ")[0]}`;
 
       const caution = data.caution.split("\n");
       const reservationTitle =
         data.ticketingStatus === "티켓팅_진행중"
           ? "예매하기"
           : data.ticketingStatus === "오픈_예정"
-            ? format(data.firstRoundStartDateTime, "MM.dd(E)", {
+            ? format(data.ticketingStartDateTime, "MM.dd(E)", {
                 locale: ko,
               }) + "티켓 오픈"
             : "예매 마감";

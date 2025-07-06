@@ -33,7 +33,7 @@ export default async function Page({
     return <NonAvailableSection title="실시간 입장 조회" />;
   }
 
-  const state = prefetchEntranceList(currentPage);
+  const { state } = prefetchEntranceList(currentPage);
 
   return (
     <HydrationBoundary state={state}>

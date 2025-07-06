@@ -43,12 +43,14 @@ export default function UketEventSection({
   );
   const slides = useMemo(
     () =>
-      bannerImageList.data && Array.isArray(bannerImageList.data)
+      bannerImageList.data &&
+      Array.isArray(bannerImageList.data) &&
+      bannerImageList.data.length > 0
         ? bannerImageList.data.map((blob, idx) => ({
             image: blob,
             link: data.banners[idx]?.link,
           }))
-        : [],
+        : null,
     [bannerImageList.data, data.banners],
   );
 
@@ -70,12 +72,14 @@ export default function UketEventSection({
   );
 
   const { data: detailImage } = useQueryUketEventImage(data.detailImageId);
-  
+
   const router = useRouter();
   const [tab, setTab] = useState<"행사정보" | "장소" | "환불규정">("행사정보");
 
   const handleNavigateToTicketBuyRoute = () => {
-    router.push(`/buy-ticket?eventName=${eventName}&eventId=${eventId}&organization=${data.organizationName}`);
+    router.push(
+      `/buy-ticket?eventName=${eventName}&eventId=${eventId}&organization=${data.organizationName}`,
+    );
   };
 
   return (
@@ -120,10 +124,13 @@ export default function UketEventSection({
               <main className="text-sm flex flex-col gap-6">
                 <div className="space-y-2">
                   <h2 className="font-medium">공연소개</h2>
-                  <h3 className="text-[#8989A1]">{data.information}</h3>
+                  <h3
+                    className="text-[#8989A1] [&>p:empty]:h-4"
+                    dangerouslySetInnerHTML={{ __html: data.information }}
+                  ></h3>
                 </div>
                 <div className="space-y-3">
-                  <div className="h-[600px] my-3">
+                  <div className="my-3">
                     {detailImage ? (
                       <Image
                         src={URL.createObjectURL(detailImage)}
@@ -136,44 +143,45 @@ export default function UketEventSection({
                       <div className="w-full h-full bg-[#e7e7e7]"></div>
                     )}
                   </div>
-                  <CarouselT slides={slides} />
+                  {slides && <CarouselT slides={slides} />}
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium">주의사항</h2>
-                  <ol className="text-[#8989A1] [&>li]:ml-2">
-                    {data.caution.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ol>
+                  <div
+                    className="[&>ul>li]:ml-6 text-[#8989A1]"
+                    dangerouslySetInnerHTML={{ __html: data.caution }}
+                  ></div>
                 </div>
                 <div className="space-y-2">
                   <div className="font-medium">판매정보</div>
                   <section className="flex flex-col gap-2 text-[#8989A1]">
-                    {salesInformation.map(({ label, value, href, style }, index) => (
-                      <div key={index} className="flex gap-2">
-                        <div className="min-w-[4rem]">{label}</div>
-                        {href ? (
-                          <Link
-                            href={href}
-                            className="font-light"
-                            target="_blank"
-                          >
-                            {value}
-                          </Link>
-                        ) : (
-                          <div
-                            className={cn(
-                              "font-light",
-                              style &&
-                                "underline underline-offset-2 cursor-pointer",
-                            )}
-                            onClick={() => setTab("환불규정")}
-                          >
-                            {value}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                    {salesInformation.map(
+                      ({ label, value, href, style }, index) => (
+                        <div key={index} className="flex gap-2">
+                          <div className="min-w-[4rem]">{label}</div>
+                          {href ? (
+                            <Link
+                              href={href}
+                              className="font-light"
+                              target="_blank"
+                            >
+                              {value}
+                            </Link>
+                          ) : (
+                            <div
+                              className={cn(
+                                "font-light",
+                                style &&
+                                  "underline underline-offset-2 cursor-pointer",
+                              )}
+                              onClick={() => setTab("환불규정")}
+                            >
+                              {value}
+                            </div>
+                          )}
+                        </div>
+                      ),
+                    )}
                   </section>
                 </div>
               </main>
@@ -209,11 +217,10 @@ export default function UketEventSection({
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium text-black">주의 사항</h2>
-                  <ol className="text-[#8989A1] list-none [&>li]:ml-2">
-                    {data.caution.map((item, index) => (
-                      <li key={index}>{item}</li>
-                    ))}
-                  </ol>
+                  <div
+                    className="[&>ul>li]:ml-6 text-[#8989A1]"
+                    dangerouslySetInnerHTML={{ __html: data.caution }}
+                  ></div>
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-medium text-black">취소 및 환불 안내</h2>

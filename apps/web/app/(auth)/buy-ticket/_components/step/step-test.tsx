@@ -173,6 +173,7 @@ export default function StepTest({
           label={selectedRound?.dateLabel + " " + selectedTime?.timeLabel}
           remaining={selectedTime?.remaining}
           price={selectedRound?.price}
+          maxLimit={reservationInfo[0]?.ticketLimit}
         />
       </form>
       <div className="border-t-2 border-t-[#f2f2f2] flex justify-between p-7 font-bold text-base bg-white">

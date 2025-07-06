@@ -58,7 +58,7 @@ export default function StepPaymentInfo({
         shouldFocus: true,
       },
     );
-
+    
     if (!isValid) return;
 
     const formData = new FormData();
@@ -129,7 +129,7 @@ export default function StepPaymentInfo({
             </h3>
           </header>
           <section className="flex justify-between gap-16">
-            <aside className="basis-1/2 flex flex-col gap-4">
+            <aside className="basis-1/2 flex flex-col gap-4 shrink-0">
               <PaymentTicketPriceField
                 control={control}
                 onSetValue={setValue}
@@ -137,7 +137,7 @@ export default function StepPaymentInfo({
               <BuyTicketLimitField control={control} onSetValue={setValue}/>
               <PaymentInfoField control={control} isDisabled={isDisabled} />
             </aside>
-            <aside className="flex flex-col gap-4 basis-1/2 pr-32">
+            <aside className="flex flex-col gap-4 basis-1/2">
               <PaymentCodeField control={control} isDisabled={isDisabled} />
             </aside>
           </section>

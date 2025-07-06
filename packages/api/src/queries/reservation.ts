@@ -134,6 +134,8 @@ export const useQueryReservationInfoList2 = (
         });
 
         return {
+          ticketLimit:
+            data.buyTicketLimit === 0 ? undefined : data.buyTicketLimit,
           price: data.ticketPrice,
           dateLabel,
           eventRoundId: round.eventRoundId,
