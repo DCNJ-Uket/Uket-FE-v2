@@ -10,7 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notoSans } from "../config/fonts";
 import { Base_Site_Config } from "../config/site";
 
-import GoogleAnalytics from "../config/google-analytics";
+import GoogleAnalyticsScript from "@uket/util/google-analytics";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
@@ -79,9 +79,9 @@ export default function RootLayout({
         </Providers>
         <Sonner richColors position="bottom-center" duration={3000} />
         <SpeedInsights />
-        <Analytics />
-        <GoogleAnalytics />
       </body>
+      <Analytics />
+      <GoogleAnalyticsScript/>
     </html>
   );
 }
