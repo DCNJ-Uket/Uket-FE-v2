@@ -1,6 +1,6 @@
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { formatDate } from "@uket/util/time";
+import { format, formatDate, ko } from "@uket/util/time";
 
 import { getToken } from "@uket/util/cookie-client";
 import { getQueryClient } from "../get-query-client";
@@ -37,7 +37,7 @@ export const useQueryUserInfo = () => {
   const refreshToken = getToken("user", "refresh");
 
   if (!accessToken || !refreshToken) return { data: null };
-  
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery({
     ...user.info(),
@@ -55,13 +55,18 @@ export const useQueryUserTicketList = () => {
   return useSuspenseQuery({
     ...user.ticket(),
     select: data => {
-      return data.map(item => ({
-        ...item,
-        createdAt: formatDate(item.createdAt, "full"),
-        showDate: formatDate(item.showDate, "short"),
-        enterStartTime: formatDate(item.enterStartTime, "time"),
-        enterEndTime: formatDate(item.enterEndTime, "time"),
-      }));
+      return data.map(item => {
+        const enterDate = format(item.enterStartDateTime, "MM월 dd일 (eee)", {
+          locale: ko,
+        });
+        const enterTime = format(item.enterStartDateTime, "HH:mm");
+        return {
+          ...item,
+          createdAt: formatDate(item.createdAt, "full"),
+          showDate: enterDate,
+          enterStartTime: enterTime,
+        };
+      });
     },
     staleTime: 0,
   });

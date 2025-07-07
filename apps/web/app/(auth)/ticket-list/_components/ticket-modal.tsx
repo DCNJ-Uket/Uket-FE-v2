@@ -27,20 +27,15 @@ export default function TicketModal({
     userName,
     showDate,
     enterStartTime,
-    enterEndTime,
     location,
     organizationName,
     ticketStatus,
     uketEventId,
     eventName,
     ticketId,
-    isCancelable,
     createdAt,
   },
 }: TicketModalProps) {
-  // const isTicketCancelAvailable =
-  //   ticketStatus === "입금 확인중" || ticketStatus === "예매 완료";
-
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="gap-3">
@@ -57,10 +52,7 @@ export default function TicketModal({
         <CardDescription className="flex flex-col items-center justify-center text-[12px] sm:text-sm">
           <RetryApiErrorBoundary fallback={<QrcodeDepositErrorFallback />}>
             {ticketStatus === "입금 확인중" && (
-              <Deposit
-                ticketStatus={ticketStatus}
-                uketEventId={uketEventId}
-              />
+              <Deposit ticketStatus={ticketStatus} uketEventId={uketEventId} />
             )}
             {ticketStatus === "예매 완료" && (
               <Qrcode ticketId={ticketId} ticketStatus={ticketStatus} />
@@ -101,10 +93,7 @@ export default function TicketModal({
             <GridItem title={"예매자"} content={userName} />
             <GridItem title={"입장 날짜"} content={showDate} />
             <GridItem title={"위치(공연장)"} content={location} isPlace />
-            <GridItem
-              title={"입장 시간"}
-              content={`${enterStartTime} ~ ${enterEndTime}`}
-            />
+            <GridItem title={"입장 시간"} content={`${enterStartTime}`} />
             {createdAt && (
               <>
                 <GridItem title={"구매 일시"} content={createdAt} />
@@ -113,7 +102,7 @@ export default function TicketModal({
           </section>
           <Separator className="bg-[#5E5E6E]" />
           <footer>
-            {isCancelable && (
+            {ticketStatus !== "입장 완료" && ticketStatus !== "환불 요청" && (
               <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
             )}
           </footer>

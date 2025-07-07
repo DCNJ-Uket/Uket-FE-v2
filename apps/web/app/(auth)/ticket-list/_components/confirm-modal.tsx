@@ -55,16 +55,16 @@ export default function ConfirmModal({
             <DialogDescription className="flex flex-col text-center">
               {bookingConfirmed ? (
                 <span className="leading-1">
-                  환불 처리를 위해 입금 받으실 계좌 정보를
+                  환불 처리를 위해 계좌 정보를
                   <br />
-                  UKET 공식 채널로 전달해주세요.
+                  UKET 채널로 전달해 주세요.
                 </span>
               ) : (
                 <span className="leading-1">
-                  입금을 완료하셨는데 <strong>입금 확인중</strong>상태라면,
+                  혹시 입금을 완료하신 상태라면,
                   <br />
                   <span className="whitespace-nowrap">
-                    UKET 공식 채널에 환불 계좌 정보를 보내주세요.
+                    환불 계좌를 UKET 채널로 보내주세요.
                   </span>
                 </span>
               )}
