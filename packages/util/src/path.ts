@@ -19,7 +19,8 @@ const DYNAMIC_AUTH_REQUIRED_PATH = [
   /\/events\/\d+\/account/,
   /\/events\/\d+\/survey/,
   /\/uket-events\/\d+\/reservation/,
-  /\/rounds\/\d+\/performers/
+  /\/rounds\/\d+\/performers/,
+  /\/api\/payments\/uket-events\/\d+/,
 ];
 
 const ADMIN_STATIC_AUTH_REQUIRED_PATH = [
