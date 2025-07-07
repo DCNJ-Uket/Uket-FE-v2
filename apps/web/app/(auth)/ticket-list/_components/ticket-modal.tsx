@@ -102,9 +102,11 @@ export default function TicketModal({
           </section>
           <Separator className="bg-[#5E5E6E]" />
           <footer>
-            {ticketStatus !== "입장 완료" && ticketStatus !== "환불 요청" && (
-              <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
-            )}
+            {ticketStatus !== "입장 완료" &&
+              ticketStatus !== "환불 요청" &&
+              ticketStatus !== "예매 취소" && (
+                <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
+              )}
           </footer>
         </section>
       </CardContent>

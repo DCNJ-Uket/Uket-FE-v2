@@ -88,7 +88,8 @@ export default function Ticket({ ticket }: TicketProps) {
                   />
                 </div>
                 {ticket.ticketStatus !== "입장 완료" &&
-                ticket.ticketStatus !== "환불 요청" ? (
+                ticket.ticketStatus !== "환불 요청" &&
+                ticket.ticketStatus !== "예매 취소" ? (
                   <ConfirmModal
                     ticketId={ticket.ticketId}
                     ticketStatus={ticket.ticketStatus}
