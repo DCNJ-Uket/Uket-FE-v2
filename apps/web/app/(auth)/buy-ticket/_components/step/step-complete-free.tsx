@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-empty-pattern */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 "use client";
 
 import {
@@ -7,29 +8,13 @@ import {
   ActivityFooter,
   ActivityHeader,
 } from "@ui/components/ui/activity";
-
 import { Button } from "@ui/components/ui/button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import Image from "next/image";
+type Props = {};
 
-import { handleClipboard } from "../../../../../utils/clipboard";
-
-interface StepCompleteProps {
-  ticketPrice: number;
-  bankCode: string;
-  depositUrl: string;
-  routeUrl: string;
-  organization: string | null;
-}
-
-export default function StepComplete({
-  routeUrl,
-  ticketPrice,
-  bankCode,
-  depositUrl,
-  organization,
-}: StepCompleteProps) {
+export default function StepCompleteFree({}: Props) {
   const router = useRouter();
 
   return (
@@ -45,24 +30,14 @@ export default function StepComplete({
           />
           <div className="z-20 mt-10 flex flex-col justify-start gap-5 text-center">
             <h1 className="text-[23px] font-black">
-              <p>예매 정보가 등록되었습니다.</p>
-              <p>입금 후 예매가 확정됩니다.</p>
+              <p>예매가 완료되었습니다.</p>
             </h1>
-            <h6 className="text-desc text-base font-medium">
-              티켓가 {ticketPrice.toLocaleString()}원
-            </h6>
-            <div className="flex items-center justify-center gap-2">
-              <div className="text-base font-normal text-[#8989A1]">
-                <span>{bankCode + " " + depositUrl} </span>
-                <span>{organization}</span>
-              </div>
-              <p
-                className="text-brand decoration-brand cursor-pointer font-bold underline decoration-solid decoration-1 underline-offset-2"
-                onClick={() => handleClipboard(depositUrl)}
-              >
-                복사
+            <h6 className="text-desc text-sm">
+              <p>예매 내역은 알림톡으로 발송되었으며,</p>
+              <p>
+                <strong>내 티켓 확인</strong> 메뉴에서도 확인 가능합니다.
               </p>
-            </div>
+            </h6>
           </div>
           <Image
             src="/ticketing-complete.png"

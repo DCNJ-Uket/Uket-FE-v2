@@ -1,3 +1,4 @@
+import { ScrollArea, ScrollBar } from "@ui/components/ui/scroll-area";
 import { useQueryAdminFilterEventList } from "@uket/api/queries/admin-filter-event";
 
 interface AdminFilterEventProps {
@@ -14,7 +15,7 @@ const AdminFilterEvent = ({
   return (
     <div
       onClick={onClick}
-      className={`px-3 py-1 text-xs rounded cursor-pointer ${
+      className={`px-3 py-1 text-xs rounded cursor-pointer whitespace-nowrap ${
         isActive ? "bg-brand text-white" : "bg-white text-brand"
       }`}
     >
@@ -35,21 +36,26 @@ export default function AdminFilterEventList({
   const { data } = useQueryAdminFilterEventList();
 
   return (
-    <div className="flex justify-start items-center gap-2">
-      <AdminFilterEvent
-        key={-1}
-        eventName="전체"
-        isActive={currentEventId === undefined}
-        onClick={() => onChangeEventId(undefined, "전체")}
-      />
-      {data?.map(({ eventId, eventName }) => (
+    <ScrollArea>
+      <div className="flex justify-start items-center gap-2 pb-3">
         <AdminFilterEvent
-          key={eventId}
-          eventName={eventName}
-          isActive={currentEventId === eventId}
-          onClick={() => onChangeEventId(eventId, eventName)}
+          key={-1}
+          eventName="전체"
+          isActive={currentEventId === undefined}
+          onClick={() => onChangeEventId(undefined, "전체")}
         />
-      ))}
-    </div>
+        {data &&
+          data?.map(({ eventId, eventName }) => (
+            <AdminFilterEvent
+              key={eventId}
+              eventName={eventName}
+              isActive={currentEventId === eventId}
+              onClick={() => onChangeEventId(eventId, eventName)}
+            />
+          ))}
+      </div>
+
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }

@@ -101,6 +101,13 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         ticketingStartDateTime: new Date(eventInfo?.ticketingStartDateTime!),
         ticketingEndDateTime: new Date(eventInfo?.ticketingEndDateTime!),
       };
+      const entryGroup = eventInfo?.entryGroup.map(item => {
+        const [hour, minute] = item.entryStartTime.split(":").map(Number);
+        return {
+          ticketCount: item.ticketCount,
+          entryStartTime: { hour: hour!, minute: minute! },
+        };
+      });
       const eventRound = eventInfo?.eventRound.map(item => {
         const [hours, minutes] = item.startTime.split(":").map(Number);
         const date = new Date(item.date);
@@ -150,12 +157,14 @@ export const useQueryAdminEventInfoDetail = (id: string | undefined) => {
         base: eventInfo?.location!,
         detail: "",
       };
+
       return {
         eventType: data.eventType,
         data: {
           ...eventInfo,
           eventType,
           ticketingDate,
+          entryGroup,
           paymentInfo,
           uketEventImageId,
           thumbnailImageId,

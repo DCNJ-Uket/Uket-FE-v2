@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface CounterButtonProps {
-  remaining: number;
+  remaining: number | undefined;
   defaultCount?: number;
   onChange?: (count: number) => void;
 }
@@ -22,7 +22,7 @@ export default function CounterButton({
   };
 
   const handleIncrement = () => {
-    if (count < remaining) {
+    if (count < remaining!) {
       const newCount = count + 1;
       setCount(newCount);
       onChange?.(newCount);
@@ -44,7 +44,7 @@ export default function CounterButton({
         type="button"
         onClick={handleIncrement}
         className="w-6 h-6 flex items-center justify-center disabled:opacity-50 text-base"
-        disabled={count >= remaining}
+        disabled={remaining === undefined || count >= remaining}
       >
         +
       </button>

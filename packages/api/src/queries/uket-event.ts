@@ -37,7 +37,9 @@ const formateEventDate = (start: string, end: string) => {
     case "내일":
       switch (eventDuration) {
         case 0: // 행사 날짜가 단 하루
-          return `${format(start, "MM.dd(E) HH:mm")}`;
+          return `${format(start, "MM.dd(E) HH:mm", {
+            locale: ko,
+          })}`;
         default: // 행사 날짜가 2일 이상
           return `${format(start, "MM.dd(E)", {
             locale: ko,
@@ -190,7 +192,7 @@ export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
       );
       const startDate = format(
         data.firstRoundStartDateTime,
-        "MM.dd (E) HH:mm",
+        "MM.dd(E) HH:mm",
         {
           locale: ko,
         },
@@ -199,14 +201,27 @@ export const useQueryUketEventDetail = (id: UketEventItem["eventId"]) => {
         locale: ko,
       });
       const eventDate =
-        isSingleRound === 0 ? startDate : `${startDate} ~ ${endDate}`;
+        isSingleRound === 0
+          ? startDate
+          : `${startDate.split(" ")[0]} ~ ${endDate.split(" ")[0]}`;
 
       const caution = data.caution.split("\n");
+      const reservationTitle =
+        data.ticketingStatus === "티켓팅_진행중"
+          ? "예매하기"
+          : data.ticketingStatus === "오픈_예정"
+            ? format(data.ticketingStartDateTime, "MM.dd(E)", {
+                locale: ko,
+              }) + "티켓 오픈"
+            : "예매 마감";
+      const isTicketOpen = data.ticketingStatus === "티켓팅_진행중";
       return {
         ...data,
         eventDate,
         eventType: data.eventType === "PERFORMANCE" ? "공연" : "축제",
+        reservationTitle,
         caution,
+        isTicketOpen,
       };
     },
   });
