@@ -11,7 +11,7 @@ import Ticket from "./ticket";
 
 export default function TicketListSection() {
   const { data } = useQueryUserTicketList();
-  
+
   return (
     <Carousel className="w-full max-w-full" opts={{ loop: true }}>
       <CarouselContent

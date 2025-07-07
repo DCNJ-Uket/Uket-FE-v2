@@ -21,9 +21,6 @@ interface TicketProps {
 }
 
 export default function Ticket({ ticket }: TicketProps) {
-  // const isTicketCancelAvailable =
-  //   ticket.ticketStatus === "입금 확인중" ||
-  //   ticket.ticketStatus === "예매 완료";
   const { data: backgroundImage } = useQueryUketEventImage(
     ticket.backgroundImageId,
   );
