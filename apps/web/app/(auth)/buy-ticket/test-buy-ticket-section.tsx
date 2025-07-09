@@ -64,6 +64,8 @@ export default function BuyTicketSection() {
           bankCode: z.string(),
           depositUrl: z.string(),
           organization: z.string().nullable(),
+          accountNumber: z.string(),
+          depositorName: z.string(),
         }).parse,
       },
       CompleteFree: {
@@ -100,11 +102,15 @@ export default function BuyTicketSection() {
                 bankCode,
                 depositUrl,
                 organization,
+                accountNumber,
+                depositorName,
               }: {
                 ticketPrice: number;
                 bankCode: string;
                 depositUrl: string;
                 organization: string | null;
+                accountNumber: string;
+                depositorName: string;
               },
               { history },
             ) => {
@@ -113,6 +119,8 @@ export default function BuyTicketSection() {
                 bankCode,
                 depositUrl,
                 organization,
+                accountNumber,
+                depositorName,
               });
             },
           },
@@ -132,10 +140,14 @@ export default function BuyTicketSection() {
                     ticketPrice,
                     bankCode,
                     depositUrl,
+                    accountNumber,
+                    depositorName,
                   }: {
                     ticketPrice: number;
                     bankCode: string;
                     depositUrl: string;
+                    accountNumber: string;
+                    depositorName: string;
                   },
                 ) => {
                   if (isFree) {
@@ -146,6 +158,8 @@ export default function BuyTicketSection() {
                       bankCode,
                       depositUrl,
                       organization,
+                      accountNumber,
+                      depositorName,
                     });
                   }
                 }}
@@ -160,6 +174,8 @@ export default function BuyTicketSection() {
             bankCode={context.bankCode}
             depositUrl={context.depositUrl}
             organization={context.organization}
+            accountNumber={context.accountNumber}
+            depositorName={context.depositorName}
           />
         )}
         CompleteFree={() => <StepCompleteFree />}

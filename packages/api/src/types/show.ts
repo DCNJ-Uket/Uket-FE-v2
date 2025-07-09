@@ -33,4 +33,9 @@ export type TicketResponse = {
   totalPrice: number;
   depositUrl: string;
   bankCode: string;
+  account: {
+    bankCode: string;
+    accountNumber: string;
+    depositorName: string;
+  };
 };

@@ -75,7 +75,7 @@ export interface TicketResponse {
   orderDate: string;
   updatedDate: string;
   ticketStatus: string;
-  friend: string;
+  performer: string;
 }
 
 export interface TicketListResponse {

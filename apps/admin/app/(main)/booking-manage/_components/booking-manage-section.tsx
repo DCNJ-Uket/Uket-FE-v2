@@ -13,6 +13,11 @@ import DownloadCSV from "./download-csv";
 import SearchInput from "./search-input";
 import StatusHelpModal from "./status-help-modal";
 
+function maskPhone(phone: string) {
+  // 010-1234-5678 또는 01012345678 모두 지원
+  return phone.replace(/(\d{3})-?(\d{4})-?(\d{4})/, "$1-****-$3");
+}
+
 export type Entry = TicketResponse;
 
 export const columns = (
@@ -31,6 +36,10 @@ export const columns = (
   {
     accessorKey: "telephone",
     header: "전화번호",
+    cell: ({ row }) => {
+      const phone = row.original.telephone;
+      return <span>{maskPhone(phone)}</span>;
+    },
   },
   {
     accessorKey: "updatedDate",
@@ -76,10 +85,10 @@ export const columns = (
     },
   },
   {
-    accessorKey: "friend",
+    accessorKey: "performer",
     header: "지인",
     cell: ({ row }) => {
-      return <div>{row.original.friend}</div>;
+      return <div>{row.original.performer}</div>;
     },
   },
 ];
@@ -96,6 +105,7 @@ export default function BookingManageSection() {
     page,
     uketEventId,
   });
+  
 
   const handleTicketSearch = (type: SearchType, value: string) => {
     if (value.trim().length > 0) {
@@ -117,7 +127,7 @@ export default function BookingManageSection() {
     { key: "updatedDate", label: "업데이트 일시" },
     { key: "orderDate", label: "주문 일시" },
     { key: "ticketStatus", label: "티켓 상태" },
-    { key: "friend", label: "지인" },
+    { key: "performer", label: "지인" },
   ];
 
   return (

@@ -13,13 +13,22 @@ const generateCSV = (
 ) => {
   const csvRows = [];
 
+  // 전화번호 마스킹 함수
+  function maskPhone(phone: string) {
+    return phone.replace(/(\d{3})-?(\d{4})-?(\d{4})/, "$1-****-$3");
+  }
+
   // CSV 헤더 라벨 추가
   csvRows.push(headers.map(h => h.label).join(","));
 
   // 데이터 추가
   data.forEach(row => {
     const values = headers.map(h => {
-      const value = row[h.key];
+      let value = row[h.key];
+      // telephone 컬럼이면 마스킹 처리
+      if (h.key === "telephone" && typeof value === "string") {
+        value = maskPhone(value);
+      }
       return typeof value === "string" ? `"${value}"` : (value ?? "");
     });
     csvRows.push(values.join(","));
@@ -52,7 +61,7 @@ const DownloadCSV: React.FC<{
 
   return (
     <button
-      className="border-[0.5px] border-brand text-brand px-3 py-1 text-xs rounded"
+      className="border-[0.5px] border-brand text-brand px-3 py-1 text-xs rounded shrink-0"
       onClick={() => data && generateCSV(data.timezoneData, headers, filename)}
     >
       CSV 다운로드

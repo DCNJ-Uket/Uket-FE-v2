@@ -47,26 +47,26 @@ export default function ConfirmModal({
             예매 취소
           </div>
         </DialogTrigger>
-        <DialogContent className="max-w-72 rounded-2xl sm:max-w-xs" isXHidden>
+        <DialogContent className="max-w-80 rounded-2xl sm:max-w-xs" isXHidden>
           <DialogHeader className="space-y-3 py-5 sm:py-12 sm:pb-8">
             <DialogTitle className="text-center font-semibold">
               정말 예매를 취소하시겠어요?
             </DialogTitle>
             <DialogDescription className="flex flex-col text-center">
               {bookingConfirmed ? (
-                <div className="leading-1">
-                  환불 처리를 위해 입금 받으실 계좌 정보를
+                <span className="leading-1">
+                  환불 처리를 위해 계좌 정보를
                   <br />
-                  UKET 공식 채널로 전달해주세요.
-                </div>
+                  UKET 채널로 전달해 주세요.
+                </span>
               ) : (
-                <div className="leading-1">
-                  입금을 완료하셨는데 <strong>입금 확인중</strong>상태라면,
+                <span className="leading-1">
+                  혹시 입금을 완료하신 상태라면,
                   <br />
                   <span className="whitespace-nowrap">
-                    UKET 공식 채널에 환불 계좌 정보를 보내주세요.
+                    환불 계좌를 UKET 채널로 보내주세요.
                   </span>
-                </div>
+                </span>
               )}
             </DialogDescription>
           </DialogHeader>

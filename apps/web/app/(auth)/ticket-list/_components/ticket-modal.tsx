@@ -27,19 +27,15 @@ export default function TicketModal({
     userName,
     showDate,
     enterStartTime,
-    enterEndTime,
-    showLocation,
-    universityName,
+    location,
+    organizationName,
     ticketStatus,
-    eventId,
+    uketEventId,
     eventName,
     ticketId,
     createdAt,
   },
 }: TicketModalProps) {
-  const isTicketCancelAvailable =
-    ticketStatus === "입금 확인중" || ticketStatus === "예매 완료";
-
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="gap-3">
@@ -56,11 +52,7 @@ export default function TicketModal({
         <CardDescription className="flex flex-col items-center justify-center text-[12px] sm:text-sm">
           <RetryApiErrorBoundary fallback={<QrcodeDepositErrorFallback />}>
             {ticketStatus === "입금 확인중" && (
-              <Deposit
-                ticketId={ticketId}
-                ticketStatus={ticketStatus}
-                eventId={eventId}
-              />
+              <Deposit ticketStatus={ticketStatus} uketEventId={uketEventId} />
             )}
             {ticketStatus === "예매 완료" && (
               <Qrcode ticketId={ticketId} ticketStatus={ticketStatus} />
@@ -91,7 +83,7 @@ export default function TicketModal({
       <CardContent>
         <section className="flex flex-col gap-3">
           <header className="space-y-1">
-            <p className="text-xs text-[#5E5E6E]">{universityName}</p>
+            <p className="text-xs text-[#5E5E6E]">{organizationName}</p>
             <h1 className="flex items-center gap-3 font-black">
               <p className="text-[22px]">{eventName}</p>
             </h1>
@@ -100,11 +92,8 @@ export default function TicketModal({
           <section className="grid auto-rows-auto grid-cols-2 gap-4">
             <GridItem title={"예매자"} content={userName} />
             <GridItem title={"입장 날짜"} content={showDate} />
-            <GridItem title={"위치(공연장)"} content={showLocation} isPlace />
-            <GridItem
-              title={"입장 시간"}
-              content={`${enterStartTime} ~ ${enterEndTime}`}
-            />
+            <GridItem title={"위치(공연장)"} content={location} isPlace />
+            <GridItem title={"입장 시간"} content={`${enterStartTime}`} />
             {createdAt && (
               <>
                 <GridItem title={"구매 일시"} content={createdAt} />
@@ -113,9 +102,11 @@ export default function TicketModal({
           </section>
           <Separator className="bg-[#5E5E6E]" />
           <footer>
-            {isTicketCancelAvailable && (
-              <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
-            )}
+            {ticketStatus !== "입장 완료" &&
+              ticketStatus !== "환불 요청" &&
+              ticketStatus !== "예매 취소" && (
+                <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
+              )}
           </footer>
         </section>
       </CardContent>
