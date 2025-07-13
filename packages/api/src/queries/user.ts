@@ -2,7 +2,7 @@ import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { dehydrate, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { format, formatDate, ko } from "@uket/util/time";
 
-import { getToken } from "@uket/util/cookie-client";
+import { clearToken, getToken } from "@uket/util/cookie-client";
 import { getQueryClient } from "../get-query-client";
 import { fetcher } from "../instance";
 import { MyTicketListInfoResponse } from "../types/ticket";
@@ -39,12 +39,21 @@ export const useQueryUserInfo = () => {
   if (!accessToken || !refreshToken) return { data: null };
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useQuery({
+  const { data } = useQuery({
     ...user.info(),
     refetchOnMount: true,
     refetchOnWindowFocus: true,
     enabled: !!accessToken && !!refreshToken,
   });
+
+  if (!data?.isRegistered) {
+    clearToken("user", "access");
+    clearToken("user", "refresh");
+
+    return { data: null };
+  }
+
+  return { data };
 };
 
 /**
