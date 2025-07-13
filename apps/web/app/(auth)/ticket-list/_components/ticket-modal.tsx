@@ -33,6 +33,7 @@ export default function TicketModal({
     uketEventId,
     eventName,
     ticketId,
+    isCancelable,
     createdAt,
   },
 }: TicketModalProps) {
@@ -104,7 +105,8 @@ export default function TicketModal({
           <footer>
             {ticketStatus !== "입장 완료" &&
               ticketStatus !== "환불 요청" &&
-              ticketStatus !== "예매 취소" && (
+              ticketStatus !== "예매 취소" &&
+              isCancelable && (
                 <ConfirmModal ticketId={ticketId} ticketStatus={ticketStatus} />
               )}
           </footer>
