@@ -61,7 +61,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
   };
 
   const handleToggle = () => {
-    if (checked) remove();
+    if (!checked) remove();
     else
       append({
         ticketCount: undefined,
@@ -76,7 +76,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
 
   return (
     <div className="grid w-full items-center gap-2">
-      <EntryGroupLabel onHandleToggle={handleToggle} />
+      <EntryGroupLabel checked={checked} onHandleToggle={handleToggle} />
       {checked && (
         <>
           {fields.map((field, index) => (
@@ -177,7 +177,13 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
   );
 }
 
-function EntryGroupLabel({ onHandleToggle }: { onHandleToggle: () => void }) {
+function EntryGroupLabel({
+  checked,
+  onHandleToggle,
+}: {
+  checked: boolean;
+  onHandleToggle: () => void;
+}) {
   const handleToggle = () => {
     onHandleToggle();
   };
@@ -187,6 +193,7 @@ function EntryGroupLabel({ onHandleToggle }: { onHandleToggle: () => void }) {
       <span>입장 그룹 설정</span>
       <div className="h-5 w-10 mx-2 justify-between relative inline-grid grid-cols-[1fr_1fr] items-center text-xs font-medium">
         <Switch
+          checked={checked}
           onCheckedChange={handleToggle}
           className="peer data-[state=unchecked]:bg-input/50 absolute inset-0 h-[inherit] w-auto rounded-full [&_span]:z-10 [&_span]:h-full [&_span]:w-1/2 [&_span]:rounded-full [&_span]:transition-transform [&_span]:duration-300 [&_span]:ease-[cubic-bezier(0.16,1,0.3,1)] [&_span]:data-[state=checked]:translate-x-full [&_span]:data-[state=checked]:rtl:-translate-x-full"
         />
