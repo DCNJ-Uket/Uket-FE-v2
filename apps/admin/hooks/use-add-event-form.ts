@@ -117,8 +117,8 @@ export const BaseSchema = z
       })
       .or(z.literal("")),
     }),
-    noLimit: z.enum(["제한 없음", "제한"]).default("제한 없음"),
-    buyTicketLimit: z.number().default(0),
+    noLimit: z.enum(["제한 없음", "제한"]).default("제한"),
+    buyTicketLimit: z.number().default(1),
   })
   .partial();
 
@@ -203,8 +203,8 @@ export const useAddEventForm = ({
         depositorName: undefined,
         depositUrl: undefined,
       },
-      noLimit: "제한 없음",
-      buyTicketLimit: 0,
+      noLimit: "제한",
+      buyTicketLimit: 1,
     },
     reValidateMode: "onChange",
   });
