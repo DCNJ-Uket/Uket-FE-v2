@@ -123,14 +123,33 @@ export default function EventCalendarField({
                                 }
                                 className="peer appearance-none ps-9 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none inline-block"
                                 onChange={e => {
-                                  const [hours, minutes] = e.target.value
-                                    .split(":")
-                                    .map(Number);
+                                  const value = e.target.value;
                                   if (!field.value) return;
 
+                                  // 값이 비워졌거나 부분 입력일 때는 안전하게 처리
+                                  if (!value) {
+                                    const resetDate = new Date(field.value);
+                                    resetDate.setHours(0, 0, 0, 0);
+                                    field.onChange(resetDate);
+                                    setValue(
+                                      `eventRound.${index}.startTime`,
+                                      "00:00:00",
+                                    );
+                                    return;
+                                  }
+
+                                  const [hoursStr, minutesStr] = value.split(":");
+                                  const hours = Number(hoursStr);
+                                  const minutes = Number(minutesStr);
+
+                                  // 숫자 변환 실패(부분 입력 등) 시 갱신 생략
+                                  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+                                    return;
+                                  }
+
                                   const updatedDate = new Date(field.value);
-                                  updatedDate.setHours(hours!);
-                                  updatedDate.setMinutes(minutes!);
+                                  updatedDate.setHours(hours);
+                                  updatedDate.setMinutes(minutes);
                                   field.onChange(updatedDate);
 
                                   // Update startTime
