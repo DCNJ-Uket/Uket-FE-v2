@@ -61,7 +61,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
   };
 
   const handleToggle = () => {
-    if (checked) remove();
+    if (!checked) remove();
     else
       append({
         ticketCount: undefined,
@@ -76,7 +76,7 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
 
   return (
     <div className="grid w-full items-center gap-2">
-      <EntryGroupLabel onHandleToggle={handleToggle} />
+      <EntryGroupLabel checked={checked} onHandleToggle={handleToggle} />
       {checked && (
         <>
           {fields.map((field, index) => (
@@ -177,7 +177,13 @@ export default function EntryGroupField({ control }: EntryGroupFieldProps) {
   );
 }
 
-function EntryGroupLabel({ onHandleToggle }: { onHandleToggle: () => void }) {
+function EntryGroupLabel({
+  checked,
+  onHandleToggle,
+}: {
+  checked: boolean;
+  onHandleToggle: () => void;
+}) {
   const handleToggle = () => {
     onHandleToggle();
   };
@@ -187,6 +193,7 @@ function EntryGroupLabel({ onHandleToggle }: { onHandleToggle: () => void }) {
       <span>입장 그룹 설정</span>
       <div className="h-5 w-10 mx-2 justify-between relative inline-grid grid-cols-[1fr_1fr] items-center text-xs font-medium">
         <Switch
+          checked={checked}
           onCheckedChange={handleToggle}
           className="peer data-[state=unchecked]:bg-input/50 absolute inset-0 h-[inherit] w-auto rounded-full [&_span]:z-10 [&_span]:h-full [&_span]:w-1/2 [&_span]:rounded-full [&_span]:transition-transform [&_span]:duration-300 [&_span]:ease-[cubic-bezier(0.16,1,0.3,1)] [&_span]:data-[state=checked]:translate-x-full [&_span]:data-[state=checked]:rtl:-translate-x-full"
         />
@@ -200,9 +207,9 @@ function EntryGroupLabel({ onHandleToggle }: { onHandleToggle: () => void }) {
       <StepTooltip
         content={
           <p>
-            입장 그룹 설정을 통해 공연 입장 시 사용자 입장 대기 시간을 줄일 수
-            있습니다. 티켓 수량 별로 입장 시간을 다르게 설정할 수 있으니 참고
-            바랍니다.
+            입장 시간대를 나누어 혼잡 없이 입장 관리를 할 수 있습니다. 필요 시
+            입장 시간(예: 18:30)과 해당 시간에 입장할 인원(예: 100명)을 설정해
+            주세요. 참가자는 원하는 입장 시간대의 티켓을 선택하여 구매합니다.
           </p>
         }
       />

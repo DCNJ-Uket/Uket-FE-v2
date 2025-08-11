@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import NonAvailableSection from "../../../components/non-available-section";
 import { checkUserAgent } from "../../../utils/check-user-agent";
 import EntranceTableSection from "./_components/entrance-table-section";
+import RefetchAside from "./_components/refetch-aside";
 
 const LoadingFallback = () => (
   <div className="flex h-full flex-col gap-3">
@@ -40,6 +41,7 @@ export default async function Page({
       <main className="flex h-full flex-col grow gap-5 pl-16 pr-20 pt-20">
         <div className="flex items-end justify-between">
           <h1 className="text-[34px] font-bold">실시간 입장 조회</h1>
+          <RefetchAside />
         </div>
         <Suspense fallback={<LoadingFallback />}>
           <EntranceTableSection />

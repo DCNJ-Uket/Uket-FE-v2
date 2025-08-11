@@ -4,8 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useQueryEntranceList } from "@uket/api/queries/admin-entrance";
 import { Content } from "@uket/api/types/admin-entrance";
 import { TICKET_STATUS_INFO } from "@uket/api/types/admin-ticket";
-import { Button } from "@uket/ui/components/ui/button";
-import { RefreshCwIcon } from "@uket/ui/components/ui/icon";
 import AdminFilterEventList from "../../../../components/admin-filter-event-list";
 import { useEntranceParams } from "../../../../hooks/use-entrance-params";
 import EntranceDataTable from "./entrance-data-table";
@@ -58,7 +56,7 @@ export const columns: ColumnDef<Entry>[] = [
 export default function EntranceTableSection() {
   const { page, uketEventId, updateQuery } = useEntranceParams();
 
-  const { data, refetch, isRefetching } = useQueryEntranceList({
+  const { data } = useQueryEntranceList({
     page: page,
     uketEventId,
   });
@@ -70,20 +68,6 @@ export default function EntranceTableSection() {
           currentEventId={uketEventId}
           onChangeEventId={id => updateQuery({ page: 1, uketEventId: id })}
         />
-        <aside className="flex items-center justify-end gap-2">
-          <p className="text-sm text-[#9191A1]">
-            입장 조회 내역은 10초마다 또는 새로고침 버튼을 누르면 갱신됩니다.
-          </p>
-          <Button
-            disabled={isRefetching}
-            variant="ghost"
-            className="flex items-center gap-2 text-desc hover:bg-gray-200"
-            onClick={() => refetch()}
-          >
-            <RefreshCwIcon className="h-6 w-6 rounded-md bg-white p-1" />
-            <span className="text-sm font-bold">내역 갱신</span>
-          </Button>
-        </aside>
       </header>
       <EntranceDataTable
         columns={columns}
