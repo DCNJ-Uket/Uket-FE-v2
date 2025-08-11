@@ -33,25 +33,19 @@ export default function EventEditor({
   id,
   enableAutoBulletList = false,
 }: EventEditorProps) {
+  const MAX_CHARS = 1000;
   const [editor, setEditor] = useState<EditorInstance | null>(null);
-  const [charsCount, setCharsCount] = useState(
-    editor?.storage.characterCount.characters() || 0,
-  );
+  const [charsCount, setCharsCount] = useState(0);
   const editorRef = useRef<EditorInstance | null>(null);
 
-  const debouncedUpdates = async () => {
-    if (!editor) return;
+  const handleUpdates = async (currentEditor?: EditorInstance) => {
+    const activeEditor = currentEditor ?? editorRef.current ?? editor;
+    if (!activeEditor) return;
 
-    const json = editor.getJSON();
-
-    setCharsCount(field.value.length);
-    field.onChange(editor.getHTML());
-    
-    window.localStorage.setItem(`novel-content-${id}`, JSON.stringify(json));
-    window.localStorage.setItem(
-      `markdown-${id}`,
-      editor.getHTML(),
-    );
+    // 확장 스토리지 대신 에디터 텍스트 기반으로만 카운트 (인스턴스 간 혼동 방지)
+    const textCount = activeEditor.getText().length;
+    setCharsCount(textCount);
+    field.onChange(activeEditor.getHTML());
   };
 
   const ensureBulletList = (editor: EditorInstance) => {
@@ -61,7 +55,7 @@ export default function EventEditor({
   };
 
   return (
-    <div className="relative">
+    <div className="relative" data-editor-id={id}>
       <div className="flex absolute right-2 bottom-0 z-10 mb-2 gap-2">
         <div
           className={
@@ -94,6 +88,24 @@ export default function EventEditor({
                 "prose prose-sm dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
             },
             handleKeyDown: (view, event) => {
+              const activeEditor = editorRef.current;
+              const selectionLen = view.state.selection.to - view.state.selection.from;
+              const currentLen = activeEditor ? activeEditor.getText().length : 0;
+              const remaining = MAX_CHARS - currentLen + selectionLen; // replace 시 선택 영역만큼 여유
+
+              const isPrintableChar =
+                event.key.length === 1 &&
+                !event.ctrlKey &&
+                !event.metaKey &&
+                !event.altKey;
+              const isEnter = event.key === "Enter";
+
+              // 전역 1000자 제한: 남은 글자가 전혀 없고 대체 입력도 아니면 차단
+              if ((isPrintableChar || isEnter) && remaining <= 0 && selectionLen === 0) {
+                event.preventDefault();
+                return true;
+              }
+
               // enableAutoBulletList가 false면 기본 동작만 수행
               if (!enableAutoBulletList) return false;
 
@@ -136,12 +148,37 @@ export default function EventEditor({
 
               return false;
             },
+            handlePaste: (view, event) => {
+              const activeEditor = editorRef.current;
+              if (!activeEditor || !event.clipboardData) return false;
+
+              const pasteText = event.clipboardData.getData("text/plain");
+              if (!pasteText) return false;
+
+              const selectionLen = view.state.selection.to - view.state.selection.from;
+              const currentLen = activeEditor.getText().length;
+              const remaining = MAX_CHARS - currentLen + selectionLen; // 선택 영역 대체 고려
+
+              if (remaining <= 0) {
+                event.preventDefault();
+                return true;
+              }
+
+              if (pasteText.length > remaining) {
+                event.preventDefault();
+                const clipped = pasteText.slice(0, Math.max(0, remaining));
+                activeEditor.chain().focus().insertContent(clipped).run();
+                return true;
+              }
+
+              return false; // 기본 붙여넣기 허용
+            },
           }}
-          onUpdate={() => debouncedUpdates()}
+          onUpdate={({ editor }) => handleUpdates(editor)}
           onCreate={({ editor }) => {
             setEditor(editor);
             editorRef.current = editor;
-
+            setCharsCount(editor.getText().length);
             // enableAutoBulletList가 true이고 초기 상태가 비어있으면 bulletList로 시작
             if (enableAutoBulletList && editor.isEmpty) {
               setTimeout(() => {
