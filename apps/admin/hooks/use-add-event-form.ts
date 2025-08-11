@@ -109,29 +109,28 @@ export const BaseSchema = z
     paymentInfo: z.object({
       isFree: z.enum(["무료", "유료"]).default("무료"),
       ticketPrice: z.number().default(100),
-      bankCode: z
-      .string({
-        message: "입금 은행을 선택해 주세요.",
-      })
-      .or(z.literal("")),
-      accountNumber: z
-      .string({
-        message: "입금 계좌를 입력해 주세요",
-      })
-      .or(z.literal("")),
-      depositorName: z
-      .string({
-        message: "예금주를 입력해 주세요",
-      })
-      .or(z.literal("")),
-      depositUrl: z
-      .string({
-        message: "송금 코드 링크를 입력해 주세요",
-      })
-      .url({
-        message: "형식에 맞지 않습니다.",
-      })
-      .or(z.literal("")),
+      bankCode: z.string().or(z.literal("")),
+      accountNumber: z.string().or(z.literal("")),
+      depositorName: z.string().or(z.literal("")),
+      depositUrl: z.string().url({ message: "형식에 맞지 않습니다." }).or(z.literal("")),
+    }).superRefine((val, ctx) => {
+      if (val.isFree === "유료") {
+        if (!val.ticketPrice || val.ticketPrice <= 0) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "티켓 가격을 입력해 주세요.", path: ["ticketPrice"] });
+        }
+        if (!val.bankCode) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "입금 은행을 선택해 주세요.", path: ["bankCode"] });
+        }
+        if (!val.accountNumber) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "입금 계좌를 입력해 주세요.", path: ["accountNumber"] });
+        }
+        if (!val.depositorName) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "예금주를 입력해 주세요.", path: ["depositorName"] });
+        }
+        if (!val.depositUrl) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "송금 코드 링크를 입력해 주세요.", path: ["depositUrl"] });
+        }
+      }
     }),
     noLimit: z.enum(["제한 없음", "제한"]).default("제한"),
     buyTicketLimit: z.number().default(1),

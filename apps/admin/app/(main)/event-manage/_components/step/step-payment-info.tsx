@@ -41,7 +41,21 @@ export default function StepPaymentInfo({
     name: "paymentInfo.isFree",
   });
   const isDisabled = isFree === "무료";
+  const ticketPrice = useWatch({ control, name: "paymentInfo.ticketPrice" });
+  const bankCode = useWatch({ control, name: "paymentInfo.bankCode" });
+  const accountNumber = useWatch({ control, name: "paymentInfo.accountNumber" });
+  const depositorName = useWatch({ control, name: "paymentInfo.depositorName" });
+  const depositUrl = useWatch({ control, name: "paymentInfo.depositUrl" });
+
+  // 값 기반 즉시 검증(유료일 때 필수): 유효성 평가 이전에도 버튼 비활성화 보장
+  const hasRequiredEmptyWhenPaid =
+    isFree === "유료" && (
+      !ticketPrice || ticketPrice <= 0 ||
+      !bankCode || !accountNumber || !depositorName || !depositUrl
+    );
+
   const hasPaymentStepErrors =
+    hasRequiredEmptyWhenPaid ||
     getFieldState("paymentInfo.isFree", formState).invalid ||
     getFieldState("paymentInfo.ticketPrice", formState).invalid ||
     getFieldState("paymentInfo.bankCode", formState).invalid ||
