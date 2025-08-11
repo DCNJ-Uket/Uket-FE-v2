@@ -4,6 +4,14 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { useMutationSubmitEvent } from "../../../packages/api/src/mutations/use-mutation-submit-event";
 
+// HTML 문자열에서 텍스트만 추출하여 길이 검사에 사용
+const extractPlainText = (html?: string) =>
+  (html ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 // 행사 등록 기본 스키마
 export const BaseSchema = z
   .object({
@@ -42,8 +50,16 @@ export const BaseSchema = z
         message: "티켓은 최소 1장 이상이어야 합니다.",
       }),
     details: z.object({
-      information: z.string().min(1),
-      caution: z.string().min(3),
+      information: z
+        .string()
+        .refine(v => extractPlainText(v).length >= 1, {
+          message: "상세 정보를 입력해 주세요.",
+        }),
+      caution: z
+        .string()
+        .refine(v => extractPlainText(v).length >= 3, {
+          message: "주의 사항을 3자 이상 입력해 주세요.",
+        }),
     }),
     contact: z.object({
       type: z.string(),
