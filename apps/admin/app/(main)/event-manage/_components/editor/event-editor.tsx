@@ -33,6 +33,7 @@ export default function EventEditor({
   id,
   enableAutoBulletList = false,
 }: EventEditorProps) {
+  const MAX_CHARS = 1000;
   const [editor, setEditor] = useState<EditorInstance | null>(null);
   const [charsCount, setCharsCount] = useState(0);
   const editorRef = useRef<EditorInstance | null>(null);
@@ -87,6 +88,24 @@ export default function EventEditor({
                 "prose prose-sm dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
             },
             handleKeyDown: (view, event) => {
+              const activeEditor = editorRef.current;
+              const selectionLen = view.state.selection.to - view.state.selection.from;
+              const currentLen = activeEditor ? activeEditor.getText().length : 0;
+              const remaining = MAX_CHARS - currentLen + selectionLen; // replace 시 선택 영역만큼 여유
+
+              const isPrintableChar =
+                event.key.length === 1 &&
+                !event.ctrlKey &&
+                !event.metaKey &&
+                !event.altKey;
+              const isEnter = event.key === "Enter";
+
+              // 전역 1000자 제한: 남은 글자가 전혀 없고 대체 입력도 아니면 차단
+              if ((isPrintableChar || isEnter) && remaining <= 0 && selectionLen === 0) {
+                event.preventDefault();
+                return true;
+              }
+
               // enableAutoBulletList가 false면 기본 동작만 수행
               if (!enableAutoBulletList) return false;
 
@@ -128,6 +147,31 @@ export default function EventEditor({
               }
 
               return false;
+            },
+            handlePaste: (view, event) => {
+              const activeEditor = editorRef.current;
+              if (!activeEditor || !event.clipboardData) return false;
+
+              const pasteText = event.clipboardData.getData("text/plain");
+              if (!pasteText) return false;
+
+              const selectionLen = view.state.selection.to - view.state.selection.from;
+              const currentLen = activeEditor.getText().length;
+              const remaining = MAX_CHARS - currentLen + selectionLen; // 선택 영역 대체 고려
+
+              if (remaining <= 0) {
+                event.preventDefault();
+                return true;
+              }
+
+              if (pasteText.length > remaining) {
+                event.preventDefault();
+                const clipped = pasteText.slice(0, Math.max(0, remaining));
+                activeEditor.chain().focus().insertContent(clipped).run();
+                return true;
+              }
+
+              return false; // 기본 붙여넣기 허용
             },
           }}
           onUpdate={({ editor }) => handleUpdates(editor)}
