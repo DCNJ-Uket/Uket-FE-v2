@@ -27,13 +27,28 @@ interface StepEventInfoProps {
 }
 
 export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
-  const { control, register, trigger, watch, setValue, getValues } =
-    useFormContext();
+  const {
+    control,
+    register,
+    trigger,
+    watch,
+    setValue,
+    getValues,
+    formState,
+    getFieldState,
+  } = useFormContext();
   const eventType = useWatch({
     control,
     name: "eventType",
   });
   const allFieldValues = watch();
+  const hasEventStepErrors =
+    getFieldState("details.information", formState).invalid ||
+    getFieldState("details.caution", formState).invalid ||
+    getFieldState("contact.type", formState).invalid ||
+    getFieldState("contact.content", formState).invalid ||
+    getFieldState("uketEventImageId.file", formState).invalid ||
+    getFieldState("thumbnailImageId.file", formState).invalid;
 
   const handleNext = async () => {
     const isValid = await trigger(
@@ -148,7 +163,11 @@ export default function StepEventInfo({ onPrev, onNext }: StepEventInfoProps) {
           </aside>
         </section>
       </section>
-      <StepController onPrev={onPrev} onNext={handleNext} />
+      <StepController
+        onPrev={onPrev}
+        onNext={handleNext}
+        isNextDisabled={hasEventStepErrors}
+      />
     </main>
   );
 }

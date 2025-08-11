@@ -24,18 +24,29 @@ interface StepBasicInfoProps {
 }
 
 export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
-  const { control, setValue, trigger, watch } = useFormContext();
+  const { control, setValue, trigger, watch, formState, getFieldState } =
+    useFormContext();
   const eventType = useWatch({
     control,
     name: "eventType",
   });
   const allFieldValues = watch();
+  const hasBasicStepErrors =
+    getFieldState("eventType", formState).invalid ||
+    getFieldState("eventName", formState).invalid ||
+    getFieldState("eventRound", formState).invalid ||
+    getFieldState("ticketingDate", formState).invalid ||
+    getFieldState("location.base", formState).invalid ||
+    getFieldState("location.detail", formState).invalid ||
+    getFieldState("totalTicketCount", formState).invalid ||
+    getFieldState("entryGroup", formState).invalid;
 
   const handleNext = async () => {
     const isValid = await trigger(
       [
         "eventType",
         "eventName",
+        "eventRound",
         "ticketingDate",
         "location.base",
         "location.detail",
@@ -98,7 +109,11 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
           </section>
         </aside>
       </section>
-      <StepController onNext={handleNext} isFirstStep />
+      <StepController
+        onNext={handleNext}
+        isFirstStep
+        isNextDisabled={hasBasicStepErrors}
+      />
     </main>
   );
 }

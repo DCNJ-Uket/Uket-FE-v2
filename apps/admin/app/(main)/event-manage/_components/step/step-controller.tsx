@@ -7,6 +7,7 @@ interface StepControllerProps {
   onPrev?: () => void;
   isFirstStep?: boolean;
   isLastStep?: boolean;
+  isNextDisabled?: boolean;
 }
 
 export default function StepController({
@@ -14,6 +15,7 @@ export default function StepController({
   onPrev,
   isFirstStep = false,
   isLastStep = false,
+  isNextDisabled = false,
 }: StepControllerProps) {
   return (
     <footer
@@ -33,6 +35,7 @@ export default function StepController({
         type={isLastStep ? "submit" : "button"}
         variant="ghost"
         className="hover:bg-gray-200 flex gap-1 text-brand"
+        disabled={isNextDisabled}
         onClick={onNext}
       >
         {isLastStep ? "제출하기" : "다음으로"}
