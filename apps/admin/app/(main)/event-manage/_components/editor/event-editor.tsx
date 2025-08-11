@@ -34,9 +34,7 @@ export default function EventEditor({
   enableAutoBulletList = false,
 }: EventEditorProps) {
   const [editor, setEditor] = useState<EditorInstance | null>(null);
-  const [charsCount, setCharsCount] = useState(
-    editor?.storage.characterCount.characters() || 0,
-  );
+  const [charsCount, setCharsCount] = useState(0);
   const editorRef = useRef<EditorInstance | null>(null);
 
   const debouncedUpdates = async () => {
@@ -46,12 +44,9 @@ export default function EventEditor({
 
     setCharsCount(field.value.length);
     field.onChange(editor.getHTML());
-    
+
     window.localStorage.setItem(`novel-content-${id}`, JSON.stringify(json));
-    window.localStorage.setItem(
-      `markdown-${id}`,
-      editor.getHTML(),
-    );
+    window.localStorage.setItem(`markdown-${id}`, editor.getHTML());
   };
 
   const ensureBulletList = (editor: EditorInstance) => {
@@ -141,7 +136,7 @@ export default function EventEditor({
           onCreate={({ editor }) => {
             setEditor(editor);
             editorRef.current = editor;
-
+            setCharsCount(editor.storage.characterCount.characters());
             // enableAutoBulletList가 true이고 초기 상태가 비어있으면 bulletList로 시작
             if (enableAutoBulletList && editor.isEmpty) {
               setTimeout(() => {
