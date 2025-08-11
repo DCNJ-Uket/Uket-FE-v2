@@ -9,22 +9,13 @@ import {
 import { ChevronDown, ChevronUp, CircleIcon } from "@ui/components/ui/icon";
 import { Input } from "@ui/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@ui/components/ui/radio-group";
-import {
-  Control,
-  FieldValues,
-  UseFormSetValue,
-  useWatch,
-} from "react-hook-form";
-
-interface BuyTicketLimitFieldProps {
-  control: Control<FieldValues, any>;
-  onSetValue: UseFormSetValue<FieldValues>;
-}
+import { Control, FieldValues, useWatch } from "react-hook-form";
 
 export default function BuyTicketLimitField({
   control,
-  onSetValue,
-}: BuyTicketLimitFieldProps) {
+}: {
+  control: Control<FieldValues, any>;
+}) {
   const noLimitOption = useWatch({
     control,
     name: "noLimit",
@@ -44,7 +35,6 @@ export default function BuyTicketLimitField({
               <RadioGroup
                 onValueChange={value => {
                   radioField.onChange(value);
-                  if (value === "제한 없음") onSetValue("buyTicketLimit", 0);
                 }}
                 value={radioField.value || "제한 없음"}
                 defaultValue={radioField.value || "제한 없음"}
@@ -84,7 +74,6 @@ export default function BuyTicketLimitField({
                               step={1}
                               disabled={noLimitOption !== "제한"}
                               value={field.value || 0}
-                              // defaultValue={field.value || 0}
                               onChange={e => {
                                 const number = Number(e.target.value);
 

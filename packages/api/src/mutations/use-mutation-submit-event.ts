@@ -106,7 +106,6 @@ export const useMutationSubmitEvent = (
         totalTicketCount,
         details,
         contact,
-        buyTicketLimit,
       } = params;
       const location = params.location.base + " " + params.location.detail;
       const eventRound = params.eventRound.map(round => {
@@ -161,9 +160,7 @@ export const useMutationSubmitEvent = (
         depositUrl: params.paymentInfo.depositUrl,
       };
 
-      const noLimit = (
-        buyTicketLimit <= 0 ? "제한 없음" : "제한"
-      ) as SubmitEventRequestParams["noLimit"];
+      const buyTicketLimit = params.noLimit  === "제한 없음"? 0 : params.buyTicketLimit;
 
       const formattedData = {
         eventName,
@@ -176,7 +173,6 @@ export const useMutationSubmitEvent = (
         contact,
         ...imageIds,
         paymentInfo,
-        noLimit,
         buyTicketLimit,
       };
       const type = eventType === "공연" ? "PERFORMANCE" : "FESTIVAL";

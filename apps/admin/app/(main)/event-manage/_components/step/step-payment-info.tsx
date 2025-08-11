@@ -134,7 +134,7 @@ export default function StepPaymentInfo({
                 control={control}
                 onSetValue={setValue}
               />
-              <BuyTicketLimitField control={control} onSetValue={setValue}/>
+              <BuyTicketLimitField control={control} />
               <PaymentInfoField control={control} isDisabled={isDisabled} />
             </aside>
             <aside className="flex flex-col gap-4 basis-1/2">
