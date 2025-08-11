@@ -37,16 +37,14 @@ export default function EventEditor({
   const [charsCount, setCharsCount] = useState(0);
   const editorRef = useRef<EditorInstance | null>(null);
 
-  const debouncedUpdates = async () => {
-    if (!editor) return;
+  const handleUpdates = async (currentEditor?: EditorInstance) => {
+    const activeEditor = currentEditor ?? editorRef.current ?? editor;
+    if (!activeEditor) return;
 
-    const json = editor.getJSON();
-
-    setCharsCount(field.value.length);
-    field.onChange(editor.getHTML());
-
-    window.localStorage.setItem(`novel-content-${id}`, JSON.stringify(json));
-    window.localStorage.setItem(`markdown-${id}`, editor.getHTML());
+    // 확장 스토리지 대신 에디터 텍스트 기반으로만 카운트 (인스턴스 간 혼동 방지)
+    const textCount = activeEditor.getText().length;
+    setCharsCount(textCount);
+    field.onChange(activeEditor.getHTML());
   };
 
   const ensureBulletList = (editor: EditorInstance) => {
@@ -56,7 +54,7 @@ export default function EventEditor({
   };
 
   return (
-    <div className="relative">
+    <div className="relative" data-editor-id={id}>
       <div className="flex absolute right-2 bottom-0 z-10 mb-2 gap-2">
         <div
           className={
@@ -132,11 +130,11 @@ export default function EventEditor({
               return false;
             },
           }}
-          onUpdate={() => debouncedUpdates()}
+          onUpdate={({ editor }) => handleUpdates(editor)}
           onCreate={({ editor }) => {
             setEditor(editor);
             editorRef.current = editor;
-            setCharsCount(editor.storage.characterCount.characters());
+            setCharsCount(editor.getText().length);
             // enableAutoBulletList가 true이고 초기 상태가 비어있으면 bulletList로 시작
             if (enableAutoBulletList && editor.isEmpty) {
               setTimeout(() => {
