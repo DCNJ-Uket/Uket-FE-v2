@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Separator } from "@ui/components/ui/separator";
+import { useEffect } from "react";
 import { FieldValues, useFormContext, useWatch } from "react-hook-form";
 import EntryGroupField from "../step-basic/entry-group-field";
 import EventCalendarField from "../step-basic/event-calendar-field";
@@ -38,8 +40,25 @@ export default function StepBasicInfo({ onNext }: StepBasicInfoProps) {
     getFieldState("ticketingDate", formState).invalid ||
     getFieldState("location.base", formState).invalid ||
     getFieldState("location.detail", formState).invalid ||
-    getFieldState("totalTicketCount", formState).invalid ||
-    getFieldState("entryGroup", formState).invalid;
+    getFieldState("totalTicketCount", formState).invalid;
+
+  // 초기 마운트 시 필요한 필드 유효성 검사를 먼저 수행하여
+  // 비어있는 상태에서 "다음으로" 버튼이 활성화되지 않도록 함
+  useEffect(() => {
+    void trigger(
+      [
+        "eventType",
+        "eventName",
+        "eventRound",
+        "ticketingDate",
+        "location.base",
+        "location.detail",
+        "totalTicketCount",
+        "entryGroup",
+      ],
+      { shouldFocus: true },
+    );
+  }, []);
 
   const handleNext = async () => {
     const isValid = await trigger(

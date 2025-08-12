@@ -93,10 +93,11 @@ export default function EventCalendarField({
 
                             // Update both date and startTime
                             field.onChange(updatedDate);
-                            setValue(
-                              `eventRound.${index}.startTime`,
-                              format(updatedDate, "HH:mm:ss"),
-                            );
+                              setValue(
+                                `eventRound.${index}.startTime`,
+                                format(updatedDate, "HH:mm:ss"),
+                                { shouldValidate: true, shouldDirty: true, shouldTouch: true },
+                              );
                           }}
                           disabled={date => date < new Date()}
                           classNames={{
@@ -137,6 +138,7 @@ export default function EventCalendarField({
                                   setValue(
                                     `eventRound.${index}.startTime`,
                                     format(updatedDate, "HH:mm:ss"),
+                                    { shouldValidate: true, shouldDirty: true, shouldTouch: true },
                                   );
                                 }}
                               />
