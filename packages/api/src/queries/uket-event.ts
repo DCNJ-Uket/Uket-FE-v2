@@ -88,7 +88,7 @@ const calculateLeftTimeBasedOnStatus = (
   status: TicketingStatus,
   ticketingStartDate: string,
   ticketingEndDate: string,
-) => {
+): string | null => {
   const now = new Date();
   const start = parseISO(ticketingStartDate);
   const end = parseISO(ticketingEndDate);
@@ -96,29 +96,30 @@ const calculateLeftTimeBasedOnStatus = (
   if (status === "티켓팅_진행중") {
     const diff = differenceInSeconds(end, now);
     if (diff <= 48 * 3600 && diff > 0) {
-      // 티켓 판매 마감까지 48시간 이하일 경우
-      return formatSecondsToHHMMSS(diff);
-    } else if (diff > 48 * 3600) {
-      // 티켓 판매 마감까지 48시간 넘게 남은 경우
-      return null;
+      // 마감까지 48시간 이하: "마감까지 hh:mm:ss 남음"
+      return `마감까지 ${formatSecondsToHHMMSS(diff)} 남음`;
     }
+    // 48시간 초과: 별도 출력 없음
+    return null;
   }
 
   if (status === "오픈_예정") {
     const diff = differenceInSeconds(start, now);
     if (diff <= 48 * 3600 && diff > 0) {
-      // 티켓 오픈까지 48시간 이하일 경우
+      // 오픈까지 48시간 이하: "D-날짜 hh:mm:ss 남음"
       const days = Math.floor(diff / (3600 * 24));
       const time = formatSecondsToHHMMSS(diff % (3600 * 24));
-      return `D-${days} ${time}`;
-    } else if (diff > 48 * 3600) {
-      // 티켓 오픈까지 48시간 넘게 남은 경우
-      const date = format(ticketingStartDate, "MM/dd(E)", {
-        locale: ko,
-      });
-      return date + "티켓 오픈 예정";
+      return `D-${days} ${time} 남음`;
     }
+    if (diff > 48 * 3600) {
+      // 오픈까지 48시간 초과: "MM.dd(E) 티켓 오픈 예정"
+      const date = format(ticketingStartDate, "MM.dd(E)", { locale: ko });
+      return `${date} 티켓 오픈 예정`;
+    }
+    return null;
   }
+
+  return null;
 };
 
 export const uketEvent = createQueryKeys("uket-event", {
