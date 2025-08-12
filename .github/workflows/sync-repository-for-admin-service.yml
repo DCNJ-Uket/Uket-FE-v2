@@ -21,7 +21,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.ACTION_TOKEN_HWISIK }}
         with:
           source-directory: 'output'
-          destination-github-username: coggiee
+          destination-github-username: akari-ee
           destination-repository-name: Uket-v2
           user-email: ${{ secrets.ACCOUNT_EMAIL_HWISIK }}
           commit-message: ${{ github.event.commits[0].message }}
