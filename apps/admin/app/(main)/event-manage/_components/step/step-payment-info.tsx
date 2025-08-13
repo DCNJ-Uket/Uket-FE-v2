@@ -8,10 +8,10 @@ import {
   AddEventFormType,
   BaseSchemaType,
 } from "../../../../../hooks/use-add-event-form";
+import BuyTicketLimitField from "../step-payment/buy-ticket-limit-field";
 import PaymentCodeField from "../step-payment/payment-code-field";
 import PaymentInfoField from "../step-payment/payment-info-field";
 import PaymentTicketPriceField from "../step-payment/payment-ticket-price-field";
-import BuyTicketLimitField from "../step-payment/buy-ticket-limit-field";
 import StepController from "./step-controller";
 
 interface StepPaymentInfoProps {
@@ -34,12 +34,35 @@ export default function StepPaymentInfo({
   bannerImageList,
   isModify = false,
 }: StepPaymentInfoProps) {
-  const { control, setValue, trigger } = useFormContext();
+  const { control, setValue, trigger, formState, getFieldState } =
+    useFormContext();
   const isFree = useWatch({
     control,
     name: "paymentInfo.isFree",
   });
   const isDisabled = isFree === "무료";
+  const ticketPrice = useWatch({ control, name: "paymentInfo.ticketPrice" });
+  const bankCode = useWatch({ control, name: "paymentInfo.bankCode" });
+  const accountNumber = useWatch({ control, name: "paymentInfo.accountNumber" });
+  const depositorName = useWatch({ control, name: "paymentInfo.depositorName" });
+  const depositUrl = useWatch({ control, name: "paymentInfo.depositUrl" });
+
+  // 값 기반 즉시 검증(유료일 때 필수): 유효성 평가 이전에도 버튼 비활성화 보장
+  const hasRequiredEmptyWhenPaid =
+    isFree === "유료" && (
+      !ticketPrice || ticketPrice <= 0 ||
+      !bankCode || !accountNumber || !depositorName || !depositUrl
+    );
+
+  const hasPaymentStepErrors =
+    hasRequiredEmptyWhenPaid ||
+    getFieldState("paymentInfo.isFree", formState).invalid ||
+    getFieldState("paymentInfo.ticketPrice", formState).invalid ||
+    getFieldState("paymentInfo.bankCode", formState).invalid ||
+    getFieldState("paymentInfo.accountNumber", formState).invalid ||
+    getFieldState("paymentInfo.depositorName", formState).invalid ||
+    getFieldState("paymentInfo.depositUrl", formState).invalid ||
+    getFieldState("buyTicketLimit", formState).invalid;
 
   const { mutateAsync } = useMutationUploadImage();
 
@@ -58,7 +81,7 @@ export default function StepPaymentInfo({
         shouldFocus: true,
       },
     );
-    
+
     if (!isValid) return;
 
     const formData = new FormData();
@@ -142,7 +165,12 @@ export default function StepPaymentInfo({
             </aside>
           </section>
         </section>
-        <StepController onNext={handleNext} onPrev={onPrev} isLastStep />
+        <StepController
+          onNext={handleNext}
+          onPrev={onPrev}
+          isLastStep
+          isNextDisabled={hasPaymentStepErrors}
+        />
       </form>
     </main>
   );
